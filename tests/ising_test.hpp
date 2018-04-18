@@ -186,25 +186,22 @@ TEST(Ising_model, 3d_ferromagnetic_dE)
 //     std::vector<int> pos(3,5);
 //     EXPECT_EQ(12, hamil.dE(&field, pos));
 // }
-//
-// TEST(Ising_model, 3d_dE_consist)
-// {
-//     field_3d_i field = gen_3d_ising_fm();
-//     ham_ising hamil(0, 1);
-//     hamil.init_dim(&field);
-//     std::vector<int> pos(3);
-//     int old_E = hamil.calc_E(&field);
-//     for(int i = 0; i < 1000; i++)
-//     {
-//         pos[0] = int(st_rand_double.gen()*10 + 1);
-//         pos[1] = int(st_rand_double.gen()*10 + 1);
-//         pos[2] = int(st_rand_double.gen()*10 + 1);
-//         int dE = hamil.dE(&field, pos);
-//         field.change_to_test(pos, &hamil);
-//         int new_E = hamil.calc_E(&field);
-//         EXPECT_EQ(old_E + dE, new_E);
-//         old_E = new_E;
-//     }
-// }
+
+TEST(Ising_model, 3d_dE_consist)
+{
+    std::valarray<double> H = {0, 0, 0, 0};
+    particle::field::field_type field = gen_fm(3, true, 1, 0);
+    int pos=0;
+    double old_E = particle::funcs::calc_E(field, H);
+    for(int i = 0; i < 1000; i++)
+    {
+        pos = int(st_rand_double.gen()*1000);
+        double dE = particle::funcs::calc_dE(field, pos, H);
+        field.set_rand(pos);
+        // double new_E = particle::funcs::calc_E(field, H);
+        // EXPECT_DOUBLE_EQ(old_E + dE, new_E);
+        // old_E = new_E;
+    }
+}
 
 #endif
