@@ -11,1103 +11,152 @@
 #define DRANDTYPE stdrand::std_d_unirand
 #endif
 
-#include <fstream>
-#include <sstream>
-#include <iostream>
-#include <cstdlib>
-#include <algorithm>
 #include <cmath>
+#include <cstdlib>
 #include <hdf5.h>
-
-///////////////////////
-// Global Variables
-///////////////////////
+#include <sstream>
+#include <fstream>
+#include <iostream>
+#include <mpi.h>
 
 extern IRANDTYPE st_rand_int;
 extern DRANDTYPE st_rand_double;
-const double pi = 3.141592653589793;
 
-///////////////////////
-// Random Functions
-///////////////////////
-
-int boundmovedown(int test, int limit)
+particle::field::field_type::field_type(bool ising_in,
+    bool periodic_in,
+    int d_in,
+    int edgesize_in,
+    double J_mod,
+    double D_mod,
+    std::string J_filename)
 {
-    return ((test%limit)+limit)%limit;
-}
+    ising = ising_in;
+    periodic = periodic_in;
+    d = d_in;
+    edgesize = edgesize_in;
 
-int boundmoveup(int test, int limit)
-{
-    return test%limit;
-}
+    this->set_default_spins();
 
-void rand_spin_h(double &x, double &y, double &z)
-{
-    double phi = st_rand_double.gen()*2*pi;
-    double cthet = 2*st_rand_double.gen()-1;
-    double sthet = pow(1 - pow(cthet, 2), 0.5);
-    x = cos(phi)*sthet;
-    y = sin(phi)*sthet;
-    z = cthet;
-}
-
-void rand_spin_i(int &x)
-{
-    x = st_rand_int.gen();
-}
-
-///////////////////////
-// All models
-///////////////////////
-
-void field_type::allzero()
-{
-    int start = (totsize - insize) / 2;
-    std::vector<int> pos(dim, start);
-    bool finished = false;
-
-    while(!finished)
+    std::ifstream Jstream;
+    Jstream.open(J_filename.c_str());
+    int icurr;
+    double dcurr;
+    while(Jstream >> icurr)
     {
-        this->fill_zero(pos);
-        this->next(finished, pos);
-    }
-}
+        std::valarray<int> new_loc = blankloc;
+        std::valarray<double> new_dmi = upspin;
 
-///////////////////////
-// 1d Heis-model
-///////////////////////
-
-field_cluster_h::field_cluster_h()
-{
-    dim = 1;
-    periodic = false;
-    ft = 1;
-}
-
-field_cluster_h::field_cluster_h(std::string filename)
-{
-    dim = 1;
-    periodic = false;
-    ft = 1;
-
-    std::ifstream file;
-    file.open(filename.c_str());
-    if(!file.is_open())
-    {
-        std::cout << "Input file not opened" << std::endl;
-        exit(105);
-    }
-    insize = 0;
-    std::string line;
-    while(getline(file, line))
-    {
-        insize++;
-    }
-    file.close();
-
-    double temp_d;
-    totsize=this->insize;
-    spinx = alloc_1darr<double>(insize);
-    spiny = alloc_1darr<double>(insize);
-    spinz = alloc_1darr<double>(insize);
-
-    for(int i=0; i < insize; i++)
-    {
-        rand_spin_h(spinx[i], spiny[i], spinz[i]);
-    }
-}
-
-field_cluster_h::field_cluster_h(field_type& other)
-{
-    dim = 1;
-    periodic = 1;
-    ft = 1;
-    if(other.get_ft() != 1)
-    {
-        std::cout << "Cannot copy from other field type" << std::endl;
-        exit(104);
-    }
-    insize = other.get_insize();
-    totsize = other.get_totsize();
-    double* xoth;
-    double* yoth;
-    double* zoth;
-    other.get_1dfield_h(xoth, yoth, zoth);
-    spinx = deep_copy_1darr<double>(insize, xoth);
-    spiny = deep_copy_1darr<double>(insize, yoth);
-    spinz = deep_copy_1darr<double>(insize, zoth);
-}
-
-field_cluster_h::field_cluster_h(const field_cluster_h& other)
-{
-    dim = 1;
-    periodic = 1;
-    ft = 1;
-    insize = other.get_insize();
-    totsize = other.get_totsize();
-    double* xoth;
-    double* yoth;
-    double* zoth;
-    other.get_1dfield_h(xoth, yoth, zoth);
-    spinx = deep_copy_1darr<double>(insize, xoth);
-    spiny = deep_copy_1darr<double>(insize, yoth);
-    spinz = deep_copy_1darr<double>(insize, zoth);
-}
-
-field_cluster_h& field_cluster_h::operator=(const field_cluster_h& other)
-{
-    dim = 1;
-    periodic = 1;
-    ft = 1;
-    insize = other.get_insize();
-    totsize = other.get_totsize();
-    double* xoth;
-    double* yoth;
-    double* zoth;
-    other.get_1dfield_h(xoth, yoth, zoth);
-    spinx = deep_copy_1darr<double>(insize, xoth);
-    spiny = deep_copy_1darr<double>(insize, yoth);
-    spinz = deep_copy_1darr<double>(insize, zoth);
-    return *this;
-}
-
-field_cluster_h::~field_cluster_h()
-{
-    dealloc_1darr<double>(spinx);
-    dealloc_1darr<double>(spiny);
-    dealloc_1darr<double>(spinz);
-}
-
-void field_cluster_h::h_access(std::vector<int>& position, std::vector<double>& out)
-{
-    out[0] = spinx[position[0]];
-    out[1] = spiny[position[0]];
-    out[2] = spinz[position[0]];
-}
-
-void field_cluster_h::h_next(bool &finish, std::vector<int> &pos, std::vector<double> &out)
-{
-    this->h_access(pos, out);
-    pos[0]++;
-    if(pos[0] == insize)
-    {
-        pos[0] = 0;
-        finish = true;
-    }
-}
-
-void field_cluster_h::get_1dfield_h(double* &x, double* &y, double* &z) const
-{
-    x = spinx;
-    y = spiny;
-    z = spinz;
-}
-
-void field_cluster_h::change_to_test(std::vector<int>& position, ham_type* hamil)
-{
-    hamil->get_test(spinx[position[0]],spiny[position[0]],spinz[position[0]]);
-}
-
-///////////////////////
-// 2d general
-///////////////////////
-
-void field_2d::next(bool &finish, std::vector<int> &pos)
-{
-    int start = (totsize - insize) / 2;
-    int end = start + insize;
-
-    pos[1]++;
-    if(pos[1] == end)
-    {
-        pos[1] = start;
-        pos[0]++;
-        if(pos[0] == end)
+        new_loc[0] = icurr;
+        for (int i = 1; i < d; i++)
         {
-            pos[0] = start;
-            finish = true;
+            Jstream >> icurr;
+            new_loc[i] = icurr;
         }
-    }
-}
+        loc_diffs.push_back(new_loc);
 
-int field_2d::findnum()
-{
-    int c = 0;
-    for(int i = 0; i<totsize; i++)
-    {
-        for(int j = 0; j<totsize; j++)
+        Jstream >> dcurr;
+        J_diffs.push_back(dcurr);
+
+        for (int i = 0; i < 3; i++)
         {
-            if(!(iszero[i][j]))
-            {
-                c++;
-            }
+            Jstream >> dcurr;
+            new_dmi[i] = dcurr;
         }
+        D_vecs.push_back(new_dmi);
     }
-    return c;
+
+    Jstream.close();
 }
 
-///////////////////////
-// 2d Heis-model
-///////////////////////
-
-field_2d_h::field_2d_h()
+void particle::field::field_type::set_default_spins()
 {
-    dim = 2;
-    periodic = true;
-    ft = 2;
-}
+    blankloc.resize(d);
+    int ssize = 4;
+    upspin.resize(ssize);
+    upspin = 0;
+    downspin = upspin;
+    testspin = upspin;
 
-field_2d_h::field_2d_h(int size, bool isperio)
-{
-    dim = 2;
-    periodic = isperio;
-    insize = size;
-    ft = 2;
-    if(periodic)
+    if(ising)
     {
-        totsize = insize;
+        upspin[0] = 1;
+        downspin[0] = -1;
     }
     else
     {
-        totsize = insize + 2;
+        upspin[2] = 1;
+        downspin[2] = -1;
     }
-    spinx = alloc_2darr<double>(totsize, totsize);
-    spiny = alloc_2darr<double>(totsize, totsize);
-    spinz = alloc_2darr<double>(totsize, totsize);
-    iszero = alloc_2darr<bool>(totsize, totsize);
+
 }
 
-field_2d_h::field_2d_h(int size, bool isperio, int p_pad)
+void particle::field::field_type::add_spin(std::valarray<int>& loc)
 {
-    dim = 2;
-    periodic = isperio;
-    insize = size;
-    ft = 2;
-    if(periodic)
+    spins.push_back(upspin);
+    locs.push_back(loc);
+}
+
+void particle::field::field_type::set_neigh()
+{
+    std::vector<int> n_base;
+    neighbours.resize(spins.size());
+    neigh_choice.resize(spins.size());
+    std::valarray<bool> check_arr;
+    int nn = 0;
+    for(unsigned int i = 0; i < spins.size(); i++)
     {
-        totsize = insize;
-    }
-    else
-    {
-        totsize = insize + 2 * p_pad;
-    }
-    spinx = alloc_2darr<double>(totsize, totsize);
-    spiny = alloc_2darr<double>(totsize, totsize);
-    spinz = alloc_2darr<double>(totsize, totsize);
-    iszero = alloc_2darr<bool>(totsize, totsize);
-}
-
-field_2d_h::field_2d_h(field_type& other)
-{
-    ft = 2;
-    if(other.get_ft() != 2)
-    {
-        std::cout << "Cannot copy from other field type" << std::endl;
-        exit(104);
-    }
-    dim = 2;
-    insize = other.get_insize();
-    totsize = other.get_totsize();
-    periodic = other.get_perio();
-    double** xoth;
-    double** yoth;
-    double** zoth;
-    bool** zero_oth;
-    other.get_2dfield_h(xoth, yoth, zoth);
-    other.get_2dzero(zero_oth);
-    spinx = deep_copy_2darr<double>(totsize, totsize, xoth);
-    spiny = deep_copy_2darr<double>(totsize, totsize, yoth);
-    spinz = deep_copy_2darr<double>(totsize, totsize, zoth);
-    iszero = deep_copy_2darr<bool>(totsize, totsize, zero_oth);
-}
-
-field_2d_h::field_2d_h(const field_2d_h& other)
-{
-    ft = 2;
-    dim = 2;
-    insize = other.get_insize();
-    totsize = other.get_totsize();
-    periodic = other.get_perio();
-    double** xoth;
-    double** yoth;
-    double** zoth;
-    bool** zero_oth;
-    other.get_2dfield_h(xoth, yoth, zoth);
-    other.get_2dzero(zero_oth);
-    spinx = deep_copy_2darr<double>(totsize, totsize, xoth);
-    spiny = deep_copy_2darr<double>(totsize, totsize, yoth);
-    spinz = deep_copy_2darr<double>(totsize, totsize, zoth);
-    iszero = deep_copy_2darr<bool>(totsize, totsize, zero_oth);
-}
-
-field_2d_h& field_2d_h::operator=(const field_2d_h& other)
-{
-    ft = 2;
-    dim = 2;
-    insize = other.get_insize();
-    totsize = other.get_totsize();
-    periodic = other.get_perio();
-    double** xoth;
-    double** yoth;
-    double** zoth;
-    bool** zero_oth;
-    other.get_2dfield_h(xoth, yoth, zoth);
-    other.get_2dzero(zero_oth);
-    spinx = deep_copy_2darr<double>(totsize, totsize, xoth);
-    spiny = deep_copy_2darr<double>(totsize, totsize, yoth);
-    spinz = deep_copy_2darr<double>(totsize, totsize, zoth);
-    iszero = deep_copy_2darr<bool>(totsize, totsize, zero_oth);
-    return *this;
-}
-
-field_2d_h::~field_2d_h()
-{
-    dealloc_2darr<double>(totsize, spinx);
-    dealloc_2darr<double>(totsize, spiny);
-    dealloc_2darr<double>(totsize, spinz);
-    dealloc_2darr<bool>(totsize, iszero);
-}
-
-void field_2d_h::h_access(std::vector<int>& position, std::vector<double>& out)
-{
-    out[0] = spinx[position[0]][position[1]];
-    out[1] = spiny[position[0]][position[1]];
-    out[2] = spinz[position[0]][position[1]];
-}
-
-void field_2d_h::h_next(bool &finish, std::vector<int> &pos, std::vector<double> &out)
-{
-    this->h_access(pos, out);
-    this->next(finish, pos);
-}
-
-void field_2d_h::fill_ghost(int num_rows)
-{
-    for(int r = 0; r < num_rows; r++)
-    {
-        for(int i=0; i < totsize; i++)
+        neighbours[i] = n_base;
+        neigh_choice[i] = n_base;
+        for(unsigned int j = 0; j < spins.size(); j++)
         {
-            spinx[i][r] = 0;
-            spiny[i][r] = 0;
-            spinz[i][r] = 0;
-            iszero[i][r] = true;
-            spinx[r][i] = 0;
-            spiny[r][i] = 0;
-            spinz[r][i] = 0;
-            iszero[r][i] = true;
-            spinx[i][totsize-1-r] = 0;
-            spiny[i][totsize-1-r] = 0;
-            spinz[i][totsize-1-r] = 0;
-            iszero[i][totsize-1-r] = true;
-            spinx[totsize-1-r][i] = 0;
-            spiny[totsize-1-r][i] = 0;
-            spinz[totsize-1-r][i] = 0;
-            iszero[totsize-1-r][i] = true;
-        }
-    }
-}
-
-void field_2d_h::get_2dfield_h(double** &x, double** &y, double** &z) const
-{
-    x = spinx;
-    y = spiny;
-    z = spinz;
-}
-
-void field_2d_h::h_adjacent(std::vector<int>& position, double** out)
-{
-    dirsx[0] = boundmovedown(position[0] - 1, totsize);
-    dirsx[1] = boundmoveup(position[0] + 1, totsize);
-    dirsx[2] = position[0];
-    dirsx[3] = position[0];
-
-    dirsy[0] = position[1];
-    dirsy[1] = position[1];
-    dirsy[2] = boundmovedown(position[1] - 1, totsize);
-    dirsy[3] = boundmoveup(position[1] + 1, totsize);
-
-    for (int i = 0; i < 4; i++)
-    {
-        out[0][i] = spinx[dirsx[i]][dirsy[i]];
-        out[1][i] = spiny[dirsx[i]][dirsy[i]];
-        out[2][i] = spinz[dirsx[i]][dirsy[i]];
-    }
-}
-
-void field_2d_h::fill_rand(std::vector<int>& position)
-{
-    rand_spin_h(spinx[position[0]][position[1]],
-                spiny[position[0]][position[1]],
-                spinz[position[0]][position[1]]);
-    iszero[position[0]][position[1]] = false;
-}
-
-void field_2d_h::fill_one(std::vector<int>&position)
-{
-    spinx[position[0]][position[1]] = 0;
-    spiny[position[0]][position[1]] = 0;
-    spinz[position[0]][position[1]] = 1;
-    iszero[position[0]][position[1]] = false;
-}
-
-void field_2d_h::fill_zero(std::vector<int>& position)
-{
-    spinx[position[0]][position[1]] = 0;
-    spiny[position[0]][position[1]] = 0;
-    spinz[position[0]][position[1]] = 0;
-    iszero[position[0]][position[1]] = true;
-}
-
-void field_2d_h::change_to_test(std::vector<int>& position, ham_type* hamil)
-{
-    hamil->get_test(spinx[position[0]][position[1]],
-                    spiny[position[0]][position[1]],
-                    spinz[position[0]][position[1]]);
-}
-
-void field_2d_h::fill_val_h(std::vector<int>& position, double x, double y, double z)
-{
-    spinx[position[0]][position[1]] = x;
-    spiny[position[0]][position[1]] = y;
-    spinz[position[0]][position[1]] = z;
-}
-
-void field_2d_h::add_val_h(std::vector<int>& position, std::vector<double> &in)
-{
-    spinx[position[0]][position[1]] += in[0];
-    spiny[position[0]][position[1]] += in[1];
-    spinz[position[0]][position[1]] += in[2];
-}
-
-void field_2d_h::send_data(int dest_rank)
-{
-    MPI_Ssend(spinx[0], totsize*totsize, MPI_DOUBLE, dest_rank, 0,
-        MPI_COMM_WORLD);
-    MPI_Ssend(spiny[0], totsize*totsize, MPI_DOUBLE, dest_rank, 0,
-        MPI_COMM_WORLD);
-    MPI_Ssend(spinz[0], totsize*totsize, MPI_DOUBLE, dest_rank, 0,
-        MPI_COMM_WORLD);
-}
-
-void field_2d_h::recv_data(int src_rank)
-{
-    MPI_Status stat;
-    MPI_Recv(spinx[0], totsize*totsize, MPI_DOUBLE, src_rank, 0, MPI_COMM_WORLD,
-        &stat);
-    MPI_Recv(spiny[0], totsize*totsize, MPI_DOUBLE, src_rank, 0, MPI_COMM_WORLD,
-        &stat);
-    MPI_Recv(spinz[0], totsize*totsize, MPI_DOUBLE, src_rank, 0, MPI_COMM_WORLD,
-        &stat);
-}
-
-///////////////////////
-// 2d Ising-model
-///////////////////////
-
-field_2d_i::field_2d_i()
-{
-    dim = 2;
-    periodic = true;
-    ft = 21;
-}
-
-field_2d_i::field_2d_i(int size, bool isperio)
-{
-    dim = 2;
-    periodic = isperio;
-    insize = size;
-    ft = 21;
-    if(periodic)
-    {
-        totsize = insize;
-    }
-    else
-    {
-        totsize = insize + 2;
-    }
-    spin = alloc_2darr<int>(totsize, totsize);
-    iszero = alloc_2darr<bool>(totsize, totsize);
-}
-
-field_2d_i::field_2d_i(field_type& other)
-{
-    ft = 21;
-    if(other.get_ft() != 21)
-    {
-        std::cout << "Cannot copy from other field type" << std::endl;
-        exit(104);
-    }
-    dim = 2;
-    insize = other.get_insize();
-    totsize = other.get_totsize();
-    periodic = other.get_perio();
-    int** othspin;
-    bool** zero_oth;
-    other.get_2dfield_i(othspin);
-    other.get_2dzero(zero_oth);
-    spin = deep_copy_2darr<int>(totsize, totsize, othspin);
-    iszero = deep_copy_2darr<bool>(totsize, totsize, zero_oth);
-}
-
-field_2d_i::field_2d_i(const field_2d_i& other)
-{
-    ft = 21;
-    dim = 2;
-    insize = other.get_insize();
-    totsize = other.get_totsize();
-    periodic = other.get_perio();
-    int** othspin;
-    bool** zero_oth;
-    other.get_2dfield_i(othspin);
-    other.get_2dzero(zero_oth);
-    spin = deep_copy_2darr<int>(totsize, totsize, othspin);
-    iszero = deep_copy_2darr<bool>(totsize, totsize, zero_oth);
-}
-
-field_2d_i& field_2d_i::operator=(const field_2d_i& other)
-{
-    ft = 21;
-    dim = 2;
-    insize = other.get_insize();
-    totsize = other.get_totsize();
-    periodic = other.get_perio();
-    int** othspin;
-    bool** zero_oth;
-    other.get_2dfield_i(othspin);
-    other.get_2dzero(zero_oth);
-    spin = deep_copy_2darr<int>(totsize, totsize, othspin);
-    iszero = deep_copy_2darr<bool>(totsize, totsize, zero_oth);
-    return *this;
-}
-
-field_2d_i::~field_2d_i()
-{
-    dealloc_2darr<int>(totsize, spin);
-    dealloc_2darr<bool>(totsize, iszero);
-}
-
-void field_2d_i::i_access(std::vector<int>& position, int &out)
-{
-    out = spin[position[0]][position[1]];
-}
-
-void field_2d_i::i_next(bool &finish, std::vector<int> &pos, int &out)
-{
-    this->i_access(pos, out);
-    this->next(finish, pos);
-}
-
-void field_2d_i::fill_ghost(int num_rows)
-{
-    for(int r = 0; r < num_rows; r++)
-    {
-        for(int i=0; i < totsize; i++)
-        {
-            spin[i][r] = 0;
-            iszero[i][r] = true;
-            spin[r][i] = 0;
-            iszero[r][i] = true;
-            spin[i][totsize-1-r] = 0;
-            iszero[i][totsize-1-r] = true;
-            spin[totsize-1-r][i] = 0;
-            iszero[totsize-1-r][i] = true;
-        }
-    }
-}
-
-void field_2d_i::get_2dfield_i(int** &x) const
-{
-    x = spin;
-}
-
-void field_2d_i::i_adjacent(std::vector<int>& position, int* out)
-{
-    int dirsx[4], dirsy[4];
-    dirsx[0] = boundmovedown(position[0] - 1, totsize);
-    dirsx[1] = boundmoveup(position[0] + 1, totsize);
-    dirsx[2] = position[0];
-    dirsx[3] = position[0];
-
-    dirsy[0] = position[1];
-    dirsy[1] = position[1];
-    dirsy[2] = boundmovedown(position[1] - 1, totsize);
-    dirsy[3] = boundmoveup(position[1] + 1, totsize);
-
-    for (int i = 0; i < 4; i++)
-    {
-        out[i] = spin[dirsx[i]][dirsy[i]];
-    }
-}
-
-void field_2d_i::fill_rand(std::vector<int>& position)
-{
-    rand_spin_i(spin[position[0]][position[1]]);
-    iszero[position[0]][position[1]] = false;
-}
-
-void field_2d_i::fill_one(std::vector<int>&position)
-{
-    spin[position[0]][position[1]] = 1;
-    iszero[position[0]][position[1]] = false;
-}
-
-void field_2d_i::fill_zero(std::vector<int>& position)
-{
-    spin[position[0]][position[1]] = 0;
-    iszero[position[0]][position[1]] = true;
-}
-
-void field_2d_i::fill_val_i(std::vector<int>& position, int val)
-{
-    spin[position[0]][position[1]] = val;
-}
-
-void field_2d_i::change_to_test(std::vector<int>& position, ham_type* hamil)
-{
-    spin[position[0]][position[1]] = -spin[position[0]][position[1]];
-}
-
-void field_2d_i::send_data(int dest_rank)
-{
-    MPI_Ssend(spin[0], totsize*totsize, MPI_INT, dest_rank, 0,
-        MPI_COMM_WORLD);
-}
-
-void field_2d_i::recv_data(int src_rank)
-{
-    MPI_Status stat;
-    MPI_Recv(spin[0], totsize*totsize, MPI_INT, src_rank, 0, MPI_COMM_WORLD,
-        &stat);
-}
-
-///////////////////////
-// 3d general
-///////////////////////
-
-void field_3d::next(bool &finish, std::vector<int> &pos)
-{
-    int start = (totsize - insize) / 2;
-    int end = start + insize;
-
-    pos[2]++;
-    if(pos[2] == end)
-    {
-        pos[2] = start;
-        pos[1]++;
-        if(pos[1] == end)
-        {
-            pos[1] = start;
-            pos[0]++;
-            if(pos[0] == end)
+            if(i == j) {continue;}
+            for(unsigned int k = 0; k < loc_diffs.size(); k++)
             {
-                pos[0] = start;
-                finish = true;
-            }
-        }
-    }
-}
-
-int field_3d::findnum()
-{
-    int c = 0;
-    for(int i = 0; i<totsize; i++)
-    {
-        for(int j = 0; j<totsize; j++)
-        {
-            for(int k = 0; k<totsize; k++)
-            {
-                if(!(iszero[i][j][k]))
+                check_arr = (locs[j] - locs[i]) == loc_diffs[k];
+                bool i_neigh = true;
+                for(unsigned int l = 0; l < check_arr.size(); l++)
                 {
-                    c++;
+                    i_neigh &= check_arr[l];
+                }
+
+                if(i_neigh)
+                {
+                    neighbours[i].push_back(j);
+                    neigh_choice[i].push_back(k);
+                    nn++;
                 }
             }
         }
     }
-    return c;
 }
 
-///////////////////////
-// 3d Heis-model
-///////////////////////
-
-field_3d_h::field_3d_h()
+void particle::field::field_type::gen_rand()
 {
-    dim = 3;
-    periodic = true;
-    ft = 3;
-}
-
-field_3d_h::field_3d_h(int size, bool isperio)
-{
-    dim = 3;
-    periodic = isperio;
-    insize = size;
-    ft = 3;
-    if(periodic)
+    if(ising)
     {
-        totsize = insize;
+        testspin[0] = st_rand_int.gen()*2 - 1;
     }
     else
     {
-        totsize = insize + 2;
+        double phi = st_rand_double.gen()*2*M_PI;
+        double cthet = 2*st_rand_double.gen()-1;
+        double sthet = pow(1 - pow(cthet, 2), 0.5);
+        testspin[0] = cos(phi)*sthet;
+        testspin[1] = sin(phi)*sthet;
+        testspin[2] = cthet;
     }
-    spinx = alloc_3darr<double>(totsize, totsize, totsize);
-    spiny = alloc_3darr<double>(totsize, totsize, totsize);
-    spinz = alloc_3darr<double>(totsize, totsize, totsize);
-    iszero = alloc_3darr<bool>(totsize, totsize, totsize);
-    postemp = alloc_2darr<int>(3, 1358);
 }
 
-field_3d_h::field_3d_h(int size, bool isperio, int p_pad)
+void particle::field::field_type::all_rand()
 {
-    dim = 3;
-    periodic = isperio;
-    insize = size;
-    ft = 3;
-    if(periodic)
+    for(unsigned int i = 0; i < spins.size(); i++)
     {
-        totsize = insize;
-    }
-    else
-    {
-        totsize = insize + 2*p_pad;
-    }
-    spinx = alloc_3darr<double>(totsize, totsize, totsize);
-    spiny = alloc_3darr<double>(totsize, totsize, totsize);
-    spinz = alloc_3darr<double>(totsize, totsize, totsize);
-    iszero = alloc_3darr<bool>(totsize, totsize, totsize);
-    postemp = alloc_2darr<int>(3, 1358);
-}
-
-field_3d_h::field_3d_h(field_type& other)
-{
-    ft = 3;
-    if(other.get_ft() != 3)
-    {
-        std::cout << "Cannot copy from other field type" << std::endl;
-        exit(104);
-    }
-    dim = 3;
-    insize = other.get_insize();
-    totsize = other.get_totsize();
-    periodic = other.get_perio();
-    double*** xoth;
-    double*** yoth;
-    double*** zoth;
-    bool*** zero_oth;
-    other.get_3dfield_h(xoth, yoth, zoth);
-    other.get_3dzero(zero_oth);
-    spinx = deep_copy_3darr<double>(totsize, totsize, totsize, xoth);
-    spiny = deep_copy_3darr<double>(totsize, totsize, totsize, yoth);
-    spinz = deep_copy_3darr<double>(totsize, totsize, totsize, zoth);
-    iszero = deep_copy_3darr<bool>(totsize, totsize, totsize, zero_oth);
-    postemp = alloc_2darr<int>(3, 1358);
-}
-
-field_3d_h::field_3d_h(const field_3d_h& other)
-{
-    ft = 3;
-    dim = 3;
-    insize = other.get_insize();
-    totsize = other.get_totsize();
-    periodic = other.get_perio();
-    double*** xoth;
-    double*** yoth;
-    double*** zoth;
-    bool*** zero_oth;
-    other.get_3dfield_h(xoth, yoth, zoth);
-    other.get_3dzero(zero_oth);
-    spinx = deep_copy_3darr<double>(totsize, totsize, totsize, xoth);
-    spiny = deep_copy_3darr<double>(totsize, totsize, totsize, yoth);
-    spinz = deep_copy_3darr<double>(totsize, totsize, totsize, zoth);
-    iszero = deep_copy_3darr<bool>(totsize, totsize, totsize, zero_oth);
-    postemp = alloc_2darr<int>(3, 1358);
-}
-
-field_3d_h& field_3d_h::operator=(const field_3d_h& other)
-{
-    ft = 3;
-    dim = 3;
-    insize = other.get_insize();
-    totsize = other.get_totsize();
-    periodic = other.get_perio();
-    double*** xoth;
-    double*** yoth;
-    double*** zoth;
-    bool*** zero_oth;
-    other.get_3dfield_h(xoth, yoth, zoth);
-    other.get_3dzero(zero_oth);
-    spinx = deep_copy_3darr<double>(totsize, totsize, totsize, xoth);
-    spiny = deep_copy_3darr<double>(totsize, totsize, totsize, yoth);
-    spinz = deep_copy_3darr<double>(totsize, totsize, totsize, zoth);
-    iszero = deep_copy_3darr<bool>(totsize, totsize, totsize, zero_oth);
-    postemp = alloc_2darr<int>(3, 1358);
-    return *this;
-}
-
-field_3d_h::~field_3d_h()
-{
-    dealloc_3darr<double>(totsize, totsize, spinx);
-    dealloc_3darr<double>(totsize, totsize, spiny);
-    dealloc_3darr<double>(totsize, totsize, spinz);
-    dealloc_3darr<bool>(totsize, totsize, iszero);
-    dealloc_2darr<int>(3, postemp);
-}
-
-void field_3d_h::h_access(std::vector<int>& position, std::vector<double>& out)
-{
-    out[0] = spinx[position[0]][position[1]][position[2]];
-    out[1] = spiny[position[0]][position[1]][position[2]];
-    out[2] = spinz[position[0]][position[1]][position[2]];
-}
-
-void field_3d_h::h_next(bool &finish, std::vector<int> &pos, std::vector<double> &out)
-{
-    this->h_access(pos, out);
-    this->next(finish, pos);
-}
-
-void field_3d_h::fill_ghost(int num_rows)
-{
-    for(int r = 0; r < num_rows; r++)
-    {
-        for(int i=0; i < totsize; i++)
-        {
-            for(int j=0; j < totsize; j++)
-            {
-                spinx[i][j][r] = 0;
-                spiny[i][j][r] = 0;
-                spinz[i][j][r] = 0;
-                iszero[i][j][r] = true;
-                spinx[r][i][j] = 0;
-                spiny[r][i][j] = 0;
-                spinz[r][i][j] = 0;
-                iszero[r][i][j] = true;
-                spinx[j][r][i] = 0;
-                spiny[j][r][i] = 0;
-                spinz[j][r][i] = 0;
-                iszero[j][r][i] = true;
-
-                spinx[i][j][totsize-1-r] = 0;
-                spiny[i][j][totsize-1-r] = 0;
-                spinz[i][j][totsize-1-r] = 0;
-                iszero[i][j][totsize-1-r] = true;
-                spinx[totsize-1-r][i][j] = 0;
-                spiny[totsize-1-r][i][j] = 0;
-                spinz[totsize-1-r][i][j] = 0;
-                iszero[totsize-1-r][i][j] = true;
-                spinx[j][totsize-1-r][i] = 0;
-                spiny[j][totsize-1-r][i] = 0;
-                spinz[j][totsize-1-r][i] = 0;
-                iszero[j][totsize-1-r][i] = true;
-            }
-        }
+        this->gen_rand();
+        this->set_rand(i);
     }
 }
 
-void field_3d_h::get_3dfield_h(double*** &x, double*** &y, double*** &z) const
-{
-    x = spinx;
-    y = spiny;
-    z = spinz;
-}
-
-void field_3d_h::h_adjacent(std::vector<int>& position, double** out)
-{
-    dirsx[0] = boundmovedown(position[0] - 1, totsize);
-    dirsx[1] = boundmoveup(position[0] + 1, totsize);
-    dirsx[2] = position[0];
-    dirsx[3] = position[0];
-    dirsx[4] = position[0];
-    dirsx[5] = position[0];
-
-    dirsy[0] = position[1];
-    dirsy[1] = position[1];
-    dirsy[2] = boundmovedown(position[1] - 1, totsize);
-    dirsy[3] = boundmoveup(position[1] + 1, totsize);
-    dirsy[4] = position[1];
-    dirsy[5] = position[1];
-
-    dirsz[0] = position[2];
-    dirsz[1] = position[2];
-    dirsz[2] = position[2];
-    dirsz[3] = position[2];
-    dirsz[4] = boundmovedown(position[2] - 1, totsize);
-    dirsz[5] = boundmoveup(position[2] + 1, totsize);
-
-    for (int i = 0; i < 6; i++)
-    {
-        out[0][i] = spinx[dirsx[i]][dirsy[i]][dirsz[i]];
-        out[1][i] = spiny[dirsx[i]][dirsy[i]][dirsz[i]];
-        out[2][i] = spinz[dirsx[i]][dirsy[i]][dirsz[i]];
-    }
-}
-
-void field_3d_h::h_2adjacent(std::vector<int>& position, double** out)
-{
-    int dirsx[6], dirsy[6], dirsz[6];
-    dirsx[0] = boundmovedown(position[0] - 2, totsize);
-    dirsx[1] = boundmoveup(position[0] + 2, totsize);
-    dirsx[2] = position[0];
-    dirsx[3] = position[0];
-    dirsx[4] = position[0];
-    dirsx[5] = position[0];
-
-    dirsy[0] = position[1];
-    dirsy[1] = position[1];
-    dirsy[2] = boundmovedown(position[1] - 2, totsize);
-    dirsy[3] = boundmoveup(position[1] + 2, totsize);
-    dirsy[4] = position[1];
-    dirsy[5] = position[1];
-
-    dirsz[0] = position[2];
-    dirsz[1] = position[2];
-    dirsz[2] = position[2];
-    dirsz[3] = position[2];
-    dirsz[4] = boundmovedown(position[2] - 2, totsize);
-    dirsz[5] = boundmoveup(position[2] + 2, totsize);
-
-    for (int i = 0; i < 6; i++)
-    {
-        out[0][i] = spinx[dirsx[i]][dirsy[i]][dirsz[i]];
-        out[1][i] = spiny[dirsx[i]][dirsy[i]][dirsz[i]];
-        out[2][i] = spinz[dirsx[i]][dirsy[i]][dirsz[i]];
-    }
-}
-
-void field_3d_h::h_arb_adj(std::vector<int>& position, std::vector<int>& dxs, std::vector<int>& dys, std::vector<int>& dzs, double** out, int num)
-{
-    #pragma omp simd
-    for(int i = 0; i < num; i++)
-    {
-        postemp[0][i] = std::min(std::max(0, (position[0] + dxs[i])), totsize-1);
-    }
-    #pragma omp simd
-    for(int i = 0; i < num; i++)
-    {
-        postemp[1][i] = std::min(std::max(0, (position[1] + dys[i])), totsize-1);
-    }
-    #pragma omp simd
-    for(int i = 0; i < num; i++)
-    {
-        postemp[2][i] = std::min(std::max(0, (position[2] + dzs[i])), totsize-1);
-    }
-
-    // #pragma simd
-    for(int i = 0; i < num; i++)
-    {
-        out[0][i] = spinx[postemp[0][i]][postemp[1][i]][postemp[2][i]];
-        out[1][i] = spiny[postemp[0][i]][postemp[1][i]][postemp[2][i]];
-        out[2][i] = spinz[postemp[0][i]][postemp[1][i]][postemp[2][i]];
-    }
-}
-
-void field_3d_h::fill_rand(std::vector<int>& position)
-{
-    rand_spin_h(spinx[position[0]][position[1]][position[2]],
-                spiny[position[0]][position[1]][position[2]],
-                spinz[position[0]][position[1]][position[2]]);
-    iszero[position[0]][position[1]][position[2]] = false;
-}
-
-void field_3d_h::fill_one(std::vector<int>&position)
-{
-    spinx[position[0]][position[1]][position[2]] = 0;
-    spiny[position[0]][position[1]][position[2]] = 0;
-    spinz[position[0]][position[1]][position[2]] = 1;
-    iszero[position[0]][position[1]][position[2]] = false;
-}
-
-void field_3d_h::fill_zero(std::vector<int>& position)
-{
-    spinx[position[0]][position[1]][position[2]] = 0;
-    spiny[position[0]][position[1]][position[2]] = 0;
-    spinz[position[0]][position[1]][position[2]] = 0;
-    iszero[position[0]][position[1]][position[2]] = true;
-}
-
-void field_3d_h::fill_val_h(std::vector<int>& position, double x, double y, double z)
-{
-    spinx[position[0]][position[1]][position[2]] = x;
-    spiny[position[0]][position[1]][position[2]] = y;
-    spinz[position[0]][position[1]][position[2]] = z;
-}
-
-void field_3d_h::change_to_test(std::vector<int>& position, ham_type* hamil)
-{
-    hamil->get_test(spinx[position[0]][position[1]][position[2]],
-                    spiny[position[0]][position[1]][position[2]],
-                    spinz[position[0]][position[1]][position[2]]);
-}
-
-void field_3d_h::add_val_h(std::vector<int>& position, std::vector<double> &in)
-{
-    spinx[position[0]][position[1]][position[2]] += in[0];
-    spiny[position[0]][position[1]][position[2]] += in[1];
-    spinz[position[0]][position[1]][position[2]] += in[2];
-}
-
-void field_3d_h::print(std::string filename, std::string arrname)
-{
-    // Copy to float array
-    float* new_x = alloc_1darr<float>(totsize*totsize*totsize);
-    float* new_y = alloc_1darr<float>(totsize*totsize*totsize);
-    float* new_z = alloc_1darr<float>(totsize*totsize*totsize);
-    #pragma omp simd
-    for(int i = 0; i < totsize*totsize*totsize; i++)
-    {
-        new_x[i] = spinx[0][0][i];
-        new_y[i] = spiny[0][0][i];
-        new_z[i] = spinz[0][0][i];
-    }
-
-    // Open existing file
-    hid_t plist_id = H5Pcreate(H5P_FILE_ACCESS);
-    H5Pset_fapl_mpio(plist_id, MPI_COMM_WORLD, MPI_INFO_NULL);
-    hid_t f_id = H5Fopen(filename.c_str(), H5F_ACC_RDWR, plist_id);
-    H5Pclose(plist_id);
-
-    // Open dataset
-    hid_t dset_id = H5Dopen1(f_id, arrname.c_str());
-
-    // Get slab and slice space
-    plist_id = H5Pcreate(H5P_DATASET_XFER);
-    H5Pset_dxpl_mpio(plist_id, H5FD_MPIO_INDEPENDENT);
-    hsize_t count[4] = {totsize, totsize, totsize, 1};
-    hsize_t offset[4] = {0, 0, 0, 0};
-    hid_t slice_space_id = H5Screate_simple(4, count, NULL);
-    // for x
-    hid_t slab_id = H5Dget_space(dset_id);
-    H5Sselect_hyperslab(slab_id, H5S_SELECT_SET, offset, NULL, count, NULL);
-    H5Dwrite(dset_id, H5T_NATIVE_FLOAT, slice_space_id, slab_id, plist_id,
-        new_x);
-    H5Sclose(slab_id);
-    // for y
-    offset[3] = 1;
-    slab_id = H5Dget_space(dset_id);
-    H5Sselect_hyperslab(slab_id, H5S_SELECT_SET, offset, NULL, count, NULL);
-    H5Dwrite(dset_id, H5T_NATIVE_FLOAT, slice_space_id, slab_id, plist_id,
-        new_y);
-    H5Sclose(slab_id);
-    // for z
-    offset[3] = 2;
-    slab_id = H5Dget_space(dset_id);
-    H5Sselect_hyperslab(slab_id, H5S_SELECT_SET, offset, NULL, count, NULL);
-    H5Dwrite(dset_id, H5T_NATIVE_FLOAT, slice_space_id, slab_id, plist_id,
-        new_z);
-    H5Sclose(slab_id);
-
-    // close
-    H5Pclose(plist_id);
-    H5Dclose(dset_id);
-    H5Fclose(f_id);
-
-    dealloc_1darr<float>(new_x);
-    dealloc_1darr<float>(new_y);
-    dealloc_1darr<float>(new_z);
-}
-
-void field_3d_h::print_setup(const std::string filename,
+void particle::field::field_type::print_setup(const std::string filename,
     const std::string groupname,
     const int Tmax,
     const int Hmax)
@@ -1119,8 +168,12 @@ void field_3d_h::print_setup(const std::string filename,
     H5Pclose(plist_id);
 
     // create datasets
-    hsize_t full_dims[4] = {totsize, totsize, totsize, 3};
-    hid_t dspace_id = H5Screate_simple(4, full_dims, NULL);
+    hsize_t *full_dims = (hsize_t*)malloc(sizeof(hsize_t)*(d+1));
+    if (ising) {full_dims[d] = 1;}
+    else {full_dims[d] = 3;}
+    for(int i = 0; i < d; i++) {full_dims[i] = edgesize;}
+
+    hid_t dspace_id = H5Screate_simple(d+1, full_dims, NULL);
     hid_t dset_id;
     std::stringstream nstream;
     std::string name;
@@ -1137,226 +190,251 @@ void field_3d_h::print_setup(const std::string filename,
         }
     }
 
+    free(full_dims);
+
     // close
     H5Fclose(f_id);
 }
 
-void field_3d_h::send_data(int dest_rank)
+void particle::field::field_type::print(std::string filename,
+    std::string arrname)
 {
-    MPI_Ssend(spinx[0][0], totsize*totsize*totsize, MPI_DOUBLE, dest_rank, 0,
-        MPI_COMM_WORLD);
-    MPI_Ssend(spiny[0][0], totsize*totsize*totsize, MPI_DOUBLE, dest_rank, 0,
-        MPI_COMM_WORLD);
-    MPI_Ssend(spinz[0][0], totsize*totsize*totsize, MPI_DOUBLE, dest_rank, 0,
-        MPI_COMM_WORLD);
-}
+    // Find size of new array
+    int t_size = 1;
+    for (int i=0; i < d; i++) {t_size *= edgesize;}
 
-void field_3d_h::recv_data(int src_rank)
-{
-    MPI_Status stat;
-    MPI_Recv(spinx[0][0], totsize*totsize*totsize, MPI_DOUBLE, src_rank, 0,
-        MPI_COMM_WORLD, &stat);
-    MPI_Recv(spiny[0][0], totsize*totsize*totsize, MPI_DOUBLE, src_rank, 0,
-        MPI_COMM_WORLD, &stat);
-    MPI_Recv(spinz[0][0], totsize*totsize*totsize, MPI_DOUBLE, src_rank, 0,
-        MPI_COMM_WORLD, &stat);
-}
-
-///////////////////////
-// 3d Ising-model
-///////////////////////
-
-field_3d_i::field_3d_i()
-{
-    dim = 3;
-    periodic = true;
-    ft = 31;
-}
-
-field_3d_i::field_3d_i(int size, bool isperio)
-{
-    dim = 3;
-    periodic = isperio;
-    insize = size;
-    ft = 31;
-    if(periodic)
+    // Copy to float array
+    float* new_x = alloc_1darr<float>(t_size);
+    float* new_y = alloc_1darr<float>(t_size);
+    float* new_z = alloc_1darr<float>(t_size);
+    #pragma omp simd
+    for(int i = 0; i < t_size; i++)
     {
-        totsize = insize;
+        new_x[i] = 0;
+        new_y[i] = 0;
+        new_z[i] = 0;
     }
-    else
+    #pragma omp simd
+    for(int i = 0; i < spins.size(); i++)
     {
-        totsize = insize + 2;
-    }
-    spin = alloc_3darr<int>(totsize, totsize, totsize);
-    iszero = alloc_3darr<bool>(totsize, totsize, totsize);
-}
-
-field_3d_i::field_3d_i(field_type& other)
-{
-    ft = 31;
-    if(other.get_ft() != 31)
-    {
-        std::cout << "Cannot copy from other field type" << std::endl;
-        exit(104);
-    }
-    dim = 3;
-    insize = other.get_insize();
-    totsize = other.get_totsize();
-    periodic = other.get_perio();
-    int*** othspin;
-    bool*** zero_oth;
-    other.get_3dfield_i(othspin);
-    other.get_3dzero(zero_oth);
-    spin = deep_copy_3darr<int>(totsize, totsize, totsize, othspin);
-    iszero = deep_copy_3darr<bool>(totsize, totsize, totsize, zero_oth);
-}
-
-field_3d_i::field_3d_i(const field_3d_i& other)
-{
-    ft = 31;
-    dim = 3;
-    insize = other.get_insize();
-    totsize = other.get_totsize();
-    periodic = other.get_perio();
-    int*** othspin;
-    bool*** zero_oth;
-    other.get_3dfield_i(othspin);
-    other.get_3dzero(zero_oth);
-    spin = deep_copy_3darr<int>(totsize, totsize, totsize, othspin);
-    iszero = deep_copy_3darr<bool>(totsize, totsize, totsize, zero_oth);
-}
-
-field_3d_i& field_3d_i::operator=(const field_3d_i& other)
-{
-    ft = 31;
-    dim = 3;
-    insize = other.get_insize();
-    totsize = other.get_totsize();
-    periodic = other.get_perio();
-    int*** othspin;
-    bool*** zero_oth;
-    other.get_3dfield_i(othspin);
-    other.get_3dzero(zero_oth);
-    spin = deep_copy_3darr<int>(totsize, totsize, totsize, othspin);
-    iszero = deep_copy_3darr<bool>(totsize, totsize, totsize, zero_oth);
-    return *this;
-}
-
-field_3d_i::~field_3d_i()
-{
-    dealloc_3darr<int>(totsize, totsize, spin);
-    dealloc_3darr<bool>(totsize, totsize, iszero);
-}
-
-void field_3d_i::i_access(std::vector<int>& position, int &out)
-{
-    out = spin[position[0]][position[1]][position[2]];
-}
-
-void field_3d_i::i_next(bool &finish, std::vector<int> &pos, int &out)
-{
-    this->i_access(pos, out);
-    this->next(finish, pos);
-}
-
-void field_3d_i::fill_ghost(int num_rows)
-{
-    for(int r = 0; r < num_rows; r++)
-    {
-        for(int i=0; i < totsize; i++)
+        int index = 0;
+        for (int j = 0; j < d; j++)
         {
-            for(int j=0; j < totsize; j++)
-            {
-                spin[i][j][r] = 0;
-                iszero[i][j][r] = true;
-                spin[r][i][j] = 0;
-                iszero[r][i][j] = true;
-                spin[j][r][i] = 0;
-                iszero[j][r][i] = true;
-
-                spin[i][j][totsize-1-r] = 0;
-                iszero[i][j][totsize-1-r] = true;
-                spin[totsize-1-r][i][j] = 0;
-                iszero[totsize-1-r][i][j] = true;
-                spin[j][totsize-1-r][i] = 0;
-                iszero[j][totsize-1-r][i] = true;
-            }
+            index *= edgesize;
+            index += locs[i][j];
+        }
+        new_x[index] = spins[i][0];
+        if (!ising)
+        {
+            new_y[index] = spins[i][1];
+            new_z[index] = spins[i][2];
         }
     }
-}
 
-void field_3d_i::get_3dfield_i(int*** &x) const
-{
-    x = spin;
-}
+    // Open existing file
+    hid_t plist_id = H5Pcreate(H5P_FILE_ACCESS);
+    H5Pset_fapl_mpio(plist_id, MPI_COMM_WORLD, MPI_INFO_NULL);
+    hid_t f_id = H5Fopen(filename.c_str(), H5F_ACC_RDWR, plist_id);
+    H5Pclose(plist_id);
 
-void field_3d_i::i_adjacent(std::vector<int>& position, int* out)
-{
-    int dirsx[6], dirsy[6], dirsz[6];
-    dirsx[0] = boundmovedown(position[0] - 1, totsize);
-    dirsx[1] = boundmoveup(position[0] + 1, totsize);
-    dirsx[2] = position[0];
-    dirsx[3] = position[0];
-    dirsx[4] = position[0];
-    dirsx[5] = position[0];
+    // Open dataset
+    hid_t dset_id = H5Dopen1(f_id, arrname.c_str());
 
-    dirsy[0] = position[1];
-    dirsy[1] = position[1];
-    dirsy[2] = boundmovedown(position[1] - 1, totsize);
-    dirsy[3] = boundmoveup(position[1] + 1, totsize);
-    dirsy[4] = position[1];
-    dirsy[5] = position[1];
-
-    dirsz[0] = position[2];
-    dirsz[1] = position[2];
-    dirsz[2] = position[2];
-    dirsz[3] = position[2];
-    dirsz[4] = boundmovedown(position[2] - 1, totsize);
-    dirsz[5] = boundmoveup(position[2] + 1, totsize);
-
-    for (int i = 0; i < 6; i++)
+    // Get slab and slice space
+    plist_id = H5Pcreate(H5P_DATASET_XFER);
+    H5Pset_dxpl_mpio(plist_id, H5FD_MPIO_INDEPENDENT);
+    hsize_t *count = (hsize_t*)malloc(sizeof(hsize_t)*(d+1));
+    hsize_t *offset = (hsize_t*)malloc(sizeof(hsize_t)*(d+1));
+    count[d] = 1;
+    offset[d] = 0;
+    for(int i = 0; i < d; i++)
     {
-        out[i] = spin[dirsx[i]][dirsy[i]][dirsz[i]];
+        count[i] = edgesize;
+        offset[i] = 0;
     }
+    hid_t slice_space_id = H5Screate_simple(d+1, count, NULL);
+    // for x
+    hid_t slab_id = H5Dget_space(dset_id);
+    H5Sselect_hyperslab(slab_id, H5S_SELECT_SET, offset, NULL, count, NULL);
+    H5Dwrite(dset_id, H5T_NATIVE_FLOAT, slice_space_id, slab_id, plist_id,
+        new_x);
+    H5Sclose(slab_id);
+
+    if(!ising)
+    {
+        // for y
+        offset[d] = 1;
+        slab_id = H5Dget_space(dset_id);
+        H5Sselect_hyperslab(slab_id, H5S_SELECT_SET, offset, NULL, count, NULL);
+        H5Dwrite(dset_id, H5T_NATIVE_FLOAT, slice_space_id, slab_id, plist_id,
+            new_y);
+        H5Sclose(slab_id);
+        // for z
+        offset[d] = 2;
+        slab_id = H5Dget_space(dset_id);
+        H5Sselect_hyperslab(slab_id, H5S_SELECT_SET, offset, NULL, count, NULL);
+        H5Dwrite(dset_id, H5T_NATIVE_FLOAT, slice_space_id, slab_id, plist_id,
+            new_z);
+        H5Sclose(slab_id);
+    }
+
+    // close
+    H5Pclose(plist_id);
+    H5Dclose(dset_id);
+    H5Fclose(f_id);
+
+    dealloc_1darr<float>(new_x);
+    dealloc_1darr<float>(new_y);
+    dealloc_1darr<float>(new_z);
+    free(count);
+    free(offset);
 }
 
-void field_3d_i::fill_rand(std::vector<int>& position)
+void particle::field::field_type::send_data(int dest_rank)
 {
-    rand_spin_i(spin[position[0]][position[1]][position[2]]);
-    iszero[position[0]][position[1]][position[2]] = false;
-}
+    // Send the metadata to set up recieves
+    int metadata[6] =
+        {spins.size(), d, ising, edgesize, periodic, loc_diffs.size()};
+    MPI_Ssend(metadata, 6, MPI_INT, dest_rank, 0, MPI_COMM_WORLD);
 
-void field_3d_i::fill_one(std::vector<int>&position)
-{
-    spin[position[0]][position[1]][position[2]] = 1;
-    iszero[position[0]][position[1]][position[2]] = false;
-}
-
-void field_3d_i::fill_zero(std::vector<int>& position)
-{
-    spin[position[0]][position[1]][position[2]] = 0;
-    iszero[position[0]][position[1]][position[2]] = true;
-}
-
-void field_3d_i::fill_val_i(std::vector<int>& position, int val)
-{
-    spin[position[0]][position[1]][position[2]] = val;
-}
-
-void field_3d_i::change_to_test(std::vector<int>& position, ham_type* hamil)
-{
-    spin[position[0]][position[1]][position[2]] = -spin[position[0]][position[1]][position[2]];
-}
-
-void field_3d_i::send_data(int dest_rank)
-{
-    MPI_Ssend(spin[0][0], totsize*totsize*totsize, MPI_INT, dest_rank, 0,
+    // Send the spins
+    int nspinmod;
+    if (ising) {nspinmod = 1;}
+    else {nspinmod = 3;}
+    double* spins_out = alloc_1darr<double>(spins.size()*nspinmod);
+    int ind = 0;
+    for(int i = 0; i < spins.size(); i++)
+    {
+        for(int j = 0; j < nspinmod; j++)
+        {
+            spins_out[ind] = spins[i][j];
+            ind++;
+        }
+    }
+    MPI_Ssend(spins_out, spins.size()*nspinmod, MPI_DOUBLE, dest_rank, 0,
         MPI_COMM_WORLD);
+
+    // Send the locations
+    int* loc_out = alloc_1darr<int>(spins.size()*d);
+    ind = 0;
+    for(int i = 0; i < spins.size(); i++)
+    {
+        for(int j = 0; j < d; j++)
+        {
+            loc_out[ind] = locs[i][j];
+            ind++;
+        }
+    }
+    MPI_Ssend(loc_out, spins.size()*d, MPI_INT, dest_rank, 0, MPI_COMM_WORLD);
+
+    // Send the location diffs
+    int* ld_out = alloc_1darr<int>(loc_diffs.size()*d);
+    ind = 0;
+    for(int i = 0; i < loc_diffs.size(); i++)
+    {
+        for(int j = 0; j < d; j++)
+        {
+            ld_out[ind] = loc_diffs[i][j];
+            ind++;
+        }
+    }
+    MPI_Ssend(ld_out, loc_diffs.size()*d, MPI_INT, dest_rank, 0,
+        MPI_COMM_WORLD);
+
+    // Send the Js
+    double* J_out = alloc_1darr<double>(loc_diffs.size());
+    for(int i = 0; i < loc_diffs.size(); i++)
+    {
+            J_out[i] = J_diffs[i];
+    }
+    MPI_Ssend(J_out, loc_diffs.size()*d, MPI_INT, dest_rank, 0,
+        MPI_COMM_WORLD);
+
+    dealloc_1darr<double>(spins_out);
+    dealloc_1darr<int>(loc_out);
+    dealloc_1darr<int>(ld_out);
+    dealloc_1darr<double>(J_out);
 }
 
-void field_3d_i::recv_data(int src_rank)
+void particle::field::field_type::recv_data(int src_rank)
 {
+    // Recv the metadata to set up other recieves
+    int metadata[6];
     MPI_Status stat;
-    MPI_Recv(spin[0][0], totsize*totsize*totsize, MPI_INT, src_rank, 0,
+    MPI_Recv(metadata, 6, MPI_INT, src_rank, 0, MPI_COMM_WORLD, &stat);
+    spins.resize(metadata[0]);
+    locs.resize(metadata[0]);
+    d = metadata[1];
+    ising = metadata[2];
+    edgesize = metadata[3];
+    periodic = metadata[4];
+    loc_diffs.resize(metadata[5]);
+    J_diffs.resize(metadata[5]);
+
+    this->set_default_spins();
+
+    // Recv the spins
+    int nspinmod;
+    if (ising) {nspinmod = 1;}
+    else {nspinmod = 3;}
+    double* spins_out = alloc_1darr<double>(spins.size()*nspinmod);
+    MPI_Recv(spins_out, spins.size()*nspinmod, MPI_DOUBLE, src_rank, 0,
         MPI_COMM_WORLD, &stat);
+    int ind = 0;
+    for(int i = 0; i < spins.size(); i++)
+    {
+        spins[i] = upspin;
+        for(int j = 0; j < nspinmod; j++)
+        {
+            spins[i][j] = spins_out[ind];
+            ind++;
+        }
+    }
+
+    // Send the locations
+    int* loc_out = alloc_1darr<int>(spins.size()*d);
+    MPI_Recv(loc_out, spins.size()*d, MPI_INT, src_rank, 0, MPI_COMM_WORLD,
+        &stat);
+    ind = 0;
+    for(int i = 0; i < spins.size(); i++)
+    {
+        locs[i] = blankloc;
+        for(int j = 0; j < d; j++)
+        {
+            locs[i][j] = loc_out[ind];
+            ind++;
+        }
+    }
+
+    // Send the location diffs
+    int* ld_out = alloc_1darr<int>(loc_diffs.size()*d);
+    MPI_Recv(ld_out, loc_diffs.size()*d, MPI_INT, src_rank, 0,
+        MPI_COMM_WORLD, &stat);
+    ind = 0;
+    for(int i = 0; i < loc_diffs.size(); i++)
+    {
+        locs[i] = blankloc;
+        for(int j = 0; j < d; j++)
+        {
+            loc_diffs[i][j] = ld_out[ind];
+            ind++;
+        }
+    }
+
+    // Send the Js
+    double* J_out = alloc_1darr<double>(loc_diffs.size());
+    MPI_Recv(J_out, loc_diffs.size()*d, MPI_INT, src_rank, 0,
+        MPI_COMM_WORLD, &stat);
+    for(int i = 0; i < loc_diffs.size(); i++)
+    {
+            J_diffs[i] = J_out[i];
+    }
+
+    dealloc_1darr<double>(spins_out);
+    dealloc_1darr<int>(loc_out);
+    dealloc_1darr<int>(ld_out);
+    dealloc_1darr<double>(J_out);
+
+    // Recalculate the neighbours
+    this->set_neigh();
 }

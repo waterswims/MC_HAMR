@@ -1,234 +1,201 @@
 #ifndef _FIELD
 #define _FIELD
 
-#include "hamiltonian.hpp"
-#include "array_alloc.hpp"
 #include <vector>
+#include <valarray>
 #include <string>
 
-class ham_type;
+namespace particle{ namespace field {
+    ///////////////////////////////////////////////////////////////////////////
+    /// Base class for fields
+    ///////////////////////////////////////////////////////////////////////////
+    class field_type
+    {
+    private:
+        std::vector<std::valarray<double> > spins;
+        std::vector<std::valarray<int> > locs;
+        std::vector<std::vector<int> > neighbours;
+        std::vector<std::vector<int> > neigh_choice;
 
-void rand_spin_h(double &x, double &y, double &z);
+        std::vector<std::valarray<int> > loc_diffs;
+        std::vector<double> J_diffs;
+        std::vector<std::valarray<double> > D_vecs;
 
-class field_type
-{
-protected:
-    int ft;
-    int dim, insize, totsize;
-    bool periodic;
-public:
-    field_type(){}
-    ~field_type(){}
-    // virtual void alloc_pos(int size){}
-    virtual void i_access(std::vector<int>& postion, int &out){}
-    virtual void i_adjacent(std::vector<int>& position, int* out){}
-    virtual void h_access(std::vector<int>& position, std::vector<double>& out){}
-    virtual void h_adjacent(std::vector<int>& position, double** out){}
-    virtual void h_2adjacent(std::vector<int>& position, double** out){}
-    virtual void h_arb_adj(std::vector<int>& position, std::vector<int>& dxs, std::vector<int>& dys, std::vector<int>& dzs, double** out, int num){}
-    virtual void next(bool &finish, std::vector<int> &pos){}
-    virtual void i_next(bool &finish, std::vector<int> &pos, int &out){}
-    virtual void h_next(bool &finish, std::vector<int> &pos, std::vector<double> &out){}
-    int get_insize() const {return insize;}
-    int get_totsize() const {return totsize;}
-    bool get_perio() const {return periodic;}
-    int get_dim() const {return dim;}
-    virtual void fill_ghost(int num_rows){}
-    virtual void fill_rand(std::vector<int>& position){}
-    virtual void fill_zero(std::vector<int>& position){}
-    virtual void fill_one(std::vector<int>&position){}
-    virtual void fill_val_i(std::vector<int>& position, int val){}
-    virtual void fill_val_h(std::vector<int>& position, double x, double y, double z){}
-    virtual void add_val_h(std::vector<int>& position, std::vector<double> &in){}
-    void allzero();
-    virtual bool check_zero(std::vector<int>& position){return true;}
-    virtual void change_to_test(std::vector<int>& position, ham_type* hamil){}
-    virtual void new_mem(){}
-    virtual int findnum(){return 0;}
-    virtual void get_2dfield_i(int** &x) const{}
-    virtual void get_3dfield_i(int*** &x) const{}
-    virtual void get_1dfield_h(double* &x, double* &y, double* &z) const{}
-    virtual void get_2dfield_h(double** &x, double** &y, double** &z) const{}
-    virtual void get_3dfield_h(double*** &x, double*** &y, double*** &z) const{}
-    virtual void get_2dzero(bool** &x) const{}
-    virtual void get_3dzero(bool*** &x) const{}
-    virtual void print(std::string filename, std::string arrname){}
-    virtual void print_setup(const std::string filename,
-        const std::string groupname,
-        const int Tmax,
-        const int Hmax){}
-    int get_ft() const {return ft;}
-    virtual void send_data(int dest_rank){}
-    virtual void recv_data(int src_rank){}
-};
+        bool ising;
+        bool periodic;
+        int d;
+        int edgesize;
+        std::valarray<double> upspin;
+        std::valarray<double> downspin;
+        std::valarray<double> testspin;
+        std::valarray<int> blankloc;
 
-class field_cluster_h: public field_type
-{
-protected:
-    double* spinx;
-    double* spiny;
-    double* spinz;
-public:
-    field_cluster_h();
-    field_cluster_h(std::string filename);
-    field_cluster_h(field_type& other);
-    field_cluster_h(const field_cluster_h& other);
-    ~field_cluster_h();
-    void h_access(std::vector<int>& position, std::vector<double>& out);
-    void h_next(bool &finish, std::vector<int> &pos, std::vector<double> &out);
-    field_cluster_h& operator=(const field_cluster_h& other);
-    int findnum(){return insize;}
-    void get_1dfield_h(double* &x, double* &y, double* &z) const;
-    void fill_rand(std::vector<int>& position){}
-    bool check_zero(std::vector<int>& position){return false;}
-    void change_to_test(std::vector<int>& position, ham_type* hamil);
-};
+    public:
+        ////////////////////////////////////////////////////////////////////////
+        /// Default constructor
+        ////////////////////////////////////////////////////////////////////////
+        field_type() {}
 
-class field_2d: public field_type
-{
-protected:
-    bool** iszero;
-public:
-    field_2d() {}
-    ~field_2d() {}
-    void next(bool &finish, std::vector<int> &pos);
-    bool check_zero(std::vector<int>& position)
-        {return iszero[position[0]][position[1]];}
-    void get_2dzero(bool** &x) const {x = iszero;}
-    int findnum();
-};
+        ////////////////////////////////////////////////////////////////////////
+        /// Constructor
+        ///
+        /// \param ising_in Is this an ising field?
+        /// \param periodic_in Is the field periodic?
+        /// \param d_in The dimension of the field
+        /// \param edgesize_in The edgelength of the lattice
+        /// \param J_mod A modifier for the strength of the exchange
+        /// \param D_mod A modifier for the strength of the DMI
+        /// \param J_filename The filename where the exchanges and DMIs are
+        ///                   stored
+        ////////////////////////////////////////////////////////////////////////
+        field_type(bool ising_in,
+            bool periodic_in,
+            int d_in,
+            int edgesize_in,
+            double J_mod,
+            double D_mod,
+            std::string J_filename);
 
-class field_2d_h: public field_2d
-{
-protected:
-    double** spinx;
-    double** spiny;
-    double** spinz;
-    int dirsx[4], dirsy[4];
-public:
-    field_2d_h();
-    field_2d_h(int size, bool isperio);
-    field_2d_h(int size, bool isperio, int p_pad);
-    field_2d_h(field_type& other);
-    field_2d_h(const field_2d_h& other);
-    ~field_2d_h();
-    void h_access(std::vector<int>& position, std::vector<double>& out);
-    void h_next(bool &finish, std::vector<int> &pos, std::vector<double> &out);
-    void fill_ghost(int num_rows);
-    field_2d_h& operator=(const field_2d_h& other);
-    void get_2dfield_h(double** &x, double** &y, double** &z) const;
-    void h_adjacent(std::vector<int>& position, double** out);
-    void fill_rand(std::vector<int>& position);
-    void fill_one(std::vector<int>&position);
-    void fill_zero(std::vector<int>& position);
-    void fill_val_h(std::vector<int>& position, double x, double y, double z);
-    void add_val_h(std::vector<int>& position, std::vector<double> &in);
-    void change_to_test(std::vector<int>& position, ham_type* hamil);
-    void send_data(int dest_rank);
-    void recv_data(int src_rank);
-};
+        ////////////////////////////////////////////////////////////////////////
+        /// Destructor
+        ////////////////////////////////////////////////////////////////////////
+        ~field_type() {}
 
-class field_2d_i: public field_2d
-{
-protected:
-    int** spin;
-public:
-    field_2d_i();
-    field_2d_i(int size, bool isperio);
-    field_2d_i(field_type& other);
-    field_2d_i(const field_2d_i& other);
-    ~field_2d_i();
-    void i_access(std::vector<int>& position, int &out);
-    void i_next(bool &finish, std::vector<int> &pos, int &out);
-    void fill_ghost(int num_rows);
-    field_2d_i& operator=(const field_2d_i& other);
-    void get_2dfield_i(int** &x) const;
-    void i_adjacent(std::vector<int>& position, int* out);
-    void fill_rand(std::vector<int>& position);
-    void fill_one(std::vector<int>&position);
-    void fill_zero(std::vector<int>& position);
-    void change_to_test(std::vector<int>& position, ham_type* hamil);
-    void fill_val_i(std::vector<int>& position, int val);
-    void send_data(int dest_rank);
-    void recv_data(int src_rank);
-};
+        ////////////////////////////////////////////////////////////////////////
+        /// Set default spins
+        ////////////////////////////////////////////////////////////////////////
+        void set_default_spins();
+        ////////////////////////////////////////////////////////////////////////
+        /// Access an individual spin
+        ///
+        /// \param index The index of the spin site
+        /// \return A reference to the spin value as a valarray
+        ////////////////////////////////////////////////////////////////////////
+        std::valarray<double>& access(int index) {return spins[index];}
 
-class field_3d: public field_type
-{
-protected:
-    bool*** iszero;
-public:
-    field_3d() {}
-    ~field_3d() {}
-    void next(bool &finish, std::vector<int> &pos);
-    bool check_zero(std::vector<int>& position)
-        {return iszero[position[0]][position[1]][position[2]];}
-    void get_3dzero(bool*** &x) const {x = iszero;}
-    int findnum();
-};
+        ////////////////////////////////////////////////////////////////////////
+        /// Get the neighbours of a spin site
+        ///
+        /// \param index The index of the spin site
+        /// \return A vector containing the indices of the neighbours of the
+        ///         chosen spin
+        ////////////////////////////////////////////////////////////////////////
+        std::vector<int>& get_neigh(int index) {return neighbours[index];}
 
-class field_3d_h: public field_3d
-{
-protected:
-    double*** spinx;
-    double*** spiny;
-    double*** spinz;
-    int** postemp;
-    int dirsx[6], dirsy[6], dirsz[6];
-public:
-    field_3d_h();
-    field_3d_h(int size, bool isperio);
-    field_3d_h(int size, bool isperio, int p_pad);
-    field_3d_h(field_type& other);
-    field_3d_h(const field_3d_h& other);
-    ~field_3d_h();
-    // void alloc_pos(int size) {postemp = alloc_2darr<int>(3, size);}
-    void h_access(std::vector<int>& position, std::vector<double>& out);
-    void h_next(bool &finish, std::vector<int> &pos, std::vector<double> &out);
-    void fill_ghost(int num_rows);
-    field_3d_h& operator=(const field_3d_h& other);
-    void get_3dfield_h(double*** &x, double*** &y, double*** &z) const;
-    void h_adjacent(std::vector<int>& position, double** out);
-    void h_2adjacent(std::vector<int>& position, double** out);
-    void fill_rand(std::vector<int>& position);
-    void fill_one(std::vector<int>&position);
-    void fill_zero(std::vector<int>& position);
-    void fill_val_h(std::vector<int>& position, double x, double y, double z);
-    void add_val_h(std::vector<int>& position, std::vector<double> &in);
-    void change_to_test(std::vector<int>& position, ham_type* hamil);
-    void h_arb_adj(std::vector<int>& position, std::vector<int>& dxs, std::vector<int>& dys, std::vector<int>& dzs, double** out, int num);
-    void print(std::string filename, std::string arrname);
-    void print_setup(const std::string filename,
-        const std::string groupname,
-        const int Tmax,
-        const int Hmax);
-    void send_data(int dest_rank);
-    void recv_data(int src_rank);
-};
+        ////////////////////////////////////////////////////////////////////////
+        /// Get the exchanges with the neighbours of a spin site
+        ///
+        /// \param i The index of the spin site
+        /// \param j The index of the chosen neighbour
+        /// \return The exchange between the two spins
+        ////////////////////////////////////////////////////////////////////////
+        double& get_J(int i, int j) {return J_diffs[neigh_choice[i][j]];}
 
-class field_3d_i: public field_3d
-{
-protected:
-    int*** spin;
-public:
-    field_3d_i();
-    field_3d_i(int size, bool isperio);
-    field_3d_i(field_type& other);
-    field_3d_i(const field_3d_i& other);
-    ~field_3d_i();
-    void i_access(std::vector<int>& position, int &out);
-    void i_next(bool &finish, std::vector<int> &pos, int &out);
-    void fill_ghost(int num_rows);
-    field_3d_i& operator=(const field_3d_i& other);
-    void get_3dfield_i(int*** &x) const;
-    void i_adjacent(std::vector<int>& position, int* out);
-    void fill_rand(std::vector<int>& position);
-    void fill_one(std::vector<int>&position);
-    void fill_zero(std::vector<int>& position);
-    void change_to_test(std::vector<int>& position, ham_type* hamil);
-    void fill_val_i(std::vector<int>& position, int val);
-    void send_data(int dest_rank);
-    void recv_data(int src_rank);
-};
+        ////////////////////////////////////////////////////////////////////////
+        /// Get the DMI vector with the neighbours of a spin site
+        ///
+        /// \param i The index of the spin site
+        /// \param j The index of the chosen neighbour
+        /// \return The DMI vector between the two spins
+        ////////////////////////////////////////////////////////////////////////
+        std::valarray<double>& get_D_vec(int i, int j)
+            {return D_vecs[neigh_choice[i][j]];}
+
+        ////////////////////////////////////////////////////////////////////////
+        /// Get the location of a spin site
+        ///
+        /// \param index The index of the spin site
+        /// \return A vector containing the location of the neighbours of the
+        ///         chosen spin
+        ////////////////////////////////////////////////////////////////////////
+        std::valarray<int>& get_loc(int index) {return locs[index];}
+
+        ////////////////////////////////////////////////////////////////////////
+        /// Add a new spin to the field of spins
+        ///
+        /// \param loc The location of the new spin
+        ////////////////////////////////////////////////////////////////////////
+        void add_spin(std::valarray<int>& loc);
+
+        ////////////////////////////////////////////////////////////////////////
+        /// Determine the neighbours of the spins
+        ////////////////////////////////////////////////////////////////////////
+        void set_neigh();
+
+        ////////////////////////////////////////////////////////////////////////
+        /// Get the number of spins in the field
+        ///
+        /// \return The number of spins in the field
+        ////////////////////////////////////////////////////////////////////////
+        unsigned int get_size() {return spins.size();}
+
+        ////////////////////////////////////////////////////////////////////////
+        /// Get the dimension in the field
+        ///
+        /// \return The dimension of the field
+        ////////////////////////////////////////////////////////////////////////
+        int get_dim() {return d;}
+
+        ////////////////////////////////////////////////////////////////////////
+        /// Get a spin to the already generated random state
+        ///
+        /// \param index The location of the spin to be changed
+        ////////////////////////////////////////////////////////////////////////
+        void set_rand(int index) {spins[index] = testspin;}
+
+        ////////////////////////////////////////////////////////////////////////
+        /// Generate a random spin state
+        ////////////////////////////////////////////////////////////////////////
+        void gen_rand();
+
+        ////////////////////////////////////////////////////////////////////////
+        /// Return the randomly generated state
+        ///
+        /// \return The random state as a valarray
+        ////////////////////////////////////////////////////////////////////////
+        std::valarray<double>& get_rand() {return testspin;}
+
+        ////////////////////////////////////////////////////////////////////////
+        /// Set all spins to a random state
+        ////////////////////////////////////////////////////////////////////////
+        void all_rand();
+
+        ////////////////////////////////////////////////////////////////////////
+        /// Set up the HDF5 file for array printing
+        ///
+        /// /param filename The name of the HDF5 file
+        /// /param groupname The name of the group within the file to store the
+        ///                  lattices
+        /// /param Tmax The number of temperatures
+        /// /param Hmax The number of fields
+        ////////////////////////////////////////////////////////////////////////
+        void print_setup(const std::string filename,
+            const std::string groupname,
+            const int Tmax,
+            const int Hmax);
+
+        ////////////////////////////////////////////////////////////////////////
+        /// Print the lattice to a file
+        ///
+        /// /param filename The name of the HDF5 file
+        /// /param arrname The name of the particular array to be printed to
+        ////////////////////////////////////////////////////////////////////////
+        void print(std::string filename, std::string arrname);
+
+        ////////////////////////////////////////////////////////////////////////
+        /// Send the field to another process
+        ///
+        /// \param dest_rank The target process' rank
+        ////////////////////////////////////////////////////////////////////////
+        void send_data(int dest_rank);
+
+        ////////////////////////////////////////////////////////////////////////
+        /// Recieve the field from another process
+        ///
+        /// \param src_rank The rank of the process recieving from
+        ////////////////////////////////////////////////////////////////////////
+        void recv_data(int src_rank);
+    };
+}}
 
 #endif

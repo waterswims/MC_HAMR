@@ -101,3 +101,14 @@ double solid_angle(const std::vector<double> &s1,
 
     return ang;
 }
+
+std::valarray<double> c_prod(const std::valarray<double> &s1,
+    const std::valarray<double> &s2)
+{
+    std::valarray<double> out(s1);
+    out[0] = s1[1]*s2[2] - s1[2]*s2[1];
+    out[1] = s1[2]*s2[0] - s1[0]*s2[2];
+    out[2] = s1[0]*s2[1] - s1[1]*s2[0];
+
+    return out;
+}
