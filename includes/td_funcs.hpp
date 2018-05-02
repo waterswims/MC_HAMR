@@ -4,7 +4,6 @@
 #include "field_type.hpp"
 
 #include <vector>
-#include <valarray>
 
 namespace particle{ namespace funcs {
     ///////////////////////////////////////////////////////////////////////////
@@ -14,7 +13,8 @@ namespace particle{ namespace funcs {
     /// \param H The external magnetic field
     /// \return The energy
     ///////////////////////////////////////////////////////////////////////////
-    double calc_E(field::field_type& lattice, std::valarray<double> H);
+    double calc_E(field::field_type& lattice,
+        xt::xtensorf<double, xt::xshape<4>>& H);
 
     ///////////////////////////////////////////////////////////////////////////
     /// Calculate the energy change after a spin flip of a single spin
@@ -24,7 +24,9 @@ namespace particle{ namespace funcs {
     /// \param H The external magnetic field
     /// \return The change in energy
     ///////////////////////////////////////////////////////////////////////////
-    double calc_dE(field::field_type& lattice, int position, std::valarray<double> H);
+    double calc_dE(field::field_type& lattice,
+        int position,
+        xt::xtensorf<double, xt::xshape<4>>& H);
 
     ///////////////////////////////////////////////////////////////////////////
     /// Calculate the magnetisation of a lattice
@@ -32,7 +34,7 @@ namespace particle{ namespace funcs {
     /// \param lattice The lattice
     /// \return The magnetisation vecotr of the lattice
     ///////////////////////////////////////////////////////////////////////////
-    std::valarray<double> calc_M(field::field_type& lattice);
+    xt::xtensorf<double, xt::xshape<4>> calc_M(field::field_type& lattice);
 
     ///////////////////////////////////////////////////////////////////////////
     /// Calculate the sublattice magnetisation
@@ -41,7 +43,8 @@ namespace particle{ namespace funcs {
     /// \param subnumber Choice of sublattice
     /// \return The magnetisation vecotr of the sublattice
     ///////////////////////////////////////////////////////////////////////////
-    std::valarray<double> calc_subM(field::field_type& lattice, int subnumber);
+    xt::xtensorf<double, xt::xshape<4>> calc_subM(field::field_type& lattice,
+        int subnumber);
 
     ///////////////////////////////////////////////////////////////////////////
     /// Calculate the topological charge of a given lattice
@@ -60,9 +63,9 @@ namespace particle{ namespace funcs {
     /// \param s3 Third vector
     /// \return The solid angle
     ///////////////////////////////////////////////////////////////////////////
-    double solid_angle(const std::valarray<double> &s1,
-                    const std::valarray<double> &s2,
-                    const std::valarray<double> &s3);
+    double solid_angle(const xt::xtensorf<double, xt::xshape<4>>& s1,
+                    const xt::xtensorf<double, xt::xshape<4>>& s2,
+                    const xt::xtensorf<double, xt::xshape<4>>& s3);
 }}
 
 #endif

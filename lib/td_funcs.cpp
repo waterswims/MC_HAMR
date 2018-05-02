@@ -4,16 +4,18 @@
 #include <cmath>
 #include <iostream>
 
-double particle::funcs::calc_E(particle::field::field_type& lattice,
-    std::valarray<double> H)
+#include <xtensor/xio.hpp>
+
+xt::xtensorf<double, xt::xshape<4>> J_sum, H_sum, D_sum, diff;
+
+double particle::funcs::calc_E(field::field_type& lattice,
+    xt::xtensorf<double, xt::xshape<4>>& H)
 {
     int Nspins = lattice.get_size();
-    std::valarray<double> J_sum(lattice.access(0).size()),
-        H_sum(lattice.access(0).size()), D_sum(lattice.access(0).size());
 
-    J_sum = 0;
-    H_sum = 0;
-    D_sum = 0;
+    J_sum = {0, 0, 0, 0};
+    H_sum = {0, 0, 0, 0};
+    D_sum = {0, 0, 0, 0};
 
     for(int i = 0; i < Nspins; i++)
     {
@@ -30,19 +32,18 @@ double particle::funcs::calc_E(particle::field::field_type& lattice,
     }
     H_sum = calc_M(lattice);
 
-    double E = (-H*H_sum - 0.5*J_sum - 0.5*D_sum).sum();
+    double E = xt::sum(-H * H_sum - 0.5 * J_sum - 0.5 * D_sum)[0];
 
     return E;
 }
 
 double particle::funcs::calc_dE(particle::field::field_type& lattice,
-    int position, std::valarray<double> H)
+    int position, xt::xtensorf<double, xt::xshape<4>>& H)
 {
     lattice.gen_rand();
-    std::valarray<double> diff = lattice.access(position) - lattice.get_rand();
-    std::valarray<double> J_sum(diff.size()), D_sum(diff.size());
-    J_sum = 0;
-    D_sum = 0;
+    diff = lattice.access(position) - lattice.get_rand();
+    J_sum = {0, 0, 0, 0};
+    D_sum = {0, 0, 0, 0};
 
     for(int j = 0; j < lattice.get_neigh(position).size(); j++)
     {
@@ -52,17 +53,17 @@ double particle::funcs::calc_dE(particle::field::field_type& lattice,
             lattice.get_D_vec(position, j));
     }
 
-    double dE = ((H + J_sum + D_sum) * diff).sum();
+    double dE = xt::sum((H + J_sum + D_sum) * diff)[0];
 
     return dE;
 }
 
-std::valarray<double> particle::funcs::calc_M(
+xt::xtensorf<double, xt::xshape<4>> particle::funcs::calc_M(
     particle::field::field_type& lattice)
 {
     int Nspins = lattice.get_size();
-    std::valarray<double> s(lattice.access(0).size());
-    s = 0;
+    xt::xtensorf<double, xt::xshape<4>> s;
+    s = {0, 0, 0, 0};
 
     for(int i = 0; i < Nspins; i++)
     {
@@ -72,17 +73,17 @@ std::valarray<double> particle::funcs::calc_M(
     return s;
 }
 
-std::valarray<double> particle::funcs::calc_subM(
+xt::xtensorf<double, xt::xshape<4>> particle::funcs::calc_subM(
     particle::field::field_type& lattice,
     int subnumber)
 {
     int Nspins = lattice.get_size();
-    std::valarray<double> s(lattice.access(0).size());
-    s = 0;
+    xt::xtensorf<double, xt::xshape<4>> s;
+    s = {0, 0, 0, 0};
 
     for(int i = 0; i < Nspins; i++)
     {
-        int possum = lattice.get_loc(i).sum();
+        int possum = xt::sum(lattice.get_loc(i))[0];
         if (possum%2 == subnumber)
         {
             s += lattice.access(i);
@@ -97,7 +98,7 @@ std::vector<double> particle::funcs::calc_TC(
 {
     int Nspins = lattice.get_size();
     std::vector<double> out;
-    std::valarray<int> loc_diff;
+    xt::xtensorf<int, xt::xshape<4>> loc_diff;
     int left, right, forward, backward;
 
     for(int i = 0; i < Nspins; i++)
@@ -142,19 +143,19 @@ std::vector<double> particle::funcs::calc_TC(
     return out;
 }
 
-double particle::funcs::solid_angle(const std::valarray<double> &s1,
-                const std::valarray<double> &s2,
-                const std::valarray<double> &s3)
+double particle::funcs::solid_angle(const xt::xtensorf<double, xt::xshape<4>>& s1,
+                const xt::xtensorf<double, xt::xshape<4>>& s2,
+                const xt::xtensorf<double, xt::xshape<4>>& s3)
 {
-    double s1s2 = (s1 * s2).sum();
-    double s1s3 = (s1 * s3).sum();
-    double s2s3 = (s2 * s3).sum();
+    double s1s2 = xt::sum(s1 * s2)[0];
+    double s1s3 = xt::sum(s1 * s3)[0];
+    double s2s3 = xt::sum(s2 * s3)[0];
 
     double rho = 2 * (1 + s1s2) * (1 + s1s3) * (1 + s2s3);
     double dotsum = 1 + s1s2 + s1s3 + s2s3;
 
-    std::valarray<double> s1xs3 = c_prod(s1, s3);
-    double crosssum = (s1xs3 * s2).sum();
+    xt::xtensorf<double, xt::xshape<4>> s1xs3 = c_prod(s1, s3);
+    double crosssum = xt::sum(s1xs3 * s2)[0];
 
     double ang = atan2(crosssum / rho, dotsum / rho);
 

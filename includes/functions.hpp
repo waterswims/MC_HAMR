@@ -2,9 +2,11 @@
 #define _FUNC
 
 #include <vector>
-#include <valarray>
 #include <fstream>
 #include <cstring>
+
+#define XTENSOR_USE_XSIMD
+#include <xtensor/xfixed.hpp>
 
 double mean(std::vector<double> &oY);
 
@@ -20,12 +22,8 @@ void AtoLn(double amean, double asd, double &lmean, double &lsd);
 
 int mod(int a, int b);
 
-double solid_angle(const std::vector<double> &s1,
-                const std::vector<double> &s2,
-                const std::vector<double> &s3,
-                std::vector<double> &buff);
-
-std::valarray<double> c_prod(const std::valarray<double> &s1,
-    const std::valarray<double> &s2);
+xt::xtensorf<double, xt::xshape<4>> c_prod(
+    const xt::xtensorf<double, xt::xshape<4>> &s1,
+    const xt::xtensorf<double, xt::xshape<4>> &s2);
 
 #endif

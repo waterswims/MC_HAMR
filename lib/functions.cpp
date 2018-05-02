@@ -67,45 +67,11 @@ int mod(int a, int b)
     return r < 0 ? r + b : r;
 }
 
-double solid_angle(const std::vector<double> &s1,
-                const std::vector<double> &s2,
-                const std::vector<double> &s3,
-                std::vector<double> &buff)
+xt::xtensorf<double, xt::xshape<4>> c_prod(
+    const xt::xtensorf<double, xt::xshape<4>> &s1,
+    const xt::xtensorf<double, xt::xshape<4>> &s2)
 {
-    if(s1[0] == 0 && s1[1] == 0 && s1[2] == 0) {return 0;}
-    else if(s2[0] == 0 && s2[1] == 0 && s2[2] == 0) {return 0;}
-    else if(s3[0] == 0 && s3[1] == 0 && s3[2] == 0) {return 0;}
-
-    double s1s2 = 0, s1s3 = 0, s2s3 = 0;
-    #pragma omp simd
-    for(unsigned int i = 0; i < 4; i++)
-    {
-        s1s2 += s1[i] * s2[i];
-        s1s3 += s1[i] * s3[i];
-        s2s3 += s2[i] * s3[i];
-    }
-    double rho = 2 * (1 + s1s2) * (1 + s1s3) * (1 + s2s3);
-    double dotsum = 1 + s1s2 + s1s3 + s2s3;
-    buff[0] = s1[1]*s3[2] - s1[2]*s3[1];
-    buff[1] = s1[2]*s3[0] - s1[0]*s3[2];
-    buff[2] = s1[0]*s3[1] - s1[1]*s3[0];
-    double crosssum = 0;
-    #pragma omp simd
-    for(unsigned int i = 0; i < 4; i++)
-    {
-        crosssum += buff[i] * s2[i];
-    }
-    double cossum = dotsum / rho;
-    double sinsum = crosssum / rho;
-    double ang = atan2(sinsum, cossum);
-
-    return ang;
-}
-
-std::valarray<double> c_prod(const std::valarray<double> &s1,
-    const std::valarray<double> &s2)
-{
-    std::valarray<double> out(s1);
+    xt::xtensorf<double, xt::xshape<4>> out;
     out[0] = s1[1]*s2[2] - s1[2]*s2[1];
     out[1] = s1[2]*s2[0] - s1[0]*s2[2];
     out[2] = s1[0]*s2[1] - s1[1]*s2[0];

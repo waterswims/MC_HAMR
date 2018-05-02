@@ -27,8 +27,8 @@ particle::field::field_type gen_fm(int d, bool ising, double J, double D)
 {
     particle::field::field_type
         field(ising, false, d, 10, J, D, "Js/3d_nn_bloch.dat");
-    std::valarray<int> pos(d);
-    pos = 0;
+    xt::xtensorf<int, xt::xshape<4>> pos;
+    pos = {0, 0, 0, 0};
     for(int i = 0; i < pow(10, d); i++)
     {
         field.add_spin(pos);

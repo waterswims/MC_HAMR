@@ -15,7 +15,6 @@
 #include <iostream>
 #include <fstream>
 #include <cmath>
-#include <valarray>
 
 extern IRANDTYPE st_rand_int;
 extern DRANDTYPE st_rand_double;
@@ -25,15 +24,12 @@ state::state(double size, bool isPerio, bool ising, char shape_code, double J,
 {
     s_code = shape_code;
 
-    int H_size = 4;
     h_ind = 2;
     if(ising)
     {
-        H_size = 1;
         h_ind = 0;
     }
-    H.resize(H_size);
-    H = 0;
+    H = {0, 0, 0, 0};
     H[h_ind] = Hin;
 
     this->init_points(size, isPerio, J, K, args);
@@ -130,8 +126,7 @@ void state::init_lattice()
     int size = field.get_size();
     int dim = field.get_dim();
     std::vector<int> pos(dim, 0);
-    std::valarray<int> posva(dim);
-    posva = 0;
+    xt::xtensorf<int, xt::xshape<4>> posva = {0, 0, 0, 0};
     for(int i = 0; i < pow(size, dim); i++)
     {
         bool fillspin = shape->check(pos, size);
@@ -193,9 +188,9 @@ void state::equil(int iter)
 
 std::vector<double> state::magnetisation()
 {
-    std::valarray<double> M = particle::funcs::calc_M(field);
+    xt::xtensorf<double, xt::xshape<4>> M = particle::funcs::calc_M(field);
     std::vector<double> M_out;
-    for(int i=0; i < M.size(); i++)
+    for(int i=0; i < 4; i++)
     {
         M_out.push_back(M[i]);
     }
@@ -204,9 +199,9 @@ std::vector<double> state::magnetisation()
 
 std::vector<double> state::submag(int subnumber)
 {
-    std::valarray<double> M = particle::funcs::calc_subM(field, 0);
+    xt::xtensorf<double, xt::xshape<4>> M = particle::funcs::calc_subM(field, 0);
     std::vector<double> M_out;
-    for(int i=0; i < M.size(); i++)
+    for(int i=0; i < 4; i++)
     {
         M_out.push_back(M[i]);
     }

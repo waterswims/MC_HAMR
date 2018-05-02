@@ -1,8 +1,11 @@
 #ifndef _ISINGTEST
 #define _ISINGTEST
 
-#include "test_functions.hpp"
 #include "../includes/td_funcs.hpp"
+
+xt::xtensorf<double, xt::xshape<4>> zeroH = {0, 0, 0, 0};
+xt::xtensorf<double, xt::xshape<4>> isingH = {0.1, 0, 0, 0};
+particle::field::field_type isingFMField;
 
 ///////////////////////////////////////////////////////
 // Ising model tests - 2D
@@ -115,35 +118,27 @@
 
 TEST(Ising_model, 3d_ferromagnetic_energy_zero_field)
 {
-    std::valarray<double> H = {0, 0, 0, 0};
-    particle::field::field_type field = gen_fm(3, true, 1, 0);
-    EXPECT_DOUBLE_EQ(-2700, particle::funcs::calc_E(field, H));
+    EXPECT_DOUBLE_EQ(-2700, particle::funcs::calc_E(isingFMField, zeroH));
 }
 
 TEST(Ising_model, 3d_ferromagnetic_energy_ext_field)
 {
-    std::valarray<double> H = {0.1, 0, 0, 0};
-    particle::field::field_type field = gen_fm(3, true, 1, 0);
-    EXPECT_DOUBLE_EQ(-2800, particle::funcs::calc_E(field, H));
+    EXPECT_DOUBLE_EQ(-2800, particle::funcs::calc_E(isingFMField, isingH));
 }
 
 TEST(Ising_model, 3d_ferromagnetic_mag)
 {
-    particle::field::field_type field = gen_fm(3, true, 1, 0);
-    EXPECT_DOUBLE_EQ(1000, particle::funcs::calc_M(field)[0]);
+    EXPECT_DOUBLE_EQ(1000, particle::funcs::calc_M(isingFMField)[0]);
 }
 
 TEST(Ising_model, 3d_ferromagnetic_submag)
 {
-    particle::field::field_type field = gen_fm(3, true, 1, 0);
-    EXPECT_DOUBLE_EQ(500, particle::funcs::calc_subM(field, 0)[0]);
+    EXPECT_DOUBLE_EQ(500, particle::funcs::calc_subM(isingFMField, 0)[0]);
 }
 
 TEST(Ising_model, 3d_ferromagnetic_dE)
 {
-    std::valarray<double> H = {0, 0, 0, 0};
-    particle::field::field_type field = gen_fm(3, true, 1, 0);
-    EXPECT_DOUBLE_EQ(12, particle::funcs::calc_dE(field, 555, H));
+    EXPECT_DOUBLE_EQ(12, particle::funcs::calc_dE(isingFMField, 555, zeroH));
 }
 
 // TEST(Ising_model, 3d_antiferromagnetic_energy_zero_field)
@@ -189,18 +184,17 @@ TEST(Ising_model, 3d_ferromagnetic_dE)
 
 TEST(Ising_model, 3d_dE_consist)
 {
-    std::valarray<double> H = {0, 0, 0, 0};
-    particle::field::field_type field = gen_fm(3, true, 1, 0);
+    particle::field::field_type fieldCopy = isingFMField;
     int pos=0;
-    double old_E = particle::funcs::calc_E(field, H);
-    for(int i = 0; i < 1000; i++)
+    double old_E = particle::funcs::calc_E(fieldCopy, isingH);
+    for(int i = 0; i < 100000; i++)
     {
         pos = int(st_rand_double.gen()*1000);
-        double dE = particle::funcs::calc_dE(field, pos, H);
-        field.set_rand(pos);
-        // double new_E = particle::funcs::calc_E(field, H);
-        // EXPECT_DOUBLE_EQ(old_E + dE, new_E);
-        // old_E = new_E;
+        double dE = particle::funcs::calc_dE(fieldCopy, pos, isingH);
+        fieldCopy.set_rand(pos);
+        double new_E = particle::funcs::calc_E(fieldCopy, isingH);
+        EXPECT_NEAR(old_E + dE, new_E, 1e-10);
+        old_E = new_E;
     }
 }
 

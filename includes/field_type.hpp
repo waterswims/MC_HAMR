@@ -2,8 +2,10 @@
 #define _FIELD
 
 #include <vector>
-#include <valarray>
 #include <string>
+
+#define XTENSOR_USE_XSIMD
+#include <xtensor/xfixed.hpp>
 
 namespace particle{ namespace field {
     ///////////////////////////////////////////////////////////////////////////
@@ -12,23 +14,23 @@ namespace particle{ namespace field {
     class field_type
     {
     private:
-        std::vector<std::valarray<double> > spins;
-        std::vector<std::valarray<int> > locs;
+        std::vector<xt::xtensorf<double, xt::xshape<4> > > spins;
+        std::vector<xt::xtensorf<int, xt::xshape<4> > > locs;
         std::vector<std::vector<int> > neighbours;
         std::vector<std::vector<int> > neigh_choice;
 
-        std::vector<std::valarray<int> > loc_diffs;
+        std::vector<xt::xtensorf<int, xt::xshape<4> > > loc_diffs;
         std::vector<double> J_diffs;
-        std::vector<std::valarray<double> > D_vecs;
+        std::vector<xt::xtensorf<double, xt::xshape<4> > > D_vecs;
 
         bool ising;
         bool periodic;
         int d;
         int edgesize;
-        std::valarray<double> upspin;
-        std::valarray<double> downspin;
-        std::valarray<double> testspin;
-        std::valarray<int> blankloc;
+        xt::xtensorf<double, xt::xshape<4>> upspin;
+        xt::xtensorf<double, xt::xshape<4>> downspin;
+        xt::xtensorf<double, xt::xshape<4>> testspin;
+        xt::xtensorf<int, xt::xshape<4>> blankloc;
 
     public:
         ////////////////////////////////////////////////////////////////////////
@@ -65,13 +67,14 @@ namespace particle{ namespace field {
         /// Set default spins
         ////////////////////////////////////////////////////////////////////////
         void set_default_spins();
+
         ////////////////////////////////////////////////////////////////////////
         /// Access an individual spin
         ///
         /// \param index The index of the spin site
         /// \return A reference to the spin value as a valarray
         ////////////////////////////////////////////////////////////////////////
-        std::valarray<double>& access(int index) {return spins[index];}
+        xt::xtensorf<double, xt::xshape<4>>& access(int index) {return spins[index];}
 
         ////////////////////////////////////////////////////////////////////////
         /// Get the neighbours of a spin site
@@ -98,7 +101,7 @@ namespace particle{ namespace field {
         /// \param j The index of the chosen neighbour
         /// \return The DMI vector between the two spins
         ////////////////////////////////////////////////////////////////////////
-        std::valarray<double>& get_D_vec(int i, int j)
+        xt::xtensorf<double, xt::xshape<4>>& get_D_vec(int i, int j)
             {return D_vecs[neigh_choice[i][j]];}
 
         ////////////////////////////////////////////////////////////////////////
@@ -108,14 +111,15 @@ namespace particle{ namespace field {
         /// \return A vector containing the location of the neighbours of the
         ///         chosen spin
         ////////////////////////////////////////////////////////////////////////
-        std::valarray<int>& get_loc(int index) {return locs[index];}
+        xt::xtensorf<int, xt::xshape<4>>& get_loc(int index)
+            {return locs[index];}
 
         ////////////////////////////////////////////////////////////////////////
         /// Add a new spin to the field of spins
         ///
         /// \param loc The location of the new spin
         ////////////////////////////////////////////////////////////////////////
-        void add_spin(std::valarray<int>& loc);
+        void add_spin(xt::xtensorf<int, xt::xshape<4>>& loc);
 
         ////////////////////////////////////////////////////////////////////////
         /// Determine the neighbours of the spins
@@ -153,7 +157,7 @@ namespace particle{ namespace field {
         ///
         /// \return The random state as a valarray
         ////////////////////////////////////////////////////////////////////////
-        std::valarray<double>& get_rand() {return testspin;}
+        xt::xtensorf<double, xt::xshape<4>>& get_rand() {return testspin;}
 
         ////////////////////////////////////////////////////////////////////////
         /// Set all spins to a random state

@@ -43,8 +43,8 @@ particle::field::field_type::field_type(bool ising_in,
     double dcurr;
     while(Jstream >> icurr)
     {
-        std::valarray<int> new_loc = blankloc;
-        std::valarray<double> new_dmi = upspin;
+        xt::xtensorf<int, xt::xshape<4>> new_loc = blankloc;
+        xt::xtensorf<double, xt::xshape<4>> new_dmi = upspin;
 
         new_loc[0] = icurr;
         for (int i = 1; i < d; i++)
@@ -70,10 +70,9 @@ particle::field::field_type::field_type(bool ising_in,
 
 void particle::field::field_type::set_default_spins()
 {
-    blankloc.resize(d);
     int ssize = 4;
-    upspin.resize(ssize);
-    upspin = 0;
+    upspin = {0, 0, 0, 0};
+    blankloc = {0, 0, 0, 0};
     downspin = upspin;
     testspin = upspin;
 
@@ -90,7 +89,8 @@ void particle::field::field_type::set_default_spins()
 
 }
 
-void particle::field::field_type::add_spin(std::valarray<int>& loc)
+void particle::field::field_type::add_spin(
+    xt::xtensorf<int, xt::xshape<4>>& loc)
 {
     spins.push_back(upspin);
     locs.push_back(loc);
@@ -101,8 +101,8 @@ void particle::field::field_type::set_neigh()
     std::vector<int> n_base;
     neighbours.resize(spins.size());
     neigh_choice.resize(spins.size());
-    std::valarray<bool> check_arr;
     int nn = 0;
+    xt::xtensorf<int, xt::xshape<4>> diff;
     for(unsigned int i = 0; i < spins.size(); i++)
     {
         neighbours[i] = n_base;
@@ -110,16 +110,10 @@ void particle::field::field_type::set_neigh()
         for(unsigned int j = 0; j < spins.size(); j++)
         {
             if(i == j) {continue;}
+            diff = locs[j] - locs[i];
             for(unsigned int k = 0; k < loc_diffs.size(); k++)
             {
-                check_arr = (locs[j] - locs[i]) == loc_diffs[k];
-                bool i_neigh = true;
-                for(unsigned int l = 0; l < check_arr.size(); l++)
-                {
-                    i_neigh &= check_arr[l];
-                }
-
-                if(i_neigh)
+                if(diff == loc_diffs[k])
                 {
                     neighbours[i].push_back(j);
                     neigh_choice[i].push_back(k);

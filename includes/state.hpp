@@ -6,13 +6,12 @@
 
 #include <string.h>
 #include <vector>
-#include <valarray>
 
 class state
 {
 private:
     double beta, k_b;
-    std::valarray<double> H;
+    xt::xtensorf<double, xt::xshape<4>> H;
     int num, snum, h_ind;
     char s_code;
     particle::field::field_type field;
