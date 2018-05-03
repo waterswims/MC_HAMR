@@ -27,26 +27,26 @@ XSIMD = xsimd/include
 TEST_FILES = $(wildcard $(TEST_PATH)/*.hpp)
 NOMAIN_FILES = $(filter-out $(LIB_PATH)/main.cpp, $(wildcard $(LIB_PATH)/*.cpp))
 ## NON-INTEL
-SOURCE_FILES = $(filter-out $(LIB_PATH)/mklrand.cpp, $(NOMAIN_FILES))
+# SOURCE_FILES = $(filter-out $(LIB_PATH)/mklrand.cpp, $(NOMAIN_FILES))
 ## INTEL
-# SOURCE_FILES = $(filter-out $(LIB_PATH)/stdrand.cpp, $(NOMAIN_FILES))
+SOURCE_FILES = $(filter-out $(LIB_PATH)/stdrand.cpp, $(NOMAIN_FILES))
 OBJS = $(addprefix $(OBJ_PATH)/, $(notdir $(SOURCE_FILES:.cpp=.o)))
 
 #################################################################
 ## Compile options
 #################################################################
 ## INTEL
-# CPPFLAGS = -std=c++14 -Ofast -qopenmp -DMKL_ILP64 -I${MKLROOT}/include -I${HDFPINC} -I${XTEN} -I${XTL} -I${XSIMD} -use-intel-optimized-headers -g
+CPPFLAGS = -std=c++14 -Ofast -qopenmp -DMKL_ILP64 -I${MKLROOT}/include -I${HDFPINC} -I${XTEN} -I${XTL} -I${XSIMD} -g -ipo
 ## NON-INTEL
-CPPFLAGS = -std=c++14 -Ofast -fopenmp -I${HDFPINC} -I${XTEN} -I${XTL} -I${XSIMD} -Wno-narrowing -flto
+# CPPFLAGS = -std=c++14 -Ofast -fopenmp -I${HDFPINC} -I${XTEN} -I${XTL} -I${XSIMD} -Wno-narrowing -flto
 
 #################################################################
 ## Link options
 #################################################################
 ## INTEL
-# LDFLAGS = -use-intel-optimized-headers -L${HDFPLIB}/libhdf5.a  -L${MKLROOT}/lib/intel64 -lmkl_intel_ilp64 -lmkl_intel_thread -lmkl_core -liomp5 -lpthread -lm -ldl -lz -g
+LDFLAGS = -L${HDFPLIB} -L${MKLROOT}/lib/intel64 -lhdf5 -lmkl_intel_ilp64 -lmkl_intel_thread -lmkl_core -liomp5 -lpthread -lm -ldl -lz -g -ipo
 ## NON-INTEL
-LDFLAGS = -L${HDFPLIB}/libhdf5.a -lz -flto
+# LDFLAGS = -L${HDFPLIB} -lhdf5 -lz -flto
 
 #################################################################
 ## Gtest options

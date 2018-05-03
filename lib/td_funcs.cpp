@@ -4,7 +4,7 @@
 #include <cmath>
 #include <iostream>
 
-#include <xtensor/xio.hpp>
+#include <xtensor/xeval.hpp>
 
 xt::xtensorf<double, xt::xshape<4>> J_sum, H_sum, D_sum, diff;
 
@@ -30,9 +30,10 @@ double particle::funcs::calc_E(field::field_type& lattice,
                 lattice.access(i));
         }
     }
+
     H_sum = calc_M(lattice);
 
-    double E = xt::sum(-H * H_sum - 0.5 * J_sum - 0.5 * D_sum)[0];
+    double E = xt::eval(xt::sum(-H * H_sum - 0.5 * J_sum - 0.5 * D_sum))[0];
 
     return E;
 }
@@ -53,7 +54,7 @@ double particle::funcs::calc_dE(particle::field::field_type& lattice,
             lattice.get_D_vec(position, j));
     }
 
-    double dE = xt::sum((H + J_sum + D_sum) * diff)[0];
+    double dE = xt::eval(xt::sum((H + J_sum + D_sum) * diff))[0];
 
     return dE;
 }
@@ -83,7 +84,7 @@ xt::xtensorf<double, xt::xshape<4>> particle::funcs::calc_subM(
 
     for(int i = 0; i < Nspins; i++)
     {
-        int possum = xt::sum(lattice.get_loc(i))[0];
+        int possum = xt::eval(xt::sum(lattice.get_loc(i)))[0];
         if (possum%2 == subnumber)
         {
             s += lattice.access(i);
