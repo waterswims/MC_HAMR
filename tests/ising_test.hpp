@@ -187,7 +187,7 @@ TEST(Ising_model, 3d_dE_consist)
     particle::field::field_type fieldCopy = isingFMField;
     int pos=0;
     double old_E = particle::funcs::calc_E(fieldCopy, isingH);
-    for(int i = 0; i < 100000; i++)
+    for(int i = 0; i < 1000000; i++)
     {
         pos = int(st_rand_double.gen()*1000);
         double dE = particle::funcs::calc_dE(fieldCopy, pos, isingH);

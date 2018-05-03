@@ -14,7 +14,6 @@ double particle::funcs::calc_E(field::field_type& lattice,
     int Nspins = lattice.get_size();
 
     J_sum = {0, 0, 0, 0};
-    H_sum = {0, 0, 0, 0};
     D_sum = {0, 0, 0, 0};
 
     for(int i = 0; i < Nspins; i++)
