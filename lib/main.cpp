@@ -5,18 +5,10 @@
 #include "../includes/param_read.hpp"
 #include "../includes/protocol.hpp"
 #include "../includes/print_latt.hpp"
-
-#ifdef __INTEL_COMPILER
-#include "../includes/mklrand.hpp"
-#define IRANDTYPE mklrand::mkl_irand
-#define DRANDTYPE mklrand::mkl_drand
-#define LNRANDTYPE mklrand::mkl_lnrand
-#else
 #include "../includes/stdrand.hpp"
 #define IRANDTYPE stdrand::std_i_unirand
 #define DRANDTYPE stdrand::std_d_unirand
 #define LNRANDTYPE stdrand::std_lognormrand
-#endif
 
 #include <hdf5.h>
 #include <cmath>

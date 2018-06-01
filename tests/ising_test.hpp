@@ -1,11 +1,14 @@
 #ifndef _ISINGTEST
 #define _ISINGTEST
 
-#include "../includes/td_funcs.hpp"
+#include "../includes/thermodynamics.hpp"
 
 xt::xtensorf<double, xt::xshape<4>> zeroH = {0, 0, 0, 0};
 xt::xtensorf<double, xt::xshape<4>> isingH = {0.1, 0, 0, 0};
 particle::field::field_type isingFMField;
+particle::field::field_type isingFMFieldPerio;
+particle::field::field_type isingAFMField;
+particle::td::functionObject exchangeOnly;
 
 ///////////////////////////////////////////////////////
 // Ising model tests - 2D
@@ -118,81 +121,69 @@ particle::field::field_type isingFMField;
 
 TEST(Ising_model, 3d_ferromagnetic_energy_zero_field)
 {
-    EXPECT_DOUBLE_EQ(-2700, particle::funcs::calc_E(isingFMField, zeroH));
+    EXPECT_DOUBLE_EQ(-2700, exchangeOnly.calc_E(isingFMField, zeroH));
+    EXPECT_DOUBLE_EQ(-3000, exchangeOnly.calc_E(isingFMFieldPerio, zeroH));
 }
 
 TEST(Ising_model, 3d_ferromagnetic_energy_ext_field)
 {
-    EXPECT_DOUBLE_EQ(-2800, particle::funcs::calc_E(isingFMField, isingH));
+    EXPECT_DOUBLE_EQ(-2800, exchangeOnly.calc_E(isingFMField, isingH));
+    EXPECT_DOUBLE_EQ(-3100, exchangeOnly.calc_E(isingFMFieldPerio, isingH));
 }
 
 TEST(Ising_model, 3d_ferromagnetic_mag)
 {
-    EXPECT_DOUBLE_EQ(1000, particle::funcs::calc_M(isingFMField)[0]);
+    EXPECT_DOUBLE_EQ(1000, exchangeOnly.calc_M(isingFMField)[0]);
+    EXPECT_DOUBLE_EQ(1000, exchangeOnly.calc_M(isingFMFieldPerio)[0]);
 }
 
 TEST(Ising_model, 3d_ferromagnetic_submag)
 {
-    EXPECT_DOUBLE_EQ(500, particle::funcs::calc_subM(isingFMField, 0)[0]);
+    EXPECT_DOUBLE_EQ(500, exchangeOnly.calc_subM(isingFMField, 0)[0]);
+    EXPECT_DOUBLE_EQ(500, exchangeOnly.calc_subM(isingFMFieldPerio, 0)[0]);
 }
 
 TEST(Ising_model, 3d_ferromagnetic_dE)
 {
-    EXPECT_DOUBLE_EQ(12, particle::funcs::calc_dE(isingFMField, 555, zeroH));
+    EXPECT_DOUBLE_EQ(12, exchangeOnly.calc_dE(isingFMField, 555, zeroH));
 }
 
-// TEST(Ising_model, 3d_antiferromagnetic_energy_zero_field)
-// {
-//     field_3d_i field = gen_3d_ising_afm();
-//     ham_ising hamil(0, 1);
-//     hamil.init_dim(&field);
-//     EXPECT_EQ(2700, hamil.calc_E(&field));
-// }
-//
-// TEST(Ising_model, 3d_antiferromagnetic_energy_ext_field)
-// {
-//     field_3d_i field = gen_3d_ising_afm();
-//     ham_ising hamil(0.1, 1);
-//     hamil.init_dim(&field);
-//     EXPECT_EQ(2700, hamil.calc_E(&field));
-// }
-//
-// TEST(Ising_model, 3d_antiferromagnetic_mag)
-// {
-//     field_3d_i field = gen_3d_ising_afm();
-//     ham_ising hamil(0, 1);
-//     hamil.init_dim(&field);
-//     EXPECT_EQ(0, hamil.calc_M(&field)[0]);
-// }
-//
-// TEST(Ising_model, 3d_antiferromagnetic_submag)
-// {
-//     field_3d_i field = gen_3d_ising_fm();
-//     ham_ising hamil(0, 1);
-//     hamil.init_dim(&field);
-//     EXPECT_EQ(500, hamil.calc_subM(&field, 1)[0]);
-// }
-//
-// TEST(Ising_model, 3d_antiferromagnetic_dE)
-// {
-//     field_3d_i field = gen_3d_ising_fm();
-//     ham_ising hamil(0, 1);
-//     hamil.init_dim(&field);
-//     std::vector<int> pos(3,5);
-//     EXPECT_EQ(12, hamil.dE(&field, pos));
-// }
+TEST(Ising_model, 3d_antiferromagnetic_energy_zero_field)
+{
+    EXPECT_DOUBLE_EQ(2700, exchangeOnly.calc_E(isingAFMField, zeroH));
+}
+
+TEST(Ising_model, 3d_antiferromagnetic_energy_ext_field)
+{
+    EXPECT_DOUBLE_EQ(2700, exchangeOnly.calc_E(isingAFMField, isingH));
+}
+
+TEST(Ising_model, 3d_antiferromagnetic_mag)
+{
+    EXPECT_DOUBLE_EQ(0, exchangeOnly.calc_M(isingAFMField)[0]);
+}
+
+TEST(Ising_model, 3d_antiferromagnetic_submag)
+{
+    EXPECT_DOUBLE_EQ(500, exchangeOnly.calc_subM(isingAFMField, 0)[0]);
+}
+
+TEST(Ising_model, 3d_antiferromagnetic_dE)
+{
+    EXPECT_DOUBLE_EQ(-12, exchangeOnly.calc_dE(isingAFMField, 554, zeroH));
+}
 
 TEST(Ising_model, 3d_dE_consist)
 {
     particle::field::field_type fieldCopy = isingFMField;
     int pos=0;
-    double old_E = particle::funcs::calc_E(fieldCopy, isingH);
-    for(int i = 0; i < 1000000; i++)
+    double old_E = exchangeOnly.calc_E(fieldCopy, isingH);
+    for(int i = 0; i < 1000; i++)
     {
         pos = int(st_rand_double.gen()*1000);
-        double dE = particle::funcs::calc_dE(fieldCopy, pos, isingH);
+        double dE = exchangeOnly.calc_dE(fieldCopy, pos, isingH);
         fieldCopy.set_rand(pos);
-        double new_E = particle::funcs::calc_E(fieldCopy, isingH);
+        double new_E = exchangeOnly.calc_E(fieldCopy, isingH);
         EXPECT_NEAR(old_E + dE, new_E, 1e-10);
         old_E = new_E;
     }

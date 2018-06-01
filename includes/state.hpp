@@ -2,35 +2,52 @@
 #define _STATE
 
 #include "field_type.hpp"
+#include "thermodynamics.hpp"
 #include "shape.hpp"
 
 #include <string.h>
 #include <vector>
+
+struct stateOptions
+{
+    double size;
+    bool isPerio;
+    bool isIsing;
+    char shape_code;
+    double J;
+    double K;
+    double H;
+    double k;
+    double T;
+    double beta;
+    std::string intFile;
+};
 
 class state
 {
 private:
     double beta, k_b;
     xt::xtensorf<double, xt::xshape<4>> H;
-    int num, snum, h_ind;
+    int num, snum, h_ind, edgesize;
     char s_code;
     particle::field::field_type field;
+    particle::td::functionObject td_funcs;
     particle::shape::shape_type* shape;
 
 public:
     state(){}
-    state(double size, bool isPerio, bool ising, char shape_code, double J,
-        double Hin, double k, double Temp, double K, double* args);
+    state(stateOptions opt);
     state(const state& other);
     ~state();
     void copy_points(const state& other);
-    void init_points(double size, bool isPerio, double J, double K, double* args);
+    void init_points(stateOptions opt);
     void equil(int iter);
     std::vector<double> magnetisation();
     std::vector<double> submag(int subnumber);
     double energy();
     std::vector<double> tcharge();
     int num_spins();
+    int get_size() {return edgesize;}
     int sub_num(int subnumber);
     void init_lattice();
     void change_temp(double T);

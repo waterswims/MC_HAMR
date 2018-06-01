@@ -23,6 +23,8 @@ namespace particle{ namespace field {
         std::vector<double> J_diffs;
         std::vector<xt::xtensorf<double, xt::xshape<4> > > D_vecs;
 
+        bool J_on;
+        bool D_on;
         bool ising;
         bool periodic;
         int d;
@@ -141,11 +143,33 @@ namespace particle{ namespace field {
         int get_dim() {return d;}
 
         ////////////////////////////////////////////////////////////////////////
-        /// Get a spin to the already generated random state
+        /// Set a spin to the already generated random state
         ///
         /// \param index The location of the spin to be changed
         ////////////////////////////////////////////////////////////////////////
         void set_rand(int index) {spins[index] = testspin;}
+
+        ////////////////////////////////////////////////////////////////////////
+        /// Set a spin to the down state
+        ///
+        /// \param index The location of the spin to be changed
+        ////////////////////////////////////////////////////////////////////////
+        void set_up(int index) {spins[index] = upspin;}
+
+        ////////////////////////////////////////////////////////////////////////
+        /// Set a spin to the down state
+        ///
+        /// \param index The location of the spin to be changed
+        ////////////////////////////////////////////////////////////////////////
+        void set_down(int index) {spins[index] = downspin;}
+
+        ////////////////////////////////////////////////////////////////////////
+        /// Set a spin to the down state
+        ///
+        /// \param index The location of the spin to be changed
+        ////////////////////////////////////////////////////////////////////////
+        void set_spin(int index, xt::xtensorf<double, xt::xshape<4> >& in)
+            {spins[index] = in;}
 
         ////////////////////////////////////////////////////////////////////////
         /// Generate a random spin state
@@ -199,7 +223,28 @@ namespace particle{ namespace field {
         /// \param src_rank The rank of the process recieving from
         ////////////////////////////////////////////////////////////////////////
         void recv_data(int src_rank);
+
+        ////////////////////////////////////////////////////////////////////////
+        /// Are the exchanges on?
+        ////////////////////////////////////////////////////////////////////////
+        bool use_J() {return J_on;}
+
+        ////////////////////////////////////////////////////////////////////////
+        /// Are the dmis on?
+        ////////////////////////////////////////////////////////////////////////
+        bool use_D() {return D_on;}
     };
+
+    ////////////////////////////////////////////////////////////////////////
+    /// Find the short vector between two locations in periodic space
+    ///
+    /// \param A Position A
+    /// \param B Position B
+    /// \param C The output vector
+    ////////////////////////////////////////////////////////////////////////
+    void perioDiff(xt::xtensorf<int, xt::xshape<4>>& A,
+        xt::xtensorf<int, xt::xshape<4>>& B,
+        xt::xtensorf<int, xt::xshape<4>>& C);
 }}
 
 #endif

@@ -1,15 +1,7 @@
 #include "../includes/state.hpp"
-#include "../includes/td_funcs.hpp"
-
-#ifdef __INTEL_COMPILER
-#include "../includes/mklrand.hpp"
-#define IRANDTYPE mklrand::mkl_irand
-#define DRANDTYPE mklrand::mkl_drand
-#else
 #include "../includes/stdrand.hpp"
 #define IRANDTYPE stdrand::std_i_unirand
 #define DRANDTYPE stdrand::std_d_unirand
-#endif
 
 #include "../includes/functions.hpp"
 #include <iostream>
@@ -19,23 +11,24 @@
 extern IRANDTYPE st_rand_int;
 extern DRANDTYPE st_rand_double;
 
-state::state(double size, bool isPerio, bool ising, char shape_code, double J,
-    double Hin, double k, double Temp, double K, double* args)
+state::state(stateOptions opt)
 {
-    s_code = shape_code;
+    td_funcs.setup((opt.J!=0), (opt.K!=0));
+
+    s_code = opt.shape_code;
 
     h_ind = 2;
-    if(ising)
+    if(opt.isIsing)
     {
         h_ind = 0;
     }
     H = {0, 0, 0, 0};
-    H[h_ind] = Hin;
+    H[h_ind] = opt.H;
 
-    this->init_points(size, isPerio, J, K, args);
+    this->init_points(opt);
 
-    k_b = k;
-    this->change_temp(Temp);
+    k_b = opt.k;
+    this->change_temp(opt.T);
     this->init_lattice();
 }
 
@@ -57,29 +50,39 @@ state& state::operator=(const state& other)
     this->copy_points(other);
 }
 
-void state::init_points(double size, bool isPerio, double J, double K, double* args)
+void state::init_points(stateOptions opt)
 {
     int pad = 1;
-    double sizeab = size;
-    double sizec = size;
-    field = particle::field::field_type(false, isPerio, 3, size, J, K, "");
+    double sizeab = opt.size;
+    double sizec = opt.size;
+    int size;
     switch (s_code)
     {
         case 's':
         case 'S':
             shape = new particle::shape::square;
+            field = particle::field::field_type(opt.isIsing,
+                opt.isPerio, 2, opt.size, opt.J, opt.K, opt.intFile);
             break;
         case 'w':
         case 'W':
-            shape = new particle::shape::weibull((size), args[0]);
+            size = opt.size * 2 + 10;
+            shape = new particle::shape::weibull((size), opt.beta);
+            field = particle::field::field_type(opt.isIsing,
+                opt.isPerio, 2, size, opt.J, opt.K, opt.intFile);
             break;
         case 'c':
         case 'C':
             shape = new particle::shape::cube;
+            field = particle::field::field_type(opt.isIsing,
+                opt.isPerio, 3, opt.size, opt.J, opt.K, opt.intFile);
             break;
         case 'x':
         case 'X':
-            shape = new particle::shape::weibull((size), args[0]);
+            size = opt.size * 2 + 10;
+            shape = new particle::shape::weibull((size), opt.beta);
+            field = particle::field::field_type(opt.isIsing,
+                opt.isPerio, 3, size, opt.J, opt.K, opt.intFile);
             break;
         default:
             std::cerr << "Incorrect shape code, exiting" << std::endl;
@@ -169,7 +172,7 @@ void state::equil(int iter)
         choice = int(st_rand_double.gen() * size);
 
         //check dE
-        dE = particle::funcs::calc_dE(field, choice, H);
+        dE = td_funcs.calc_dE(field, choice, H);
         //check if flip
         if(dE <= 0)
         {
@@ -188,7 +191,7 @@ void state::equil(int iter)
 
 std::vector<double> state::magnetisation()
 {
-    xt::xtensorf<double, xt::xshape<4>> M = particle::funcs::calc_M(field);
+    xt::xtensorf<double, xt::xshape<4>> M = td_funcs.calc_M(field);
     std::vector<double> M_out;
     for(int i=0; i < 4; i++)
     {
@@ -199,7 +202,7 @@ std::vector<double> state::magnetisation()
 
 std::vector<double> state::submag(int subnumber)
 {
-    xt::xtensorf<double, xt::xshape<4>> M = particle::funcs::calc_subM(field, 0);
+    xt::xtensorf<double, xt::xshape<4>> M = td_funcs.calc_subM(field, 0);
     std::vector<double> M_out;
     for(int i=0; i < 4; i++)
     {
@@ -210,12 +213,12 @@ std::vector<double> state::submag(int subnumber)
 
 double state::energy()
 {
-    return particle::funcs::calc_E(field, H);
+    return td_funcs.calc_E(field, H);
 }
 
 std::vector<double> state::tcharge()
 {
-    return particle::funcs::calc_TC(field);
+    return td_funcs.calc_TC(field);
 }
 
 int state::num_spins()
@@ -236,7 +239,6 @@ void state::change_temp(double T)
         exit(104);
     }
     beta = 1.0 / (k_b * T);
-    // std::cout << "T = " << T << ", k = " << k_b << ", beta = " << beta << std::endl;
 }
 
 void state::change_field(double Hin)

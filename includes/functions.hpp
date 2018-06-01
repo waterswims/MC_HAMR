@@ -22,8 +22,9 @@ void AtoLn(double amean, double asd, double &lmean, double &lsd);
 
 int mod(int a, int b);
 
-xt::xtensorf<double, xt::xshape<4>> c_prod(
+void c_prod(
     const xt::xtensorf<double, xt::xshape<4>> &s1,
-    const xt::xtensorf<double, xt::xshape<4>> &s2);
+    const xt::xtensorf<double, xt::xshape<4>> &s2,
+    xt::xtensorf<double, xt::xshape<4>> &out);
 
 #endif

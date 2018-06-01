@@ -1,15 +1,9 @@
 #include "../includes/field_type.hpp"
 #include "../includes/array_alloc.hpp"
-
-#ifdef __INTEL_COMPILER
-#include "../includes/mklrand.hpp"
-#define IRANDTYPE mklrand::mkl_irand
-#define DRANDTYPE mklrand::mkl_drand
-#else
 #include "../includes/stdrand.hpp"
+
 #define IRANDTYPE stdrand::std_i_unirand
 #define DRANDTYPE stdrand::std_d_unirand
-#endif
 
 #include <cmath>
 #include <cstdlib>
@@ -34,6 +28,8 @@ particle::field::field_type::field_type(bool ising_in,
     periodic = periodic_in;
     d = d_in;
     edgesize = edgesize_in;
+    J_on = (J_mod != 0);
+    D_on = (D_mod != 0);
 
     this->set_default_spins();
 
@@ -55,12 +51,12 @@ particle::field::field_type::field_type(bool ising_in,
         loc_diffs.push_back(new_loc);
 
         Jstream >> dcurr;
-        J_diffs.push_back(dcurr);
+        J_diffs.push_back(J_mod * dcurr);
 
         for (int i = 0; i < 3; i++)
         {
             Jstream >> dcurr;
-            new_dmi[i] = dcurr;
+            new_dmi[i] = D_mod * dcurr;
         }
         D_vecs.push_back(new_dmi);
     }
@@ -101,23 +97,26 @@ void particle::field::field_type::set_neigh()
     std::vector<int> n_base;
     neighbours.resize(spins.size());
     neigh_choice.resize(spins.size());
-    int nn = 0;
-    xt::xtensorf<int, xt::xshape<4>> diff;
+    xt::xtensorf<int, xt::xshape<4>> test_loc;
     for(unsigned int i = 0; i < spins.size(); i++)
     {
         neighbours[i] = n_base;
         neigh_choice[i] = n_base;
-        for(unsigned int j = 0; j < spins.size(); j++)
+        for(unsigned int k = 0; k < loc_diffs.size(); k++)
         {
-            if(i == j) {continue;}
-            diff = locs[j] - locs[i];
-            for(unsigned int k = 0; k < loc_diffs.size(); k++)
+            test_loc = locs[i] + loc_diffs[k];
+            for(int ii = 0; ii < d && periodic; ii++)
             {
-                if(diff == loc_diffs[k])
+                test_loc[ii] = (edgesize+(test_loc[ii]%edgesize))%edgesize;
+            }
+            for(unsigned int j = 0; j < spins.size(); j++)
+            {
+                if(i == j) {continue;}
+                if(test_loc == locs[j])
                 {
                     neighbours[i].push_back(j);
                     neigh_choice[i].push_back(k);
-                    nn++;
+                    break;
                 }
             }
         }
@@ -431,4 +430,11 @@ void particle::field::field_type::recv_data(int src_rank)
 
     // Recalculate the neighbours
     this->set_neigh();
+}
+
+void particle::field::perioDiff(xt::xtensorf<int, xt::xshape<4>>& A,
+    xt::xtensorf<int, xt::xshape<4>>& B,
+    xt::xtensorf<int, xt::xshape<4>>& C)
+{
+
 }

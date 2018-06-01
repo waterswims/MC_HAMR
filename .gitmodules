@@ -11,3 +11,6 @@
 [submodule "xsimd"]
 	path = xsimd
 	url = https://github.com/QuantStack/xsimd.git
+[submodule "xtensor-blas"]
+	path = xtensor-blas
+	url = https://github.com/QuantStack/xtensor-blas.git

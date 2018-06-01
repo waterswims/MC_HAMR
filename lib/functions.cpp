@@ -67,14 +67,12 @@ int mod(int a, int b)
     return r < 0 ? r + b : r;
 }
 
-xt::xtensorf<double, xt::xshape<4>> c_prod(
+void c_prod(
     const xt::xtensorf<double, xt::xshape<4>> &s1,
-    const xt::xtensorf<double, xt::xshape<4>> &s2)
+    const xt::xtensorf<double, xt::xshape<4>> &s2,
+    xt::xtensorf<double, xt::xshape<4>> &out)
 {
-    xt::xtensorf<double, xt::xshape<4>> out;
     out[0] = s1[1]*s2[2] - s1[2]*s2[1];
     out[1] = s1[2]*s2[0] - s1[0]*s2[2];
     out[2] = s1[0]*s2[1] - s1[1]*s2[0];
-
-    return out;
 }

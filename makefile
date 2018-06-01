@@ -19,6 +19,7 @@ TEST_PATH = tests
 XTEN = xtensor/include
 XTL = xtl/include
 XSIMD = xsimd/include
+XLIN = xtensor-blas/include
 
 #################################################################
 ## Files to use
@@ -26,26 +27,17 @@ XSIMD = xsimd/include
 
 TEST_FILES = $(wildcard $(TEST_PATH)/*.hpp)
 NOMAIN_FILES = $(filter-out $(LIB_PATH)/main.cpp, $(wildcard $(LIB_PATH)/*.cpp))
-## NON-INTEL
 SOURCE_FILES = $(filter-out $(LIB_PATH)/mklrand.cpp, $(NOMAIN_FILES))
-## INTEL
-# SOURCE_FILES = $(filter-out $(LIB_PATH)/stdrand.cpp, $(NOMAIN_FILES))
 OBJS = $(addprefix $(OBJ_PATH)/, $(notdir $(SOURCE_FILES:.cpp=.o)))
 
 #################################################################
 ## Compile options
 #################################################################
-## INTEL
-# CPPFLAGS = -std=c++14 -Ofast -qopenmp -DMKL_ILP64 -I${MKLROOT}/include -I${HDFPINC} -I${XTEN} -I${XTL} -I${XSIMD} -g -ipo
-## NON-INTEL
-CPPFLAGS = -std=c++14 -Ofast -fopenmp -I${HDFPINC} -I${XTEN} -I${XTL} -I${XSIMD} -Wno-narrowing -flto -g
+CPPFLAGS = -std=c++14 -Ofast -fopenmp -I${HDFPINC} -I${XTEN} -I${XLIN} -I${XTL} -I${XSIMD} -Wno-narrowing -flto -g
 
 #################################################################
 ## Link options
 #################################################################
-## INTEL
-# LDFLAGS = -L${HDFPLIB} -L${MKLROOT}/lib/intel64 -lhdf5 -lmkl_intel_ilp64 -lmkl_intel_thread -lmkl_core -liomp5 -lpthread -lm -ldl -lz -g -ipo
-## NON-INTEL
 LDFLAGS = -L${HDFPLIB} -lhdf5 -lz -flto -g
 
 #################################################################
