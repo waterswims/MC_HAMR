@@ -14,3 +14,4 @@ PRINT_LATT 1
 FIELDNAME skyrm_half.dat
 INTERACTIONS 3d_nn_bloch.dat
 PROTOCOL 1
+ISISING 0
