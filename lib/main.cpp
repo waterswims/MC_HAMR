@@ -2,7 +2,6 @@
 #include "../includes/state.hpp"
 #include "../includes/functions.hpp"
 #include "../includes/output.hpp"
-#include "../includes/param_read.hpp"
 #include "../includes/protocol.hpp"
 #include "../includes/print_latt.hpp"
 #include "../includes/stdrand.hpp"
@@ -30,23 +29,20 @@ int main(int argc, char **argv)
 	}
 
 	// setup arguments
-	int Samp_steps, Eq_steps, N_samp, protocol, N_latts;
-	double J=1, K=0, k_b=1, beta=50, amean, asd, lmean, lsd, size;
-	bool periodic, distributed, print_latt;
-	char shape, hamil;
-	std::string temp_name, field_name;
-	read_all_vars(argv[1], size, J, k_b, periodic, shape, hamil, Samp_steps,
-		N_samp, Eq_steps, N_latts, beta, distributed, amean, asd, temp_name,
-		field_name, protocol, K, print_latt);
-	double args[] = {beta};
-	AtoLn(amean, asd, lmean, lsd);
+	stateOptions stOpt;
+	simOptions simOpt;
+	read_all_vars(argv[1], stOpt, simOpt);
+	if (simOpt.distrib)
+	{
+		AtoLn(simOpt.amean, simOpt.asd, simOpt.lmean, simOpt.lsd);
+	}
 
 	// load temperatures and fields
 	float* Ts;
 	int num_Ts;
 	float* Hs;
 	int num_Hs;
-	load_Hs_Ts(temp_name, Ts, num_Ts, field_name, Hs, num_Hs);
+	load_Hs_Ts(simOpt, Ts, num_Ts, Hs, num_Hs);
 	double Tmin(Ts[num_Ts-1]), Tmax(Ts[0]);
 	double Hmin(Hs[num_Hs-1]), Hmax(Hs[0]);
 
@@ -55,21 +51,22 @@ int main(int argc, char **argv)
 	st_rand_double.change_seed(comm_size+rank);
 
 	// New Generator for Lognormal
-    LNRANDTYPE rand_ln(lmean, lsd, N_latts, 2*comm_size+rank);
+    LNRANDTYPE rand_ln(simOpt.lmean, simOpt.lsd, simOpt.N_latts,
+		2*comm_size+rank);
 
     if(rank==0)
     {
 		std::cout << num_Ts << " temperatures" << std::endl;
 		std::cout << num_Hs << " field strengths" << std::endl;
-        std::cout << N_samp << " samples per configuration" << std::endl;
+        std::cout << simOpt.N_samp << " samples per configuration" << std::endl;
     }
 
 	// set protocol
 	float* var1_list;
 	float* var2_list;
 	int v1_size, v2_size, v1_begin, v2_begin, v1_end, v2_end, v1_final;
-	set_protocol(protocol, var1_list, var2_list, v1_size, v2_size, v1_begin,
-		v2_begin, v1_end, v2_end, v1_final, Hs, Ts, num_Hs, num_Ts);
+	set_protocol(simOpt.protocol, var1_list, var2_list, v1_size, v2_size,
+		v1_begin, v2_begin, v1_end, v2_end, v1_final, Hs, Ts, num_Hs, num_Ts);
 
 	// Start MC
 	if (rank == 0)
@@ -77,41 +74,31 @@ int main(int argc, char **argv)
 		std::cout << "Running MC..." << std::endl;
 	}
 
-	// Space for the average field
-	field_type* summed_field = set_sum_latt(size, periodic, shape, hamil);
-	int tc_size = summed_field->get_insize();
-
 	// Create h5 file
 	bool file_exists = false;
-	bool** cpoint = alloc_2darr<bool>(v1_size, N_latts);
-	std::string f_id = check_h5_file(J, size, amean, asd, k_b, K, shape,
-									  hamil, periodic, protocol, distributed,
-									  num_Ts, num_Hs, N_samp, N_latts, Ts, Hs,
-									  v1_size, tc_size, cpoint, file_exists);
-	if ((!file_exists) && print_latt)
-	{
-		summed_field->print_setup(f_id, "Av_Latt", num_Ts, num_Hs);
-		summed_field->print_setup(f_id, "Sing_Latt", num_Ts, num_Hs);
-	}
+	bool** cpoint = alloc_2darr<bool>(v1_size, simOpt.N_latts);
+	check_h5_file(stOpt, simOpt, num_Ts, num_Hs, Ts, Hs,
+		v1_size, cpoint, file_exists);
+	particle::field::field_type summed_field;
 
 	// Storage Variables
 	int nums, s_nums;
-	float* mag1 = alloc_1darr<float>(N_samp);
-	float* ener1 = alloc_1darr<float>(N_samp);
-	float* magx1 = alloc_1darr<float>(N_samp);
-	float* magy1 = alloc_1darr<float>(N_samp);
-	float* magz1 = alloc_1darr<float>(N_samp);
-	float* smag1 = alloc_1darr<float>(N_samp);
-	float* smagx1 = alloc_1darr<float>(N_samp);
-	float* smagy1 = alloc_1darr<float>(N_samp);
-	float* smagz1 = alloc_1darr<float>(N_samp);
-	float** tcharges1 = alloc_2darr<float>(tc_size, N_samp);
+	float* mag1 = alloc_1darr<float>(simOpt.N_samp);
+	float* ener1 = alloc_1darr<float>(simOpt.N_samp);
+	float* magx1 = alloc_1darr<float>(simOpt.N_samp);
+	float* magy1 = alloc_1darr<float>(simOpt.N_samp);
+	float* magz1 = alloc_1darr<float>(simOpt.N_samp);
+	float* smag1 = alloc_1darr<float>(simOpt.N_samp);
+	float* smagx1 = alloc_1darr<float>(simOpt.N_samp);
+	float* smagy1 = alloc_1darr<float>(simOpt.N_samp);
+	float* smagz1 = alloc_1darr<float>(simOpt.N_samp);
+	float** tcharges1 = alloc_2darr<float>(stOpt.edgeSize, simOpt.N_samp);
 
 	std::vector<double> mtemp;
 	std::vector<double> tchargestemp;
 
 	// if distrib, loop through latts
-	for (int k = 0; k < N_latts; k++)
+	for (int k = 0; k < simOpt.N_latts; k++)
 	{
 		int sub_rank, sub_size, latt_rank, num_par;
 		if (check_rank_latt(k, comm_size, rank, v1_size, sub_rank, sub_size,
@@ -127,19 +114,30 @@ int main(int argc, char **argv)
 			}
 			continue;
 		}
-		if (distributed) {size = rand_ln.gen();}
-		state base_state(size, periodic, shape, hamil, J, Hmax, k_b, Tmax, K,
-			             args);
+		if (simOpt.distrib) {stOpt.size = rand_ln.gen();}
+		else {stOpt.size = simOpt.amean;}
+		state base_state(stOpt);
 		state curr_state(base_state);
 		nums = base_state.num_spins();
 		s_nums = base_state.sub_num(0);
 
-		base_state.equil(20*Eq_steps*nums);
+		if (k == 0 && (!file_exists) && simOpt.printLatt)
+		{
+			summed_field = base_state.get_field();
+			summed_field.print_setup(simOpt.outFile, "Av_Latt", num_Ts,
+				num_Hs);
+			summed_field.print_setup(simOpt.outFile, "Sing_Latt", num_Ts,
+				num_Hs);
+		}
+
+		base_state.equil(20*simOpt.Eq_steps*nums);
 		// main loop
-		for (int i = v1_begin; i != v1_end && k < N_latts; incr_v1(protocol, i))
+		for (int i = v1_begin;
+			i != v1_end && k < simOpt.N_latts;
+			incr_v1(simOpt.protocol, i))
 		{
 			// Only carry on if to be run by this process
-			if (check_rank_run(protocol, i, sub_size, sub_rank, v1_size))
+			if (check_rank_run(simOpt.protocol, i, sub_size, sub_rank, v1_size))
 			{
 				continue;
 			}
@@ -153,9 +151,9 @@ int main(int argc, char **argv)
 			}
 
 			// Change Temp/field
-			base_state.change_v1(protocol, var1_list[i]);
+			base_state.change_v1(simOpt.protocol, var1_list[i]);
 			// Equillibriation
-			base_state.equil(Eq_steps*nums);
+			base_state.equil(simOpt.Eq_steps*nums);
 
 			// Send data to next rank, unless final rank
 			if(sub_rank != sub_size-1 && i != v1_final)
@@ -169,25 +167,25 @@ int main(int argc, char **argv)
 
 			// second loop, unless checkpointed
 	        for (int j = v2_begin; j != v2_end && (!cpoint[i][k]);
-				 incr_v2(protocol, j))
+				 incr_v2(simOpt.protocol, j))
 	        {
 				// Change Temp/field
-				curr_state.change_v2(protocol, var2_list[j]);
+				curr_state.change_v2(simOpt.protocol, var2_list[j]);
 				// Equillibriation
-				curr_state.equil(Eq_steps*nums);
+				curr_state.equil(simOpt.Eq_steps*nums);
 
 				// Zero print field
-				if(print_latt && k == 0)
+				if(simOpt.printLatt && k == 0)
 				{
-					summed_field->allzero();
+					summed_field.all_zero();
 				}
 
 				// Get Samples
-				for (int ns = 0; ns < N_samp; ns++)
+				for (int ns = 0; ns < simOpt.N_samp; ns++)
 				{
-					curr_state.equil(Samp_steps*nums);
+					curr_state.equil(simOpt.Samp_steps*nums);
 					mtemp = curr_state.magnetisation();
-					if (hamil != 'i' && hamil != 'I')
+					if (!(stOpt.isIsing))
 					{
 						magx1[ns] = mtemp[0];
 						magy1[ns] = mtemp[1];
@@ -202,7 +200,7 @@ int main(int argc, char **argv)
 					ener1[ns] = curr_state.energy();
 
 					mtemp = curr_state.submag(0);
-					if (hamil != 'i' && hamil != 'I')
+					if (!(stOpt.isIsing))
 					{
 						smagx1[ns] = mtemp[0];
 						smagy1[ns] = mtemp[1];
@@ -214,17 +212,17 @@ int main(int argc, char **argv)
 					}
 					smag1[ns] = norm(mtemp);
 
-					if (hamil != 'i' && hamil != 'I')
+					if (!(stOpt.isIsing))
 					{
 						tchargestemp = curr_state.tcharge();
-						for(int tc_idx=0; tc_idx < tc_size; tc_idx++)
+						for(int tc_idx=0; tc_idx < stOpt.edgeSize; tc_idx++)
 						{
 							tcharges1[tc_idx][ns] = tchargestemp[tc_idx];
 						}
 					}
 
 					// Add sample to print lattice
-					if(print_latt && k == 0)
+					if(simOpt.printLatt && k == 0)
 					{
 						curr_state.add_to_av(summed_field);
 					}
@@ -232,21 +230,21 @@ int main(int argc, char **argv)
 
 				// print values, lattice and checkpoint
 				print_TD_h5(magx1, magy1, magz1, mag1, ener1, smagx1, smagy1,
-					     smagz1, smag1, tcharges1, N_samp, protocol, i, j,
-						 v2_size, tc_size, f_id, hamil, distributed, k);
-				if (print_latt)
+					     smagz1, smag1, tcharges1, stOpt, simOpt, i, j,
+						 v2_size, k);
+				if (simOpt.printLatt)
 				{
 					if (k == 0)
 					{
-						std::string lname = av_latt_name(protocol, i, j);
-						summed_field->print(f_id, lname);
-						lname = sing_latt_name(protocol, i, j);
-						curr_state.ptf(f_id, lname);
+						std::string lname = av_latt_name(simOpt.protocol, i, j);
+						summed_field.print(simOpt.outFile, lname);
+						lname = sing_latt_name(simOpt.protocol, i, j);
+						curr_state.ptf(simOpt.outFile, lname);
 					}
 					else if (k/num_par == 0)
 					{
-						extra_file_open(f_id);
-						extra_file_open(f_id);
+						extra_file_open(simOpt.outFile);
+						extra_file_open(simOpt.outFile);
 					}
 				}
 	        }
@@ -260,11 +258,11 @@ int main(int argc, char **argv)
 
 		}
 		// Extra HDF5 File open/closes for this k
-		int ext_opens = count_sub_extra_opens(v1_size, v2_size, N_latts, rank,
-			comm_size, k);
+		int ext_opens = count_sub_extra_opens(v1_size, v2_size, simOpt.N_latts,
+			rank, comm_size, k);
 		for (int i = 0; i < ext_opens; i++)
 		{
-			extra_file_open(f_id);
+			extra_file_open(simOpt.outFile);
 		}
 	}
 
@@ -290,7 +288,7 @@ int main(int argc, char **argv)
 	dealloc_1darr<float>(smagy1);
 	dealloc_1darr<float>(smagz1);
 	dealloc_2darr<bool>(v1_size, cpoint);
-	dealloc_2darr<float>(tc_size, tcharges1);
+	dealloc_2darr<float>(stOpt.edgeSize, tcharges1);
 
     // Finish program
 	MPI_Finalize();

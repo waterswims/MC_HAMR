@@ -55,39 +55,43 @@ void state::init_points(stateOptions opt)
     int pad = 1;
     double sizeab = opt.size;
     double sizec = opt.size;
-    int size;
+    int d;
     switch (s_code)
     {
         case 's':
         case 'S':
+            d = 2;
             shape = new particle::shape::square;
             field = particle::field::field_type(opt.isIsing,
-                opt.isPerio, 2, opt.size, opt.J, opt.K, opt.intFile);
+                opt.isPerio, d, opt.edgeSize, opt.J, opt.K, opt.intFile);
             break;
         case 'w':
         case 'W':
-            size = opt.size * 2 + 10;
-            shape = new particle::shape::weibull((size), opt.beta);
+            d = 2;
+            shape = new particle::shape::weibull(opt.size, opt.beta);
             field = particle::field::field_type(opt.isIsing,
-                opt.isPerio, 2, size, opt.J, opt.K, opt.intFile);
+                opt.isPerio, d, opt.edgeSize, opt.J, opt.K, opt.intFile);
             break;
         case 'c':
         case 'C':
+            d = 3;
             shape = new particle::shape::cube;
             field = particle::field::field_type(opt.isIsing,
-                opt.isPerio, 3, opt.size, opt.J, opt.K, opt.intFile);
+                opt.isPerio, d, opt.edgeSize, opt.J, opt.K, opt.intFile);
             break;
         case 'x':
         case 'X':
-            size = opt.size * 2 + 10;
-            shape = new particle::shape::weibull((size), opt.beta);
+            d = 3;
+            shape = new particle::shape::weibull(opt.size, opt.beta);
             field = particle::field::field_type(opt.isIsing,
-                opt.isPerio, 3, size, opt.J, opt.K, opt.intFile);
+                opt.isPerio, d, opt.edgeSize, opt.J, opt.K, opt.intFile);
             break;
         default:
             std::cerr << "Incorrect shape code, exiting" << std::endl;
             exit(103);
     }
+    field = particle::field::field_type(opt.isIsing, opt.isPerio, d,
+        opt.edgeSize, opt.J, opt.K, opt.intFile);
 }
 
 void state::copy_points(const state& other)

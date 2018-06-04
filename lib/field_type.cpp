@@ -149,6 +149,14 @@ void particle::field::field_type::all_rand()
     }
 }
 
+void particle::field::field_type::all_zero()
+{
+    for(unsigned int i = 0; i < spins.size(); i++)
+    {
+        spins[i] = {0, 0, 0, 0};
+    }
+}
+
 void particle::field::field_type::print_setup(const std::string filename,
     const std::string groupname,
     const int Tmax,

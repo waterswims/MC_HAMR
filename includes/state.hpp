@@ -1,27 +1,13 @@
 #ifndef _STATE
 #define _STATE
 
+#include "param_read.hpp"
 #include "field_type.hpp"
 #include "thermodynamics.hpp"
 #include "shape.hpp"
 
 #include <string.h>
 #include <vector>
-
-struct stateOptions
-{
-    double size;
-    bool isPerio;
-    bool isIsing;
-    char shape_code;
-    double J;
-    double K;
-    double H;
-    double k;
-    double T;
-    double beta;
-    std::string intFile;
-};
 
 class state
 {
@@ -39,6 +25,7 @@ public:
     state(stateOptions opt);
     state(const state& other);
     ~state();
+    particle::field::field_type get_field() {return field;}
     void copy_points(const state& other);
     void init_points(stateOptions opt);
     void equil(int iter);
