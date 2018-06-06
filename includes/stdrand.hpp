@@ -1,6 +1,8 @@
 #ifndef _STDRAND
 #define _STDRAND
 
+#include "xoroshiro128.hpp"
+
 #include <random>
 
 namespace stdrand
@@ -11,7 +13,7 @@ namespace stdrand
     class std_randbase
     {
     protected:
-        std::mt19937_64 generator;
+        rng::rng128 generator;
     public:
     	////////////////////////////////////////////////////////////////////////
     	/// Default constructor.
@@ -26,7 +28,11 @@ namespace stdrand
     	///
     	/// \param seed The new seed.
     	////////////////////////////////////////////////////////////////////////
-    	void change_seed(int seed){generator.seed(seed);}
+    	void change_seed(int seed){generator = rng::rng128(seed);}
+        ////////////////////////////////////////////////////////////////////////
+    	/// \brief Jump forward 2^64 places
+    	////////////////////////////////////////////////////////////////////////
+    	void jump(){generator.jump();}
     };
 
     ///////////////////////////////////////////////////////////////////////////

@@ -112,8 +112,78 @@ Functions</h2></td></tr>
 <tr class="separator:a22e55bf0ca86d488ca20ab6bff6ab6fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a34676923926186d6af84544ea03bffdd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dd1/protocol_8hpp.html#a34676923926186d6af84544ea03bffdd">check_rank_run</a> (const int proto_code, const int i, const int comm_size, const int rank, const int var1_size)</td></tr>
 <tr class="separator:a34676923926186d6af84544ea03bffdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ab36fb7bb5028a1a3de35a54b4c3c63"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dd1/protocol_8hpp.html#a5ab36fb7bb5028a1a3de35a54b4c3c63">check_rank_latt</a> (const int k, const int comm_size, const int rank, const int var1_size, int &amp;sub_rank, int &amp;sub_size, int &amp;latt_rank, int &amp;num_par)</td></tr>
+<tr class="separator:a5ab36fb7bb5028a1a3de35a54b4c3c63"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a35903dd201875d70e827a6253997f0d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dd1/protocol_8hpp.html#a35903dd201875d70e827a6253997f0d4">count_sub_extra_opens</a> (const int var1_size, const int var2_size, const int N_latts, const int rank, const int comm_size, const int k)</td></tr>
+<tr class="separator:a35903dd201875d70e827a6253997f0d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13d0a43c8d5530a88e79219b71e87200"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dd1/protocol_8hpp.html#a13d0a43c8d5530a88e79219b71e87200">count_num_opens</a> (const int var1_size, const int var2_size, const int N_latts, const int rank, const int comm_size)</td></tr>
+<tr class="separator:a13d0a43c8d5530a88e79219b71e87200"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa48640aa67b6882ca80137663ee6a4f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dd1/protocol_8hpp.html#afa48640aa67b6882ca80137663ee6a4f">extra_file_open</a> (const std::string f_id)</td></tr>
+<tr class="separator:afa48640aa67b6882ca80137663ee6a4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="a5ab36fb7bb5028a1a3de35a54b4c3c63"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool check_rank_latt </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>k</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>comm_size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>rank</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>var1_size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int &amp;&#160;</td>
+          <td class="paramname"><em>sub_rank</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int &amp;&#160;</td>
+          <td class="paramname"><em>sub_size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int &amp;&#160;</td>
+          <td class="paramname"><em>latt_rank</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int &amp;&#160;</td>
+          <td class="paramname"><em>num_par</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="a34676923926186d6af84544ea03bffdd"></a>
 <div class="memitem">
 <div class="memproto">
@@ -152,6 +222,116 @@ Functions</h2></td></tr>
           <td></td>
           <td>)</td>
           <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a13d0a43c8d5530a88e79219b71e87200"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int count_num_opens </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>var1_size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>var2_size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>N_latts</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>rank</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>comm_size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a35903dd201875d70e827a6253997f0d4"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int count_sub_extra_opens </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>var1_size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>var2_size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>N_latts</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>rank</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>comm_size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>k</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="afa48640aa67b6882ca80137663ee6a4f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void extra_file_open </td>
+          <td>(</td>
+          <td class="paramtype">const std::string&#160;</td>
+          <td class="paramname"><em>f_id</em></td><td>)</td>
+          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">

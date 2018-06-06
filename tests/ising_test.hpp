@@ -143,11 +143,6 @@ TEST(Ising_model, 3d_ferromagnetic_submag)
     EXPECT_DOUBLE_EQ(500, exchangeOnly.calc_subM(isingFMFieldPerio, 0)[0]);
 }
 
-TEST(Ising_model, 3d_ferromagnetic_dE)
-{
-    EXPECT_DOUBLE_EQ(12, exchangeOnly.calc_dE(isingFMField, 555, zeroH));
-}
-
 TEST(Ising_model, 3d_antiferromagnetic_energy_zero_field)
 {
     EXPECT_DOUBLE_EQ(2700, exchangeOnly.calc_E(isingAFMField, zeroH));
@@ -168,11 +163,6 @@ TEST(Ising_model, 3d_antiferromagnetic_submag)
     EXPECT_DOUBLE_EQ(500, exchangeOnly.calc_subM(isingAFMField, 0)[0]);
 }
 
-TEST(Ising_model, 3d_antiferromagnetic_dE)
-{
-    EXPECT_DOUBLE_EQ(-12, exchangeOnly.calc_dE(isingAFMField, 554, zeroH));
-}
-
 TEST(Ising_model, 3d_dE_consist)
 {
     particle::field::field_type fieldCopy = isingFMField;
@@ -181,6 +171,7 @@ TEST(Ising_model, 3d_dE_consist)
     for(int i = 0; i < 1000; i++)
     {
         pos = int(st_rand_double.gen()*1000);
+        fieldCopy.gen_rand();
         double dE = exchangeOnly.calc_dE(fieldCopy, pos, isingH);
         fieldCopy.set_rand(pos);
         double new_E = exchangeOnly.calc_E(fieldCopy, isingH);

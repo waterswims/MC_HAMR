@@ -51,7 +51,6 @@ void particle::td::functionObject::setup(bool useJ, bool useD)
     dE_func = [insidedE_func](field::field_type& lattice, int position,
         xt::xtensorf<double, xt::xshape<4>>& H)
         {
-            lattice.gen_rand();
             Vdiff = lattice.access(position) - lattice.get_rand();
             Vsum = {0, 0, 0, 0};
 
@@ -60,7 +59,10 @@ void particle::td::functionObject::setup(bool useJ, bool useD)
                 insidedE_func(lattice, position, j);
             }
 
-            double dE = xt::eval(xt::sum((H + Vsum) * Vdiff))[0];
+            auto res = (H + Vsum) * Vdiff;
+
+            // double dE = xt::eval(xt::sum((H + Vsum) * Vdiff))[0];
+            double dE = res[0] + res[1] + res[2];
 
             return dE;
         };
@@ -85,7 +87,10 @@ void particle::td::functionObject::setup(bool useJ, bool useD)
 
             Vtemp = calc_M(lattice);
 
-            double E = xt::eval(xt::sum(-H * Vtemp - 0.5 * Vsum))[0];
+            auto res = -H * Vtemp - 0.5 * Vsum;
+
+            // double E = xt::eval(xt::sum(-H * Vtemp - 0.5 * Vsum))[0];
+            double E = res[0] + res[1] + res[2];
 
             return E;
         };
@@ -128,53 +133,27 @@ std::vector<double> particle::td::functionObject::calc_TC(
     particle::field::field_type& lattice)
 {
     int Nspins = lattice.get_size();
-    std::vector<double> out;
-    int left, right, forward, backward;
+    int d = lattice.get_dim();
+    int tcsize = 1;
+    if(d == 3)
+    {
+        tcsize = lattice.get_edge();
+    }
+    std::vector<double> out(tcsize);
 
     for(int i = 0; i < Nspins; i++)
     {
-        left = -1;
-        right = -1;
-        forward = -1;
-        backward = -1;
-
-        if(out.size() < lattice.get_loc(i)[2]+1)
-        {
-            out.resize(lattice.get_loc(i)[2]+1);
-        }
-        for(int j = 0; j < Nspins; j++)
-        {
-            Vloc_diff = lattice.get_loc(j) - lattice.get_loc(i);
-            if(Vloc_diff[2] == 0)
-            {
-                if (Vloc_diff[0] == 1 && Vloc_diff[1] == 0)
-                {
-                    left = j;
-                }
-                else if (Vloc_diff[0] == -1 && Vloc_diff[1] == 0)
-                {
-                    right = j;
-                }
-                else if (Vloc_diff[0] == 0 && Vloc_diff[1] == 1)
-                {
-                    forward = j;
-                }
-                else if (Vloc_diff[0] == 0 && Vloc_diff[1] == -1)
-                {
-                    backward = j;
-                }
-            }
-        }
-
-        if (right >= 0 && forward >= 0)
+        if (lattice.get_adj(i)[1] >= 0 && lattice.get_adj(i)[2] >= 0)
         {
             out[lattice.get_loc(i)[2]] += solid_angle(lattice.access(i),
-                lattice.access(right), lattice.access(forward));
+                lattice.access(lattice.get_adj(i)[1]),
+                lattice.access(lattice.get_adj(i)[2]));
         }
-        if (left >= 0 && backward >= 0)
+        if (lattice.get_adj(i)[0] >= 0 && lattice.get_adj(i)[3] >= 0)
         {
             out[lattice.get_loc(i)[2]] += solid_angle(lattice.access(i),
-                lattice.access(left), lattice.access(backward));
+                lattice.access(lattice.get_adj(i)[0]),
+                lattice.access(lattice.get_adj(i)[3]));
         }
     }
     for(int i = 0; i < out.size(); i++)
@@ -189,15 +168,19 @@ double particle::td::solid_angle(const xt::xtensorf<double, xt::xshape<4>>& s1,
                 const xt::xtensorf<double, xt::xshape<4>>& s2,
                 const xt::xtensorf<double, xt::xshape<4>>& s3)
 {
-    double s1s2 = xt::eval(xt::sum(s1 * s2))[0];
-    double s1s3 = xt::eval(xt::sum(s1 * s3))[0];
-    double s2s3 = xt::eval(xt::sum(s2 * s3))[0];
+    auto tempres = s1 * s2;
+    double s1s2 = tempres[0] + tempres[1] + tempres[2];
+    auto tempres2 = s1 * s3;
+    double s1s3 = tempres2[0] + tempres2[1] + tempres2[2];
+    auto tempres3 = s2 * s3;
+    double s2s3 = tempres3[0] + tempres3[1] + tempres3[2];
 
     double rho = 2 * (1 + s1s2) * (1 + s1s3) * (1 + s2s3);
     double dotsum = 1 + s1s2 + s1s3 + s2s3;
 
     c_prod(s1, s3, Vtemp);
-    double crosssum = xt::eval(xt::sum(Vtemp * s2))[0];
+    auto tempres4 = Vtemp * s2;
+    double crosssum = tempres4[0] + tempres4[1] + tempres4[2];
 
     double ang = atan2(crosssum / rho, dotsum / rho);
 

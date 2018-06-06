@@ -1,14 +1,13 @@
 \hypertarget{field__type_8hpp}{}\section{includes/field\+\_\+type.hpp File Reference}
 \label{field__type_8hpp}\index{includes/field\+\_\+type.\+hpp@{includes/field\+\_\+type.\+hpp}}
-{\ttfamily \#include \char`\"{}hamiltonian.\+hpp\char`\"{}}\\*
-{\ttfamily \#include \char`\"{}array\+\_\+alloc.\+hpp\char`\"{}}\\*
 {\ttfamily \#include $<$vector$>$}\\*
 {\ttfamily \#include $<$string$>$}\\*
+{\ttfamily \#include $<$xtensor/xfixed.\+hpp$>$}\\*
 Include dependency graph for field\+\_\+type.\+hpp\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=318pt]{d0/dfc/field__type_8hpp__incl}
+\includegraphics[width=299pt]{d0/dfc/field__type_8hpp__incl}
 \end{center}
 \end{figure}
 This graph shows which files directly or indirectly include this file\+:\nopagebreak
@@ -21,36 +20,28 @@ This graph shows which files directly or indirectly include this file\+:\nopageb
 \subsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
-class \hyperlink{classfield__type}{field\+\_\+type}
+class \hyperlink{classparticle_1_1field_1_1field__type}{particle\+::field\+::field\+\_\+type}
+\begin{DoxyCompactList}\small\item\em Base class for fields. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
 \item 
-class \hyperlink{classfield__cluster__h}{field\+\_\+cluster\+\_\+h}
+ \hyperlink{namespaceparticle}{particle}
 \item 
-class \hyperlink{classfield__2d}{field\+\_\+2d}
+ \hyperlink{namespaceparticle_1_1field}{particle\+::field}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
 \item 
-class \hyperlink{classfield__2d__h}{field\+\_\+2d\+\_\+h}
-\item 
-class \hyperlink{classfield__2d__i}{field\+\_\+2d\+\_\+i}
-\item 
-class \hyperlink{classfield__3d}{field\+\_\+3d}
-\item 
-class \hyperlink{classfield__3d__h}{field\+\_\+3d\+\_\+h}
-\item 
-class \hyperlink{classfield__3d__i}{field\+\_\+3d\+\_\+i}
+\#define \hyperlink{field__type_8hpp_a8b2342ddf707cccc41a56ac8c07523ff}{X\+T\+E\+N\+S\+O\+R\+\_\+\+U\+S\+E\+\_\+\+X\+S\+I\+MD}
 \end{DoxyCompactItemize}
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-void \hyperlink{field__type_8hpp_a3046d14208aa841cfab95127dcd36748}{rand\+\_\+spin\+\_\+h} (double \&x, double \&y, double \&z)
+void \hyperlink{namespaceparticle_1_1field_afd40a14f41d973705f046ac970eeecbe}{particle\+::field\+::perio\+Diff} (xt\+::xtensorf$<$ int, xt\+::xshape$<$ 4 $>$$>$ \&A, xt\+::xtensorf$<$ int, xt\+::xshape$<$ 4 $>$$>$ \&B, xt\+::xtensorf$<$ int, xt\+::xshape$<$ 4 $>$$>$ \&C)
 \end{DoxyCompactItemize}
 
 
-\subsection{Function Documentation}
-\index{field\+\_\+type.\+hpp@{field\+\_\+type.\+hpp}!rand\+\_\+spin\+\_\+h@{rand\+\_\+spin\+\_\+h}}
-\index{rand\+\_\+spin\+\_\+h@{rand\+\_\+spin\+\_\+h}!field\+\_\+type.\+hpp@{field\+\_\+type.\+hpp}}
-\subsubsection[{\texorpdfstring{rand\+\_\+spin\+\_\+h(double \&x, double \&y, double \&z)}{rand_spin_h(double &x, double &y, double &z)}}]{\setlength{\rightskip}{0pt plus 5cm}void rand\+\_\+spin\+\_\+h (
-\begin{DoxyParamCaption}
-\item[{double \&}]{x, }
-\item[{double \&}]{y, }
-\item[{double \&}]{z}
-\end{DoxyParamCaption}
-)}\hypertarget{field__type_8hpp_a3046d14208aa841cfab95127dcd36748}{}\label{field__type_8hpp_a3046d14208aa841cfab95127dcd36748}
+\subsection{Macro Definition Documentation}
+\index{field\+\_\+type.\+hpp@{field\+\_\+type.\+hpp}!X\+T\+E\+N\+S\+O\+R\+\_\+\+U\+S\+E\+\_\+\+X\+S\+I\+MD@{X\+T\+E\+N\+S\+O\+R\+\_\+\+U\+S\+E\+\_\+\+X\+S\+I\+MD}}
+\index{X\+T\+E\+N\+S\+O\+R\+\_\+\+U\+S\+E\+\_\+\+X\+S\+I\+MD@{X\+T\+E\+N\+S\+O\+R\+\_\+\+U\+S\+E\+\_\+\+X\+S\+I\+MD}!field\+\_\+type.\+hpp@{field\+\_\+type.\+hpp}}
+\subsubsection[{\texorpdfstring{X\+T\+E\+N\+S\+O\+R\+\_\+\+U\+S\+E\+\_\+\+X\+S\+I\+MD}{XTENSOR_USE_XSIMD}}]{\setlength{\rightskip}{0pt plus 5cm}\#define X\+T\+E\+N\+S\+O\+R\+\_\+\+U\+S\+E\+\_\+\+X\+S\+I\+MD}\hypertarget{field__type_8hpp_a8b2342ddf707cccc41a56ac8c07523ff}{}\label{field__type_8hpp_a8b2342ddf707cccc41a56ac8c07523ff}

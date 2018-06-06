@@ -6,18 +6,18 @@
 ## Requirements
 
 * Requires a parallel build of HDF5 for data storage.
-* At the moment the code has only been tested with the GNU and Intel compilers. When using the Intel compilers, the mkl library is used for RNG. To compile with Intel/ Non-Intel compilers uncomment the relevant lines in the makefile.
-* Currently only linux builds are supported.
+* A C++14 capable compiler due to dependence on Xtensor library.
+* Currently only linux and mac builds are supported.
 
 ## Compiling the Code
 
-There is a makefile in the root folder. Typing "make" will correctly compile the code. CC can be set within this makefile or with environment variables. There is also some support in the makefile for Iridis4 builds.
+There is a makefile in the root folder. Typing "make" will correctly compile the code. CC can be set within this makefile or with environment variables.
 
 ## Running the Code and the Input File
 
 After compilation an executable file will be placed in the root folder named "run". This can be executed by typing "./run INPUT_FILE" where "INPUT_FILE" is the name of the input file which takes a number of arguments. An example input file is provided called "INPUT.dat".
 
-To run in parallel, make sure you are using an mpi compiler, and run with "mpirun -n N ./run INPUT_FILE", where N is the number of processors to run with.
+To run in parallel, run with "mpirun -n N ./run INPUT_FILE", where N is the number of processors to run with.
 
 ### Compulsory Settings
 
@@ -28,8 +28,6 @@ To run in parallel, make sure you are using an mpi compiler, and run with "mpiru
     * s: Square 2D lattice
 
     * w: Weibull (swiss cheese) circle (Requires WEIBULLFACT)
-
-    * h: Hexagonal lattice in a rough square shape
 
     * c: Cubic lattice
 
@@ -42,16 +40,6 @@ To run in parallel, make sure you are using an mpi compiler, and run with "mpiru
 * SAMPSWEEPS: The number of Monte Carlo sweeps that should be performed between samples. A sweep is defined as 1 Monte Carlo step for every filled lattice site.
 
 * NSAMPS: The number of Monte Carlo samples to be taken per lattice.
-
-* HAMILTONIAN: The Hamiltonian which is being used to calculate the total energy and energy change per Monte Carlo step. This can take a number of inputs:
-
-    * i: Ising Model
-
-    * h: Heisenburg Model
-
-    * f: FePt parameterised Hamiltonian
-
-    * s: Skyrmion Hamiltonian
 
 * ISDISTRIB: A boolean value which defines whether or not the sizes of the realisations of each lattice are fixed or distributed. The only distribution of sizes which has so far been implemented is a log-normal distribution.
 
@@ -73,6 +61,12 @@ To run in parallel, make sure you are using an mpi compiler, and run with "mpiru
 
 * PRINT_LATT: Boolean option signifying whether the average lattice should be stored. This may significantly increase file storage requirements. (This option has only been implemented for 3D continuous spin systems so far. Using it in other situations will result in large, blank datasets within the output.)
 
+* ISISING: Flag to say whether up/down simple Ising spins should be used.
+
+* EXCHANGE: The inter-atomic exchange coupling constant J between coupled atoms in the Ising and Heisenberg models.
+
+* DMISTREN: The strength of the DMI interaction for a skyrmion hamiltonian.
+
 ### Optional/Situational Settings
 
 * SIZE: If ISDISTRIB is set to false then the fixed size of the lattice being run must be given.
@@ -82,9 +76,3 @@ To run in parallel, make sure you are using an mpi compiler, and run with "mpiru
 * SIZEDEV: If ISDISTRIB is set to true then the standard deviation of the sizes of all lattices must be given.
 
 * WEIBULLFACT: If either the circular or spherical Weibull distributed grain is chosen then WEIBULLFACT denotes the weibull factor used in the grain generation.
-
-* EXCHANGE: The inter-atomic exchange coupling constant J between coupled atoms in the Ising and Heisenberg models.
-
-* MAGFIELD: The external magnetic field that is present when using the Ising, Heisenberg and FePt models.
-
-* DMISTREN: The strength of the DMI interaction for a skyrmion hamiltonian.

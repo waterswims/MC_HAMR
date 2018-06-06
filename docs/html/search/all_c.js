@@ -1,5 +1,8 @@
 var searchData=
 [
-  ['operator_3d',['operator=',['../d9/de4/classfield__cluster__h.html#aae54da56698bc8cf802d41fda39c0394',1,'field_cluster_h::operator=()'],['../d8/dab/classfield__2d__h.html#acc8c8dc7a57734eb984d29a55608adf6',1,'field_2d_h::operator=()'],['../de/d3e/classfield__2d__i.html#a513a9ce21440299a77291002a67d52bc',1,'field_2d_i::operator=()'],['../d8/d18/classfield__3d__h.html#adf1f7a69955404d0ed6a9b647e176d34',1,'field_3d_h::operator=()'],['../dd/d3c/classfield__3d__i.html#a1f8a8ea350fcc5c653655fde60d8ab90',1,'field_3d_i::operator=()'],['../d9/d4d/classham__ising.html#a19a91ce13ee2834f11aea703b335a1da',1,'ham_ising::operator=()'],['../d4/ddd/classham__heis.html#adc3feaa662064f07594bdbb83aef42cb',1,'ham_heis::operator=()'],['../dc/ded/classham__FePt.html#a71d6e59fb2019a3f8ec5448cd41f50c4',1,'ham_FePt::operator=()'],['../d5/dff/classham__skyrm.html#a827c9ede9f3f75123d1dfe8fd5e0daad',1,'ham_skyrm::operator=()'],['../dd/d77/classparticle_1_1shape_1_1weibull.html#a682194c48696724e2290373b8c35577a',1,'particle::shape::weibull::operator=()'],['../df/d90/classstate.html#a8f382a578a92617e7294cbbd80fba3c6',1,'state::operator=()']]],
-  ['output_2ehpp',['output.hpp',['../dd/d05/output_8hpp.html',1,'']]]
+  ['magnetisation',['magnetisation',['../df/d90/classstate.html#a5d5980e59b16063808f09eac46d14292',1,'state']]],
+  ['max',['max',['../dd/dad/structrng_1_1rng128.html#a3889fe58babe382eb1d51fc70b761e56',1,'rng::rng128']]],
+  ['mean',['mean',['../db/d1a/functions_8hpp.html#ac8b8c6cfe216441c239a5141d8b91572',1,'functions.hpp']]],
+  ['min',['min',['../dd/dad/structrng_1_1rng128.html#a20c0a511a7874b8046ae9fcae1886abd',1,'rng::rng128']]],
+  ['mod',['mod',['../db/d1a/functions_8hpp.html#a69c18c9507ef22a89f1f437bcc75baaf',1,'functions.hpp']]]
 ];

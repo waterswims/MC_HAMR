@@ -3,13 +3,19 @@
 {\ttfamily \#include $<$vector$>$}\\*
 {\ttfamily \#include $<$fstream$>$}\\*
 {\ttfamily \#include $<$cstring$>$}\\*
+{\ttfamily \#include $<$xtensor/xfixed.\+hpp$>$}\\*
 Include dependency graph for functions.\+hpp\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=256pt]{d9/dbc/functions_8hpp__incl}
+\includegraphics[width=350pt]{d9/dbc/functions_8hpp__incl}
 \end{center}
 \end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{functions_8hpp_a8b2342ddf707cccc41a56ac8c07523ff}{X\+T\+E\+N\+S\+O\+R\+\_\+\+U\+S\+E\+\_\+\+X\+S\+I\+MD}
+\end{DoxyCompactItemize}
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -27,8 +33,14 @@ void \hyperlink{functions_8hpp_a34f099021e0d8fa3bf9258fddb37cf35}{Ato\+Ln} (doub
 \item 
 int \hyperlink{functions_8hpp_a69c18c9507ef22a89f1f437bcc75baaf}{mod} (int a, int b)
 \item 
-double \hyperlink{functions_8hpp_af6a509563a962606266a025475e31470}{solid\+\_\+angle} (const std\+::vector$<$ double $>$ \&s1, const std\+::vector$<$ double $>$ \&s2, const std\+::vector$<$ double $>$ \&s3, std\+::vector$<$ double $>$ \&buff)
+void \hyperlink{functions_8hpp_a044037219b6ff9292df1c5352c27272a}{c\+\_\+prod} (const xt\+::xtensorf$<$ double, xt\+::xshape$<$ 4 $>$$>$ \&s1, const xt\+::xtensorf$<$ double, xt\+::xshape$<$ 4 $>$$>$ \&s2, xt\+::xtensorf$<$ double, xt\+::xshape$<$ 4 $>$$>$ \&out)
 \end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\index{functions.\+hpp@{functions.\+hpp}!X\+T\+E\+N\+S\+O\+R\+\_\+\+U\+S\+E\+\_\+\+X\+S\+I\+MD@{X\+T\+E\+N\+S\+O\+R\+\_\+\+U\+S\+E\+\_\+\+X\+S\+I\+MD}}
+\index{X\+T\+E\+N\+S\+O\+R\+\_\+\+U\+S\+E\+\_\+\+X\+S\+I\+MD@{X\+T\+E\+N\+S\+O\+R\+\_\+\+U\+S\+E\+\_\+\+X\+S\+I\+MD}!functions.\+hpp@{functions.\+hpp}}
+\subsubsection[{\texorpdfstring{X\+T\+E\+N\+S\+O\+R\+\_\+\+U\+S\+E\+\_\+\+X\+S\+I\+MD}{XTENSOR_USE_XSIMD}}]{\setlength{\rightskip}{0pt plus 5cm}\#define X\+T\+E\+N\+S\+O\+R\+\_\+\+U\+S\+E\+\_\+\+X\+S\+I\+MD}\hypertarget{functions_8hpp_a8b2342ddf707cccc41a56ac8c07523ff}{}\label{functions_8hpp_a8b2342ddf707cccc41a56ac8c07523ff}
 
 
 \subsection{Function Documentation}
@@ -42,6 +54,15 @@ double \hyperlink{functions_8hpp_af6a509563a962606266a025475e31470}{solid\+\_\+a
 \item[{double \&}]{lsd}
 \end{DoxyParamCaption}
 )}\hypertarget{functions_8hpp_a34f099021e0d8fa3bf9258fddb37cf35}{}\label{functions_8hpp_a34f099021e0d8fa3bf9258fddb37cf35}
+\index{functions.\+hpp@{functions.\+hpp}!c\+\_\+prod@{c\+\_\+prod}}
+\index{c\+\_\+prod@{c\+\_\+prod}!functions.\+hpp@{functions.\+hpp}}
+\subsubsection[{\texorpdfstring{c\+\_\+prod(const xt\+::xtensorf$<$ double, xt\+::xshape$<$ 4 $>$$>$ \&s1, const xt\+::xtensorf$<$ double, xt\+::xshape$<$ 4 $>$$>$ \&s2, xt\+::xtensorf$<$ double, xt\+::xshape$<$ 4 $>$$>$ \&out)}{c_prod(const xt::xtensorf< double, xt::xshape< 4 >> &s1, const xt::xtensorf< double, xt::xshape< 4 >> &s2, xt::xtensorf< double, xt::xshape< 4 >> &out)}}]{\setlength{\rightskip}{0pt plus 5cm}void c\+\_\+prod (
+\begin{DoxyParamCaption}
+\item[{const xt\+::xtensorf$<$ double, xt\+::xshape$<$ 4 $>$$>$ \&}]{s1, }
+\item[{const xt\+::xtensorf$<$ double, xt\+::xshape$<$ 4 $>$$>$ \&}]{s2, }
+\item[{xt\+::xtensorf$<$ double, xt\+::xshape$<$ 4 $>$$>$ \&}]{out}
+\end{DoxyParamCaption}
+)}\hypertarget{functions_8hpp_a044037219b6ff9292df1c5352c27272a}{}\label{functions_8hpp_a044037219b6ff9292df1c5352c27272a}
 \index{functions.\+hpp@{functions.\+hpp}!mean@{mean}}
 \index{mean@{mean}!functions.\+hpp@{functions.\+hpp}}
 \subsubsection[{\texorpdfstring{mean(std\+::vector$<$ double $>$ \&o\+Y)}{mean(std::vector< double > &oY)}}]{\setlength{\rightskip}{0pt plus 5cm}double mean (
@@ -64,16 +85,6 @@ double \hyperlink{functions_8hpp_af6a509563a962606266a025475e31470}{solid\+\_\+a
 \item[{std\+::vector$<$ double $>$}]{vals}
 \end{DoxyParamCaption}
 )}\hypertarget{functions_8hpp_a1ece0bbde6352f3b8e9d568770594a4c}{}\label{functions_8hpp_a1ece0bbde6352f3b8e9d568770594a4c}
-\index{functions.\+hpp@{functions.\+hpp}!solid\+\_\+angle@{solid\+\_\+angle}}
-\index{solid\+\_\+angle@{solid\+\_\+angle}!functions.\+hpp@{functions.\+hpp}}
-\subsubsection[{\texorpdfstring{solid\+\_\+angle(const std\+::vector$<$ double $>$ \&s1, const std\+::vector$<$ double $>$ \&s2, const std\+::vector$<$ double $>$ \&s3, std\+::vector$<$ double $>$ \&buff)}{solid_angle(const std::vector< double > &s1, const std::vector< double > &s2, const std::vector< double > &s3, std::vector< double > &buff)}}]{\setlength{\rightskip}{0pt plus 5cm}double solid\+\_\+angle (
-\begin{DoxyParamCaption}
-\item[{const std\+::vector$<$ double $>$ \&}]{s1, }
-\item[{const std\+::vector$<$ double $>$ \&}]{s2, }
-\item[{const std\+::vector$<$ double $>$ \&}]{s3, }
-\item[{std\+::vector$<$ double $>$ \&}]{buff}
-\end{DoxyParamCaption}
-)}\hypertarget{functions_8hpp_af6a509563a962606266a025475e31470}{}\label{functions_8hpp_af6a509563a962606266a025475e31470}
 \index{functions.\+hpp@{functions.\+hpp}!std\+\_\+dev@{std\+\_\+dev}}
 \index{std\+\_\+dev@{std\+\_\+dev}!functions.\+hpp@{functions.\+hpp}}
 \subsubsection[{\texorpdfstring{std\+\_\+dev(std\+::vector$<$ double $>$ \&x)}{std_dev(std::vector< double > &x)}}]{\setlength{\rightskip}{0pt plus 5cm}double std\+\_\+dev (

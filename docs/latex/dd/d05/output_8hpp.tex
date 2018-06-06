@@ -1,73 +1,58 @@
 \hypertarget{output_8hpp}{}\section{includes/output.hpp File Reference}
 \label{output_8hpp}\index{includes/output.\+hpp@{includes/output.\+hpp}}
+{\ttfamily \#include \char`\"{}param\+\_\+read.\+hpp\char`\"{}}\\*
 {\ttfamily \#include $<$fstream$>$}\\*
 {\ttfamily \#include $<$cstring$>$}\\*
 Include dependency graph for output.\+hpp\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=194pt]{d5/d35/output_8hpp__incl}
+\includegraphics[width=298pt]{d5/d35/output_8hpp__incl}
 \end{center}
 \end{figure}
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-std\+::string \hyperlink{output_8hpp_aad92ff15404698453a92f0c330b6361d}{check\+\_\+h5\+\_\+file} (const double J, const double size, const double am, const double asd, const double k, const double K, const char shape, const char hamil, const bool perio, const int prot, const bool distrib, const int N\+\_\+temps, const int N\+\_\+fields, const int N\+\_\+samps, const int N\+\_\+latts, const float $\ast$Ts, const float $\ast$Hs, const int v1\+\_\+size, const int tc\+\_\+size, bool $\ast$$\ast$checkp, bool \&file\+\_\+exists)
+void \hyperlink{output_8hpp_a1d0046dcf4f96b0e81ee2c32fbf50170}{check\+\_\+h5\+\_\+file} (\hyperlink{structstateOptions}{state\+Options} \&st\+Opt, \hyperlink{structsimOptions}{sim\+Options} \&sim\+Opt, const int num\+\_\+\+Ts, const int num\+\_\+\+Hs, const float $\ast$Ts, const float $\ast$Hs, const int v1\+\_\+size, bool $\ast$$\ast$checkp, bool \&file\+\_\+exists)
 \item 
-void \hyperlink{output_8hpp_a5bc6a1264cf079b8ee53ce75929008fb}{create\+\_\+h5\+\_\+file} (std\+::string prefix, const char hamil, const bool distrib, const int N\+\_\+temps, const int N\+\_\+fields, const int N\+\_\+samps, const int N\+\_\+latts, const float $\ast$Ts, const float $\ast$Hs, const int v1\+\_\+size, const int tc\+\_\+size)
+void \hyperlink{output_8hpp_a917aef04c3f8e6f3efab883505b69d63}{create\+\_\+h5\+\_\+file} (\hyperlink{structstateOptions}{state\+Options} \&st\+Opt, \hyperlink{structsimOptions}{sim\+Options} \&sim\+Opt, const int num\+\_\+\+Ts, const int num\+\_\+\+Hs, const float $\ast$Ts, const float $\ast$Hs, const int v1\+\_\+size)
 \item 
-void \hyperlink{output_8hpp_aee2c356d0c7234c16b14f6ebb1125768}{print\+\_\+\+T\+D\+\_\+h5} (const float $\ast$magx, const float $\ast$magy, const float $\ast$magz, const float $\ast$mag, const float $\ast$ener, const float $\ast$smagx, const float $\ast$smagy, const float $\ast$smagz, const float $\ast$smag, float $\ast$$\ast$tcs, const int N\+\_\+samp, const int protocol, const int var1, const int var2, const int v2max, const int tc\+\_\+size, const std\+::string prefix, const char hamil, const bool distrib, const int latt\+\_\+num)
+void \hyperlink{output_8hpp_a5152c310605eb4363607d530c5d149bc}{print\+\_\+\+T\+D\+\_\+h5} (const float $\ast$magx, const float $\ast$magy, const float $\ast$magz, const float $\ast$mag, const float $\ast$ener, const float $\ast$smagx, const float $\ast$smagy, const float $\ast$smagz, const float $\ast$smag, float $\ast$$\ast$tcs, \hyperlink{structstateOptions}{state\+Options} st\+Opt, \hyperlink{structsimOptions}{sim\+Options} sim\+Opt, const int var1, const int var2, const int v2max, const int latt\+\_\+num)
 \end{DoxyCompactItemize}
 
 
 \subsection{Function Documentation}
 \index{output.\+hpp@{output.\+hpp}!check\+\_\+h5\+\_\+file@{check\+\_\+h5\+\_\+file}}
 \index{check\+\_\+h5\+\_\+file@{check\+\_\+h5\+\_\+file}!output.\+hpp@{output.\+hpp}}
-\subsubsection[{\texorpdfstring{check\+\_\+h5\+\_\+file(const double J, const double size, const double am, const double asd, const double k, const double K, const char shape, const char hamil, const bool perio, const int prot, const bool distrib, const int N\+\_\+temps, const int N\+\_\+fields, const int N\+\_\+samps, const int N\+\_\+latts, const float $\ast$\+Ts, const float $\ast$\+Hs, const int v1\+\_\+size, const int tc\+\_\+size, bool $\ast$$\ast$checkp, bool \&file\+\_\+exists)}{check_h5_file(const double J, const double size, const double am, const double asd, const double k, const double K, const char shape, const char hamil, const bool perio, const int prot, const bool distrib, const int N_temps, const int N_fields, const int N_samps, const int N_latts, const float *Ts, const float *Hs, const int v1_size, const int tc_size, bool **checkp, bool &file_exists)}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string check\+\_\+h5\+\_\+file (
+\subsubsection[{\texorpdfstring{check\+\_\+h5\+\_\+file(state\+Options \&st\+Opt, sim\+Options \&sim\+Opt, const int num\+\_\+\+Ts, const int num\+\_\+\+Hs, const float $\ast$\+Ts, const float $\ast$\+Hs, const int v1\+\_\+size, bool $\ast$$\ast$checkp, bool \&file\+\_\+exists)}{check_h5_file(stateOptions &stOpt, simOptions &simOpt, const int num_Ts, const int num_Hs, const float *Ts, const float *Hs, const int v1_size, bool **checkp, bool &file_exists)}}]{\setlength{\rightskip}{0pt plus 5cm}void check\+\_\+h5\+\_\+file (
 \begin{DoxyParamCaption}
-\item[{const double}]{J, }
-\item[{const double}]{size, }
-\item[{const double}]{am, }
-\item[{const double}]{asd, }
-\item[{const double}]{k, }
-\item[{const double}]{K, }
-\item[{const char}]{shape, }
-\item[{const char}]{hamil, }
-\item[{const bool}]{perio, }
-\item[{const int}]{prot, }
-\item[{const bool}]{distrib, }
-\item[{const int}]{N\+\_\+temps, }
-\item[{const int}]{N\+\_\+fields, }
-\item[{const int}]{N\+\_\+samps, }
-\item[{const int}]{N\+\_\+latts, }
+\item[{{\bf state\+Options} \&}]{st\+Opt, }
+\item[{{\bf sim\+Options} \&}]{sim\+Opt, }
+\item[{const int}]{num\+\_\+\+Ts, }
+\item[{const int}]{num\+\_\+\+Hs, }
 \item[{const float $\ast$}]{Ts, }
 \item[{const float $\ast$}]{Hs, }
 \item[{const int}]{v1\+\_\+size, }
-\item[{const int}]{tc\+\_\+size, }
 \item[{bool $\ast$$\ast$}]{checkp, }
 \item[{bool \&}]{file\+\_\+exists}
 \end{DoxyParamCaption}
-)}\hypertarget{output_8hpp_aad92ff15404698453a92f0c330b6361d}{}\label{output_8hpp_aad92ff15404698453a92f0c330b6361d}
+)}\hypertarget{output_8hpp_a1d0046dcf4f96b0e81ee2c32fbf50170}{}\label{output_8hpp_a1d0046dcf4f96b0e81ee2c32fbf50170}
 \index{output.\+hpp@{output.\+hpp}!create\+\_\+h5\+\_\+file@{create\+\_\+h5\+\_\+file}}
 \index{create\+\_\+h5\+\_\+file@{create\+\_\+h5\+\_\+file}!output.\+hpp@{output.\+hpp}}
-\subsubsection[{\texorpdfstring{create\+\_\+h5\+\_\+file(std\+::string prefix, const char hamil, const bool distrib, const int N\+\_\+temps, const int N\+\_\+fields, const int N\+\_\+samps, const int N\+\_\+latts, const float $\ast$\+Ts, const float $\ast$\+Hs, const int v1\+\_\+size, const int tc\+\_\+size)}{create_h5_file(std::string prefix, const char hamil, const bool distrib, const int N_temps, const int N_fields, const int N_samps, const int N_latts, const float *Ts, const float *Hs, const int v1_size, const int tc_size)}}]{\setlength{\rightskip}{0pt plus 5cm}void create\+\_\+h5\+\_\+file (
+\subsubsection[{\texorpdfstring{create\+\_\+h5\+\_\+file(state\+Options \&st\+Opt, sim\+Options \&sim\+Opt, const int num\+\_\+\+Ts, const int num\+\_\+\+Hs, const float $\ast$\+Ts, const float $\ast$\+Hs, const int v1\+\_\+size)}{create_h5_file(stateOptions &stOpt, simOptions &simOpt, const int num_Ts, const int num_Hs, const float *Ts, const float *Hs, const int v1_size)}}]{\setlength{\rightskip}{0pt plus 5cm}void create\+\_\+h5\+\_\+file (
 \begin{DoxyParamCaption}
-\item[{std\+::string}]{prefix, }
-\item[{const char}]{hamil, }
-\item[{const bool}]{distrib, }
-\item[{const int}]{N\+\_\+temps, }
-\item[{const int}]{N\+\_\+fields, }
-\item[{const int}]{N\+\_\+samps, }
-\item[{const int}]{N\+\_\+latts, }
+\item[{{\bf state\+Options} \&}]{st\+Opt, }
+\item[{{\bf sim\+Options} \&}]{sim\+Opt, }
+\item[{const int}]{num\+\_\+\+Ts, }
+\item[{const int}]{num\+\_\+\+Hs, }
 \item[{const float $\ast$}]{Ts, }
 \item[{const float $\ast$}]{Hs, }
-\item[{const int}]{v1\+\_\+size, }
-\item[{const int}]{tc\+\_\+size}
+\item[{const int}]{v1\+\_\+size}
 \end{DoxyParamCaption}
-)}\hypertarget{output_8hpp_a5bc6a1264cf079b8ee53ce75929008fb}{}\label{output_8hpp_a5bc6a1264cf079b8ee53ce75929008fb}
+)}\hypertarget{output_8hpp_a917aef04c3f8e6f3efab883505b69d63}{}\label{output_8hpp_a917aef04c3f8e6f3efab883505b69d63}
 \index{output.\+hpp@{output.\+hpp}!print\+\_\+\+T\+D\+\_\+h5@{print\+\_\+\+T\+D\+\_\+h5}}
 \index{print\+\_\+\+T\+D\+\_\+h5@{print\+\_\+\+T\+D\+\_\+h5}!output.\+hpp@{output.\+hpp}}
-\subsubsection[{\texorpdfstring{print\+\_\+\+T\+D\+\_\+h5(const float $\ast$magx, const float $\ast$magy, const float $\ast$magz, const float $\ast$mag, const float $\ast$ener, const float $\ast$smagx, const float $\ast$smagy, const float $\ast$smagz, const float $\ast$smag, float $\ast$$\ast$tcs, const int N\+\_\+samp, const int protocol, const int var1, const int var2, const int v2max, const int tc\+\_\+size, const std\+::string prefix, const char hamil, const bool distrib, const int latt\+\_\+num)}{print_TD_h5(const float *magx, const float *magy, const float *magz, const float *mag, const float *ener, const float *smagx, const float *smagy, const float *smagz, const float *smag, float **tcs, const int N_samp, const int protocol, const int var1, const int var2, const int v2max, const int tc_size, const std::string prefix, const char hamil, const bool distrib, const int latt_num)}}]{\setlength{\rightskip}{0pt plus 5cm}void print\+\_\+\+T\+D\+\_\+h5 (
+\subsubsection[{\texorpdfstring{print\+\_\+\+T\+D\+\_\+h5(const float $\ast$magx, const float $\ast$magy, const float $\ast$magz, const float $\ast$mag, const float $\ast$ener, const float $\ast$smagx, const float $\ast$smagy, const float $\ast$smagz, const float $\ast$smag, float $\ast$$\ast$tcs, state\+Options st\+Opt, sim\+Options sim\+Opt, const int var1, const int var2, const int v2max, const int latt\+\_\+num)}{print_TD_h5(const float *magx, const float *magy, const float *magz, const float *mag, const float *ener, const float *smagx, const float *smagy, const float *smagz, const float *smag, float **tcs, stateOptions stOpt, simOptions simOpt, const int var1, const int var2, const int v2max, const int latt_num)}}]{\setlength{\rightskip}{0pt plus 5cm}void print\+\_\+\+T\+D\+\_\+h5 (
 \begin{DoxyParamCaption}
 \item[{const float $\ast$}]{magx, }
 \item[{const float $\ast$}]{magy, }
@@ -79,15 +64,11 @@ void \hyperlink{output_8hpp_aee2c356d0c7234c16b14f6ebb1125768}{print\+\_\+\+T\+D
 \item[{const float $\ast$}]{smagz, }
 \item[{const float $\ast$}]{smag, }
 \item[{float $\ast$$\ast$}]{tcs, }
-\item[{const int}]{N\+\_\+samp, }
-\item[{const int}]{protocol, }
+\item[{{\bf state\+Options}}]{st\+Opt, }
+\item[{{\bf sim\+Options}}]{sim\+Opt, }
 \item[{const int}]{var1, }
 \item[{const int}]{var2, }
 \item[{const int}]{v2max, }
-\item[{const int}]{tc\+\_\+size, }
-\item[{const std\+::string}]{prefix, }
-\item[{const char}]{hamil, }
-\item[{const bool}]{distrib, }
 \item[{const int}]{latt\+\_\+num}
 \end{DoxyParamCaption}
-)}\hypertarget{output_8hpp_aee2c356d0c7234c16b14f6ebb1125768}{}\label{output_8hpp_aee2c356d0c7234c16b14f6ebb1125768}
+)}\hypertarget{output_8hpp_a5152c310605eb4363607d530c5d149bc}{}\label{output_8hpp_a5152c310605eb4363607d530c5d149bc}

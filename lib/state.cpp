@@ -16,6 +16,7 @@ state::state(stateOptions opt)
     td_funcs.setup((opt.J!=0), (opt.K!=0));
 
     s_code = opt.shape_code;
+    edgeSize = opt.edgeSize;
 
     h_ind = 2;
     if(opt.isIsing)
@@ -34,19 +35,11 @@ state::state(stateOptions opt)
 
 state::state(const state& other)
 {
-    beta = other.beta;
-    k_b = other.k_b;
-    num = other.num;
-    s_code = other.s_code;
     this->copy_points(other);
 }
 
 state& state::operator=(const state& other)
 {
-    beta = other.beta;
-    k_b = other.k_b;
-    num = other.num;
-    s_code = other.s_code;
     this->copy_points(other);
 }
 
@@ -62,29 +55,21 @@ void state::init_points(stateOptions opt)
         case 'S':
             d = 2;
             shape = new particle::shape::square;
-            field = particle::field::field_type(opt.isIsing,
-                opt.isPerio, d, opt.edgeSize, opt.J, opt.K, opt.intFile);
             break;
         case 'w':
         case 'W':
             d = 2;
             shape = new particle::shape::weibull(opt.size, opt.beta);
-            field = particle::field::field_type(opt.isIsing,
-                opt.isPerio, d, opt.edgeSize, opt.J, opt.K, opt.intFile);
             break;
         case 'c':
         case 'C':
             d = 3;
             shape = new particle::shape::cube;
-            field = particle::field::field_type(opt.isIsing,
-                opt.isPerio, d, opt.edgeSize, opt.J, opt.K, opt.intFile);
             break;
         case 'x':
         case 'X':
             d = 3;
             shape = new particle::shape::weibull(opt.size, opt.beta);
-            field = particle::field::field_type(opt.isIsing,
-                opt.isPerio, d, opt.edgeSize, opt.J, opt.K, opt.intFile);
             break;
         default:
             std::cerr << "Incorrect shape code, exiting" << std::endl;
@@ -97,6 +82,12 @@ void state::init_points(stateOptions opt)
 void state::copy_points(const state& other)
 {
     field = other.field;
+    td_funcs = other.td_funcs;
+    beta = other.beta;
+    k_b = other.k_b;
+    num = other.num;
+    s_code = other.s_code;
+    edgeSize = other.edgeSize;
     switch (s_code)
     {
         case 's':
@@ -130,13 +121,12 @@ void state::init_lattice()
 {
     num = 0;
     snum = 0;
-    int size = field.get_size();
     int dim = field.get_dim();
     std::vector<int> pos(dim, 0);
     xt::xtensorf<int, xt::xshape<4>> posva = {0, 0, 0, 0};
-    for(int i = 0; i < pow(size, dim); i++)
+    for(int i = 0; i < pow(edgeSize, dim); i++)
     {
-        bool fillspin = shape->check(pos, size);
+        bool fillspin = shape->check(pos, edgeSize);
         int possum = sum(pos);
         if (fillspin)
         {
@@ -144,11 +134,11 @@ void state::init_lattice()
             num++;
             if (possum%2 == 0){snum++;}
         }
-        for(int j; j < dim-1; j++)
+        pos[dim-1]++;
+        posva[dim-1]++;
+        for(int j=dim-1; j > 0; j--)
         {
-            pos[dim-j]++;
-            pos[dim-j]++;
-            if(pos[dim-j] == 10)
+            if(pos[dim-j] == edgeSize)
             {
                 pos[dim-j] = 0;
                 pos[dim-j-1]++;
@@ -157,7 +147,6 @@ void state::init_lattice()
             }
         }
     }
-
     field.set_neigh();
 }
 
@@ -174,6 +163,8 @@ void state::equil(int iter)
     for (int i=0; i<iter; i++)
     {
         choice = int(st_rand_double.gen() * size);
+
+        field.gen_rand();
 
         //check dE
         dE = td_funcs.calc_dE(field, choice, H);
@@ -263,7 +254,6 @@ void state::ptf(std::string fname, std::string arrname)
 void state::add_to_av(particle::field::field_type& other_field)
 {
     int size = field.get_size();
-    int dim = field.get_dim();
 
     for(int i = 0; i < size; i++)
     {

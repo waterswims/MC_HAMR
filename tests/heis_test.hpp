@@ -334,6 +334,7 @@ TEST(Heis_model, 3d_dE_consist)
     for(int i = 0; i < 1000; i++)
     {
         pos = int(st_rand_double.gen()*1000);
+        fieldCopy.gen_rand();
         double dE = exchangeOnly.calc_dE(fieldCopy, pos, heisH);
         fieldCopy.set_rand(pos);
         double new_E = exchangeOnly.calc_E(fieldCopy, heisH);
@@ -350,6 +351,7 @@ TEST(Heis_model, 3d_dE_consist_skyrm)
     for(int i = 0; i < 1000; i++)
     {
         pos = int(st_rand_double.gen()*1000);
+        fieldCopy.gen_rand();
         double dE = exchangeOnly.calc_dE(fieldCopy, pos, heisH);
         fieldCopy.set_rand(pos);
         double new_E = exchangeOnly.calc_E(fieldCopy, heisH);

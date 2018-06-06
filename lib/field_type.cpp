@@ -1,6 +1,7 @@
 #include "../includes/field_type.hpp"
 #include "../includes/array_alloc.hpp"
 #include "../includes/stdrand.hpp"
+#include "xtensor/xio.hpp"
 
 #define IRANDTYPE stdrand::std_i_unirand
 #define DRANDTYPE stdrand::std_d_unirand
@@ -97,11 +98,21 @@ void particle::field::field_type::set_neigh()
     std::vector<int> n_base;
     neighbours.resize(spins.size());
     neigh_choice.resize(spins.size());
+    adj.resize(spins.size());
     xt::xtensorf<int, xt::xshape<4>> test_loc;
+
     for(unsigned int i = 0; i < spins.size(); i++)
     {
         neighbours[i] = n_base;
         neigh_choice[i] = n_base;
+        adj[i] = n_base;
+        adj[i].resize(4);
+
+        adj[i][0] = -1;
+        adj[i][1] = -1;
+        adj[i][2] = -1;
+        adj[i][3] = -1;
+
         for(unsigned int k = 0; k < loc_diffs.size(); k++)
         {
             test_loc = locs[i] + loc_diffs[k];
@@ -120,6 +131,46 @@ void particle::field::field_type::set_neigh()
                 }
             }
         }
+
+        for(int j = 0; j < spins.size(); j++)
+        {
+            test_loc = locs[j] - locs[i];
+            if(test_loc == xt::xtensorf<int, xt::xshape<4>>({1, 0, 0, 0}))
+            {
+                adj[i][0] = j;
+                break;
+            }
+        }
+
+        for(int j = 0; j < spins.size(); j++)
+        {
+            test_loc = locs[j] - locs[i];
+            if(test_loc == xt::xtensorf<int, xt::xshape<4>>({-1, 0, 0, 0}))
+            {
+                adj[i][1] = j;
+                break;
+            }
+        }
+
+        for(int j = 0; j < spins.size(); j++)
+        {
+            test_loc = locs[j] - locs[i];
+            if(test_loc == xt::xtensorf<int, xt::xshape<4>>({0, 1, 0, 0}))
+            {
+                adj[i][2] = j;
+                break;
+            }
+        }
+
+        for(int j = 0; j < spins.size(); j++)
+        {
+            test_loc = locs[j] - locs[i];
+            if(test_loc == xt::xtensorf<int, xt::xshape<4>>({0, -1, 0, 0}))
+            {
+                adj[i][3] = j;
+                break;
+            }
+        }
     }
 }
 
@@ -131,12 +182,27 @@ void particle::field::field_type::gen_rand()
     }
     else
     {
-        double phi = st_rand_double.gen()*2*M_PI;
-        double cthet = 2*st_rand_double.gen()-1;
-        double sthet = pow(1 - pow(cthet, 2), 0.5);
-        testspin[0] = cos(phi)*sthet;
-        testspin[1] = sin(phi)*sthet;
-        testspin[2] = cthet;
+        // Analytical Method
+
+        // double phi = st_rand_double.gen()*2*M_PI;
+        // double cthet = 2*st_rand_double.gen()-1;
+        // double sthet = pow(1 - pow(cthet, 2), 0.5);
+        // testspin[0] = cos(phi)*sthet;
+        // testspin[1] = sin(phi)*sthet;
+        // testspin[2] = cthet;
+
+        // Marsaglia Method
+        double x1, x2, S;
+        do
+        {
+            x1 = 2*st_rand_double.gen()-1;
+            x2 = 2*st_rand_double.gen()-1;
+            S = x1*x1 + x2*x2;
+        } while (S >= 1);
+        double sr = pow(1 - S, 0.5);
+        testspin[0] = 2 * x1 * sr;
+        testspin[1] = 2 * x2 * sr;
+        testspin[2] = 1 - 2*S;
     }
 }
 
@@ -201,8 +267,7 @@ void particle::field::field_type::print(std::string filename,
     std::string arrname)
 {
     // Find size of new array
-    int t_size = 1;
-    for (int i=0; i < d; i++) {t_size *= edgesize;}
+    int t_size = pow(edgesize, d);
 
     // Copy to float array
     float* new_x = alloc_1darr<float>(t_size);
@@ -215,9 +280,9 @@ void particle::field::field_type::print(std::string filename,
         new_y[i] = 0;
         new_z[i] = 0;
     }
-    #pragma omp simd
     for(int i = 0; i < spins.size(); i++)
     {
+        // std::cout << locs[i] << std::endl;
         int index = 0;
         for (int j = 0; j < d; j++)
         {

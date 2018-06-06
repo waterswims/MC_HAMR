@@ -18,10 +18,32 @@ void \hyperlink{protocol_8hpp_a00d9c9379a1162c02e1d56c160dbc984}{incr\+\_\+v1} (
 void \hyperlink{protocol_8hpp_a22e55bf0ca86d488ca20ab6bff6ab6fe}{incr\+\_\+v2} (const int proto\+\_\+code, int \&var2\+\_\+curr)
 \item 
 bool \hyperlink{protocol_8hpp_a34676923926186d6af84544ea03bffdd}{check\+\_\+rank\+\_\+run} (const int proto\+\_\+code, const int i, const int comm\+\_\+size, const int rank, const int var1\+\_\+size)
+\item 
+bool \hyperlink{protocol_8hpp_a5ab36fb7bb5028a1a3de35a54b4c3c63}{check\+\_\+rank\+\_\+latt} (const int k, const int comm\+\_\+size, const int rank, const int var1\+\_\+size, int \&sub\+\_\+rank, int \&sub\+\_\+size, int \&latt\+\_\+rank, int \&num\+\_\+par)
+\item 
+int \hyperlink{protocol_8hpp_a35903dd201875d70e827a6253997f0d4}{count\+\_\+sub\+\_\+extra\+\_\+opens} (const int var1\+\_\+size, const int var2\+\_\+size, const int N\+\_\+latts, const int rank, const int comm\+\_\+size, const int k)
+\item 
+int \hyperlink{protocol_8hpp_a13d0a43c8d5530a88e79219b71e87200}{count\+\_\+num\+\_\+opens} (const int var1\+\_\+size, const int var2\+\_\+size, const int N\+\_\+latts, const int rank, const int comm\+\_\+size)
+\item 
+void \hyperlink{protocol_8hpp_afa48640aa67b6882ca80137663ee6a4f}{extra\+\_\+file\+\_\+open} (const std\+::string f\+\_\+id)
 \end{DoxyCompactItemize}
 
 
 \subsection{Function Documentation}
+\index{protocol.\+hpp@{protocol.\+hpp}!check\+\_\+rank\+\_\+latt@{check\+\_\+rank\+\_\+latt}}
+\index{check\+\_\+rank\+\_\+latt@{check\+\_\+rank\+\_\+latt}!protocol.\+hpp@{protocol.\+hpp}}
+\subsubsection[{\texorpdfstring{check\+\_\+rank\+\_\+latt(const int k, const int comm\+\_\+size, const int rank, const int var1\+\_\+size, int \&sub\+\_\+rank, int \&sub\+\_\+size, int \&latt\+\_\+rank, int \&num\+\_\+par)}{check_rank_latt(const int k, const int comm_size, const int rank, const int var1_size, int &sub_rank, int &sub_size, int &latt_rank, int &num_par)}}]{\setlength{\rightskip}{0pt plus 5cm}bool check\+\_\+rank\+\_\+latt (
+\begin{DoxyParamCaption}
+\item[{const int}]{k, }
+\item[{const int}]{comm\+\_\+size, }
+\item[{const int}]{rank, }
+\item[{const int}]{var1\+\_\+size, }
+\item[{int \&}]{sub\+\_\+rank, }
+\item[{int \&}]{sub\+\_\+size, }
+\item[{int \&}]{latt\+\_\+rank, }
+\item[{int \&}]{num\+\_\+par}
+\end{DoxyParamCaption}
+)}\hypertarget{protocol_8hpp_a5ab36fb7bb5028a1a3de35a54b4c3c63}{}\label{protocol_8hpp_a5ab36fb7bb5028a1a3de35a54b4c3c63}
 \index{protocol.\+hpp@{protocol.\+hpp}!check\+\_\+rank\+\_\+run@{check\+\_\+rank\+\_\+run}}
 \index{check\+\_\+rank\+\_\+run@{check\+\_\+rank\+\_\+run}!protocol.\+hpp@{protocol.\+hpp}}
 \subsubsection[{\texorpdfstring{check\+\_\+rank\+\_\+run(const int proto\+\_\+code, const int i, const int comm\+\_\+size, const int rank, const int var1\+\_\+size)}{check_rank_run(const int proto_code, const int i, const int comm_size, const int rank, const int var1_size)}}]{\setlength{\rightskip}{0pt plus 5cm}bool check\+\_\+rank\+\_\+run (
@@ -33,6 +55,36 @@ bool \hyperlink{protocol_8hpp_a34676923926186d6af84544ea03bffdd}{check\+\_\+rank
 \item[{const int}]{var1\+\_\+size}
 \end{DoxyParamCaption}
 )}\hypertarget{protocol_8hpp_a34676923926186d6af84544ea03bffdd}{}\label{protocol_8hpp_a34676923926186d6af84544ea03bffdd}
+\index{protocol.\+hpp@{protocol.\+hpp}!count\+\_\+num\+\_\+opens@{count\+\_\+num\+\_\+opens}}
+\index{count\+\_\+num\+\_\+opens@{count\+\_\+num\+\_\+opens}!protocol.\+hpp@{protocol.\+hpp}}
+\subsubsection[{\texorpdfstring{count\+\_\+num\+\_\+opens(const int var1\+\_\+size, const int var2\+\_\+size, const int N\+\_\+latts, const int rank, const int comm\+\_\+size)}{count_num_opens(const int var1_size, const int var2_size, const int N_latts, const int rank, const int comm_size)}}]{\setlength{\rightskip}{0pt plus 5cm}int count\+\_\+num\+\_\+opens (
+\begin{DoxyParamCaption}
+\item[{const int}]{var1\+\_\+size, }
+\item[{const int}]{var2\+\_\+size, }
+\item[{const int}]{N\+\_\+latts, }
+\item[{const int}]{rank, }
+\item[{const int}]{comm\+\_\+size}
+\end{DoxyParamCaption}
+)}\hypertarget{protocol_8hpp_a13d0a43c8d5530a88e79219b71e87200}{}\label{protocol_8hpp_a13d0a43c8d5530a88e79219b71e87200}
+\index{protocol.\+hpp@{protocol.\+hpp}!count\+\_\+sub\+\_\+extra\+\_\+opens@{count\+\_\+sub\+\_\+extra\+\_\+opens}}
+\index{count\+\_\+sub\+\_\+extra\+\_\+opens@{count\+\_\+sub\+\_\+extra\+\_\+opens}!protocol.\+hpp@{protocol.\+hpp}}
+\subsubsection[{\texorpdfstring{count\+\_\+sub\+\_\+extra\+\_\+opens(const int var1\+\_\+size, const int var2\+\_\+size, const int N\+\_\+latts, const int rank, const int comm\+\_\+size, const int k)}{count_sub_extra_opens(const int var1_size, const int var2_size, const int N_latts, const int rank, const int comm_size, const int k)}}]{\setlength{\rightskip}{0pt plus 5cm}int count\+\_\+sub\+\_\+extra\+\_\+opens (
+\begin{DoxyParamCaption}
+\item[{const int}]{var1\+\_\+size, }
+\item[{const int}]{var2\+\_\+size, }
+\item[{const int}]{N\+\_\+latts, }
+\item[{const int}]{rank, }
+\item[{const int}]{comm\+\_\+size, }
+\item[{const int}]{k}
+\end{DoxyParamCaption}
+)}\hypertarget{protocol_8hpp_a35903dd201875d70e827a6253997f0d4}{}\label{protocol_8hpp_a35903dd201875d70e827a6253997f0d4}
+\index{protocol.\+hpp@{protocol.\+hpp}!extra\+\_\+file\+\_\+open@{extra\+\_\+file\+\_\+open}}
+\index{extra\+\_\+file\+\_\+open@{extra\+\_\+file\+\_\+open}!protocol.\+hpp@{protocol.\+hpp}}
+\subsubsection[{\texorpdfstring{extra\+\_\+file\+\_\+open(const std\+::string f\+\_\+id)}{extra_file_open(const std::string f_id)}}]{\setlength{\rightskip}{0pt plus 5cm}void extra\+\_\+file\+\_\+open (
+\begin{DoxyParamCaption}
+\item[{const std\+::string}]{f\+\_\+id}
+\end{DoxyParamCaption}
+)}\hypertarget{protocol_8hpp_afa48640aa67b6882ca80137663ee6a4f}{}\label{protocol_8hpp_afa48640aa67b6882ca80137663ee6a4f}
 \index{protocol.\+hpp@{protocol.\+hpp}!incr\+\_\+v1@{incr\+\_\+v1}}
 \index{incr\+\_\+v1@{incr\+\_\+v1}!protocol.\+hpp@{protocol.\+hpp}}
 \subsubsection[{\texorpdfstring{incr\+\_\+v1(const int proto\+\_\+code, int \&var1\+\_\+curr)}{incr_v1(const int proto_code, int &var1_curr)}}]{\setlength{\rightskip}{0pt plus 5cm}void incr\+\_\+v1 (

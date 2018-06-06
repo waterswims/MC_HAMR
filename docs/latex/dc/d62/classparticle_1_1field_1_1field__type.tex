@@ -1,0 +1,494 @@
+\hypertarget{classparticle_1_1field_1_1field__type}{}\section{particle\+:\+:field\+:\+:field\+\_\+type Class Reference}
+\label{classparticle_1_1field_1_1field__type}\index{particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}}
+
+
+Base class for fields.  
+
+
+
+
+{\ttfamily \#include $<$field\+\_\+type.\+hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classparticle_1_1field_1_1field__type_a23df5aab2db9bb195068513fdc8facab}{field\+\_\+type} ()
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+\hyperlink{classparticle_1_1field_1_1field__type_a957e39bd01dddf793e324e07c8fd48b4}{field\+\_\+type} (bool ising\+\_\+in, bool periodic\+\_\+in, int d\+\_\+in, int edgesize\+\_\+in, double J\+\_\+mod, double D\+\_\+mod, std\+::string J\+\_\+filename)
+\item 
+\hyperlink{classparticle_1_1field_1_1field__type_abac5a921a73b94c132295ebc1840dc59}{$\sim$field\+\_\+type} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+void \hyperlink{classparticle_1_1field_1_1field__type_a23d6de180f50944f53eb30febf7d0faf}{set\+\_\+default\+\_\+spins} ()
+\begin{DoxyCompactList}\small\item\em Set default spins. \end{DoxyCompactList}\item 
+xt\+::xtensorf$<$ double, xt\+::xshape$<$ 4 $>$ $>$ \& \hyperlink{classparticle_1_1field_1_1field__type_ab5c39381717c4d4b4e998edd94c99ecf}{access} (int index)
+\item 
+std\+::vector$<$ int $>$ \& \hyperlink{classparticle_1_1field_1_1field__type_adf78cfd03fcc91cc8d649c8ad10c28ea}{get\+\_\+neigh} (int index)
+\item 
+std\+::vector$<$ int $>$ \& \hyperlink{classparticle_1_1field_1_1field__type_a71b567d43943ca9a186c30cfe1abd0e4}{get\+\_\+adj} (int index)
+\item 
+double \& \hyperlink{classparticle_1_1field_1_1field__type_aeace7d2b757b34b941c598ce929c45a5}{get\+\_\+J} (int i, int j)
+\item 
+xt\+::xtensorf$<$ double, xt\+::xshape$<$ 4 $>$ $>$ \& \hyperlink{classparticle_1_1field_1_1field__type_ad722f01398113f966942bf1da7342b4b}{get\+\_\+\+D\+\_\+vec} (int i, int j)
+\item 
+xt\+::xtensorf$<$ int, xt\+::xshape$<$ 4 $>$ $>$ \& \hyperlink{classparticle_1_1field_1_1field__type_a3fde4fed9adefe64fa39474a7ffbf4eb}{get\+\_\+loc} (int index)
+\item 
+void \hyperlink{classparticle_1_1field_1_1field__type_aa200986c374b75af35f1a9a19c31861b}{add\+\_\+spin} (xt\+::xtensorf$<$ int, xt\+::xshape$<$ 4 $>$$>$ \&loc)
+\item 
+void \hyperlink{classparticle_1_1field_1_1field__type_a9cd7af012cad435d86a8b80be4fe7b1f}{set\+\_\+neigh} ()
+\begin{DoxyCompactList}\small\item\em Determine the neighbours of the spins. \end{DoxyCompactList}\item 
+unsigned int \hyperlink{classparticle_1_1field_1_1field__type_a6dfe245d4d52d1445e8088e8ba2d2149}{get\+\_\+size} ()
+\item 
+int \hyperlink{classparticle_1_1field_1_1field__type_aae85188d550f097c450bf8ab2f64c7f4}{get\+\_\+dim} ()
+\item 
+int \hyperlink{classparticle_1_1field_1_1field__type_a0668acfd198f8b8deef94d24869a20c0}{get\+\_\+edge} ()
+\item 
+void \hyperlink{classparticle_1_1field_1_1field__type_af58cf7684adf342fab4fc0451f876b31}{set\+\_\+rand} (int index)
+\item 
+void \hyperlink{classparticle_1_1field_1_1field__type_aa7afb8939edfbad8d4fdc8c2b13d2c09}{set\+\_\+up} (int index)
+\item 
+void \hyperlink{classparticle_1_1field_1_1field__type_a96dffd1af9e4055a1fab081ddfc3351b}{set\+\_\+down} (int index)
+\item 
+void \hyperlink{classparticle_1_1field_1_1field__type_aed2e6a65c7a0d4af0d5000bdb5c4df87}{set\+\_\+spin} (int index, xt\+::xtensorf$<$ double, xt\+::xshape$<$ 4 $>$ $>$ \&in)
+\item 
+void \hyperlink{classparticle_1_1field_1_1field__type_a3cc84c12d27dd0884235de6682647d33}{gen\+\_\+rand} ()
+\begin{DoxyCompactList}\small\item\em Generate a random spin state. \end{DoxyCompactList}\item 
+xt\+::xtensorf$<$ double, xt\+::xshape$<$ 4 $>$ $>$ \& \hyperlink{classparticle_1_1field_1_1field__type_ac8ea9925a2fff05c0d2fd01ff44fcc1b}{get\+\_\+rand} ()
+\item 
+void \hyperlink{classparticle_1_1field_1_1field__type_a3d14b4ed88a12ac2cfc0ed194ea07dc8}{all\+\_\+rand} ()
+\begin{DoxyCompactList}\small\item\em Set all spins to a random state. \end{DoxyCompactList}\item 
+void \hyperlink{classparticle_1_1field_1_1field__type_a0ea5e47a876e032d71f80f36fb7d420e}{all\+\_\+zero} ()
+\begin{DoxyCompactList}\small\item\em Set all spins to a zero state. \end{DoxyCompactList}\item 
+void \hyperlink{classparticle_1_1field_1_1field__type_a35366643a91d160dd49ed129fb638906}{print\+\_\+setup} (const std\+::string filename, const std\+::string groupname, const int Tmax, const int Hmax)
+\item 
+void \hyperlink{classparticle_1_1field_1_1field__type_affdbf54dbaf99790a4002c0a34a41617}{print} (std\+::string filename, std\+::string arrname)
+\item 
+void \hyperlink{classparticle_1_1field_1_1field__type_a556f4573caf7bbf30a5319e8b7d72135}{send\+\_\+data} (int dest\+\_\+rank)
+\item 
+void \hyperlink{classparticle_1_1field_1_1field__type_aca156c7b050285ed49e941961059dedb}{recv\+\_\+data} (int src\+\_\+rank)
+\item 
+bool \hyperlink{classparticle_1_1field_1_1field__type_a5563deee195c3191007c0a139e2f389e}{use\+\_\+J} ()
+\begin{DoxyCompactList}\small\item\em Are the exchanges on? \end{DoxyCompactList}\item 
+bool \hyperlink{classparticle_1_1field_1_1field__type_a22b27d6b2ce32ea93ed5113a513f0f16}{use\+\_\+D} ()
+\begin{DoxyCompactList}\small\item\em Are the dmis on? \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Base class for fields. 
+
+\subsection{Constructor \& Destructor Documentation}
+\index{particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}!field\+\_\+type@{field\+\_\+type}}
+\index{field\+\_\+type@{field\+\_\+type}!particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}}
+\subsubsection[{\texorpdfstring{field\+\_\+type()}{field_type()}}]{\setlength{\rightskip}{0pt plus 5cm}particle\+::field\+::field\+\_\+type\+::field\+\_\+type (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classparticle_1_1field_1_1field__type_a23df5aab2db9bb195068513fdc8facab}{}\label{classparticle_1_1field_1_1field__type_a23df5aab2db9bb195068513fdc8facab}
+
+
+Default constructor. 
+
+\index{particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}!field\+\_\+type@{field\+\_\+type}}
+\index{field\+\_\+type@{field\+\_\+type}!particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}}
+\subsubsection[{\texorpdfstring{field\+\_\+type(bool ising\+\_\+in, bool periodic\+\_\+in, int d\+\_\+in, int edgesize\+\_\+in, double J\+\_\+mod, double D\+\_\+mod, std\+::string J\+\_\+filename)}{field_type(bool ising_in, bool periodic_in, int d_in, int edgesize_in, double J_mod, double D_mod, std::string J_filename)}}]{\setlength{\rightskip}{0pt plus 5cm}particle\+::field\+::field\+\_\+type\+::field\+\_\+type (
+\begin{DoxyParamCaption}
+\item[{bool}]{ising\+\_\+in, }
+\item[{bool}]{periodic\+\_\+in, }
+\item[{int}]{d\+\_\+in, }
+\item[{int}]{edgesize\+\_\+in, }
+\item[{double}]{J\+\_\+mod, }
+\item[{double}]{D\+\_\+mod, }
+\item[{std\+::string}]{J\+\_\+filename}
+\end{DoxyParamCaption}
+)}\hypertarget{classparticle_1_1field_1_1field__type_a957e39bd01dddf793e324e07c8fd48b4}{}\label{classparticle_1_1field_1_1field__type_a957e39bd01dddf793e324e07c8fd48b4}
+Constructor
+
+
+\begin{DoxyParams}{Parameters}
+{\em ising\+\_\+in} & Is this an ising field? \\
+\hline
+{\em periodic\+\_\+in} & Is the field periodic? \\
+\hline
+{\em d\+\_\+in} & The dimension of the field \\
+\hline
+{\em edgesize\+\_\+in} & The edgelength of the lattice \\
+\hline
+{\em J\+\_\+mod} & A modifier for the strength of the exchange \\
+\hline
+{\em D\+\_\+mod} & A modifier for the strength of the D\+MI \\
+\hline
+{\em J\+\_\+filename} & The filename where the exchanges and D\+M\+Is are stored \\
+\hline
+\end{DoxyParams}
+\index{particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}!````~field\+\_\+type@{$\sim$field\+\_\+type}}
+\index{````~field\+\_\+type@{$\sim$field\+\_\+type}!particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}}
+\subsubsection[{\texorpdfstring{$\sim$field\+\_\+type()}{~field_type()}}]{\setlength{\rightskip}{0pt plus 5cm}particle\+::field\+::field\+\_\+type\+::$\sim$field\+\_\+type (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classparticle_1_1field_1_1field__type_abac5a921a73b94c132295ebc1840dc59}{}\label{classparticle_1_1field_1_1field__type_abac5a921a73b94c132295ebc1840dc59}
+
+
+Destructor. 
+
+
+
+\subsection{Member Function Documentation}
+\index{particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}!access@{access}}
+\index{access@{access}!particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}}
+\subsubsection[{\texorpdfstring{access(int index)}{access(int index)}}]{\setlength{\rightskip}{0pt plus 5cm}xt\+::xtensorf$<$double, xt\+::xshape$<$4$>$ $>$\& particle\+::field\+::field\+\_\+type\+::access (
+\begin{DoxyParamCaption}
+\item[{int}]{index}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classparticle_1_1field_1_1field__type_ab5c39381717c4d4b4e998edd94c99ecf}{}\label{classparticle_1_1field_1_1field__type_ab5c39381717c4d4b4e998edd94c99ecf}
+Access an individual spin
+
+
+\begin{DoxyParams}{Parameters}
+{\em index} & The index of the spin site \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A reference to the spin value as a valarray 
+\end{DoxyReturn}
+\index{particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}!add\+\_\+spin@{add\+\_\+spin}}
+\index{add\+\_\+spin@{add\+\_\+spin}!particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}}
+\subsubsection[{\texorpdfstring{add\+\_\+spin(xt\+::xtensorf$<$ int, xt\+::xshape$<$ 4 $>$$>$ \&loc)}{add_spin(xt::xtensorf< int, xt::xshape< 4 >> &loc)}}]{\setlength{\rightskip}{0pt plus 5cm}void particle\+::field\+::field\+\_\+type\+::add\+\_\+spin (
+\begin{DoxyParamCaption}
+\item[{xt\+::xtensorf$<$ int, xt\+::xshape$<$ 4 $>$$>$ \&}]{loc}
+\end{DoxyParamCaption}
+)}\hypertarget{classparticle_1_1field_1_1field__type_aa200986c374b75af35f1a9a19c31861b}{}\label{classparticle_1_1field_1_1field__type_aa200986c374b75af35f1a9a19c31861b}
+Add a new spin to the field of spins
+
+
+\begin{DoxyParams}{Parameters}
+{\em loc} & The location of the new spin \\
+\hline
+\end{DoxyParams}
+\index{particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}!all\+\_\+rand@{all\+\_\+rand}}
+\index{all\+\_\+rand@{all\+\_\+rand}!particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}}
+\subsubsection[{\texorpdfstring{all\+\_\+rand()}{all_rand()}}]{\setlength{\rightskip}{0pt plus 5cm}void particle\+::field\+::field\+\_\+type\+::all\+\_\+rand (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classparticle_1_1field_1_1field__type_a3d14b4ed88a12ac2cfc0ed194ea07dc8}{}\label{classparticle_1_1field_1_1field__type_a3d14b4ed88a12ac2cfc0ed194ea07dc8}
+
+
+Set all spins to a random state. 
+
+\index{particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}!all\+\_\+zero@{all\+\_\+zero}}
+\index{all\+\_\+zero@{all\+\_\+zero}!particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}}
+\subsubsection[{\texorpdfstring{all\+\_\+zero()}{all_zero()}}]{\setlength{\rightskip}{0pt plus 5cm}void particle\+::field\+::field\+\_\+type\+::all\+\_\+zero (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classparticle_1_1field_1_1field__type_a0ea5e47a876e032d71f80f36fb7d420e}{}\label{classparticle_1_1field_1_1field__type_a0ea5e47a876e032d71f80f36fb7d420e}
+
+
+Set all spins to a zero state. 
+
+\index{particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}!gen\+\_\+rand@{gen\+\_\+rand}}
+\index{gen\+\_\+rand@{gen\+\_\+rand}!particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}}
+\subsubsection[{\texorpdfstring{gen\+\_\+rand()}{gen_rand()}}]{\setlength{\rightskip}{0pt plus 5cm}void particle\+::field\+::field\+\_\+type\+::gen\+\_\+rand (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classparticle_1_1field_1_1field__type_a3cc84c12d27dd0884235de6682647d33}{}\label{classparticle_1_1field_1_1field__type_a3cc84c12d27dd0884235de6682647d33}
+
+
+Generate a random spin state. 
+
+\index{particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}!get\+\_\+adj@{get\+\_\+adj}}
+\index{get\+\_\+adj@{get\+\_\+adj}!particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}}
+\subsubsection[{\texorpdfstring{get\+\_\+adj(int index)}{get_adj(int index)}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$int$>$\& particle\+::field\+::field\+\_\+type\+::get\+\_\+adj (
+\begin{DoxyParamCaption}
+\item[{int}]{index}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classparticle_1_1field_1_1field__type_a71b567d43943ca9a186c30cfe1abd0e4}{}\label{classparticle_1_1field_1_1field__type_a71b567d43943ca9a186c30cfe1abd0e4}
+Get the neighbours of a spin site
+
+
+\begin{DoxyParams}{Parameters}
+{\em index} & The index of the spin site \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A vector containing the indices of the neighbours of the chosen spin 
+\end{DoxyReturn}
+\index{particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}!get\+\_\+\+D\+\_\+vec@{get\+\_\+\+D\+\_\+vec}}
+\index{get\+\_\+\+D\+\_\+vec@{get\+\_\+\+D\+\_\+vec}!particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}}
+\subsubsection[{\texorpdfstring{get\+\_\+\+D\+\_\+vec(int i, int j)}{get_D_vec(int i, int j)}}]{\setlength{\rightskip}{0pt plus 5cm}xt\+::xtensorf$<$double, xt\+::xshape$<$4$>$ $>$\& particle\+::field\+::field\+\_\+type\+::get\+\_\+\+D\+\_\+vec (
+\begin{DoxyParamCaption}
+\item[{int}]{i, }
+\item[{int}]{j}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classparticle_1_1field_1_1field__type_ad722f01398113f966942bf1da7342b4b}{}\label{classparticle_1_1field_1_1field__type_ad722f01398113f966942bf1da7342b4b}
+Get the D\+MI vector with the neighbours of a spin site
+
+
+\begin{DoxyParams}{Parameters}
+{\em i} & The index of the spin site \\
+\hline
+{\em j} & The index of the chosen neighbour \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The D\+MI vector between the two spins 
+\end{DoxyReturn}
+\index{particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}!get\+\_\+dim@{get\+\_\+dim}}
+\index{get\+\_\+dim@{get\+\_\+dim}!particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}}
+\subsubsection[{\texorpdfstring{get\+\_\+dim()}{get_dim()}}]{\setlength{\rightskip}{0pt plus 5cm}int particle\+::field\+::field\+\_\+type\+::get\+\_\+dim (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classparticle_1_1field_1_1field__type_aae85188d550f097c450bf8ab2f64c7f4}{}\label{classparticle_1_1field_1_1field__type_aae85188d550f097c450bf8ab2f64c7f4}
+Get the dimension in the field
+
+\begin{DoxyReturn}{Returns}
+The dimension of the field 
+\end{DoxyReturn}
+\index{particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}!get\+\_\+edge@{get\+\_\+edge}}
+\index{get\+\_\+edge@{get\+\_\+edge}!particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}}
+\subsubsection[{\texorpdfstring{get\+\_\+edge()}{get_edge()}}]{\setlength{\rightskip}{0pt plus 5cm}int particle\+::field\+::field\+\_\+type\+::get\+\_\+edge (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classparticle_1_1field_1_1field__type_a0668acfd198f8b8deef94d24869a20c0}{}\label{classparticle_1_1field_1_1field__type_a0668acfd198f8b8deef94d24869a20c0}
+Get the edgesize of the field
+
+\begin{DoxyReturn}{Returns}
+The edgesize of the field 
+\end{DoxyReturn}
+\index{particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}!get\+\_\+J@{get\+\_\+J}}
+\index{get\+\_\+J@{get\+\_\+J}!particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}}
+\subsubsection[{\texorpdfstring{get\+\_\+\+J(int i, int j)}{get_J(int i, int j)}}]{\setlength{\rightskip}{0pt plus 5cm}double\& particle\+::field\+::field\+\_\+type\+::get\+\_\+J (
+\begin{DoxyParamCaption}
+\item[{int}]{i, }
+\item[{int}]{j}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classparticle_1_1field_1_1field__type_aeace7d2b757b34b941c598ce929c45a5}{}\label{classparticle_1_1field_1_1field__type_aeace7d2b757b34b941c598ce929c45a5}
+Get the exchanges with the neighbours of a spin site
+
+
+\begin{DoxyParams}{Parameters}
+{\em i} & The index of the spin site \\
+\hline
+{\em j} & The index of the chosen neighbour \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The exchange between the two spins 
+\end{DoxyReturn}
+\index{particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}!get\+\_\+loc@{get\+\_\+loc}}
+\index{get\+\_\+loc@{get\+\_\+loc}!particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}}
+\subsubsection[{\texorpdfstring{get\+\_\+loc(int index)}{get_loc(int index)}}]{\setlength{\rightskip}{0pt plus 5cm}xt\+::xtensorf$<$int, xt\+::xshape$<$4$>$ $>$\& particle\+::field\+::field\+\_\+type\+::get\+\_\+loc (
+\begin{DoxyParamCaption}
+\item[{int}]{index}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classparticle_1_1field_1_1field__type_a3fde4fed9adefe64fa39474a7ffbf4eb}{}\label{classparticle_1_1field_1_1field__type_a3fde4fed9adefe64fa39474a7ffbf4eb}
+Get the location of a spin site
+
+
+\begin{DoxyParams}{Parameters}
+{\em index} & The index of the spin site \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A vector containing the location of the neighbours of the chosen spin 
+\end{DoxyReturn}
+\index{particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}!get\+\_\+neigh@{get\+\_\+neigh}}
+\index{get\+\_\+neigh@{get\+\_\+neigh}!particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}}
+\subsubsection[{\texorpdfstring{get\+\_\+neigh(int index)}{get_neigh(int index)}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$int$>$\& particle\+::field\+::field\+\_\+type\+::get\+\_\+neigh (
+\begin{DoxyParamCaption}
+\item[{int}]{index}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classparticle_1_1field_1_1field__type_adf78cfd03fcc91cc8d649c8ad10c28ea}{}\label{classparticle_1_1field_1_1field__type_adf78cfd03fcc91cc8d649c8ad10c28ea}
+Get the neighbours of a spin site
+
+
+\begin{DoxyParams}{Parameters}
+{\em index} & The index of the spin site \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A vector containing the indices of the neighbours of the chosen spin 
+\end{DoxyReturn}
+\index{particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}!get\+\_\+rand@{get\+\_\+rand}}
+\index{get\+\_\+rand@{get\+\_\+rand}!particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}}
+\subsubsection[{\texorpdfstring{get\+\_\+rand()}{get_rand()}}]{\setlength{\rightskip}{0pt plus 5cm}xt\+::xtensorf$<$double, xt\+::xshape$<$4$>$ $>$\& particle\+::field\+::field\+\_\+type\+::get\+\_\+rand (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classparticle_1_1field_1_1field__type_ac8ea9925a2fff05c0d2fd01ff44fcc1b}{}\label{classparticle_1_1field_1_1field__type_ac8ea9925a2fff05c0d2fd01ff44fcc1b}
+Return the randomly generated state
+
+\begin{DoxyReturn}{Returns}
+The random state as a valarray 
+\end{DoxyReturn}
+\index{particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}!get\+\_\+size@{get\+\_\+size}}
+\index{get\+\_\+size@{get\+\_\+size}!particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}}
+\subsubsection[{\texorpdfstring{get\+\_\+size()}{get_size()}}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int particle\+::field\+::field\+\_\+type\+::get\+\_\+size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classparticle_1_1field_1_1field__type_a6dfe245d4d52d1445e8088e8ba2d2149}{}\label{classparticle_1_1field_1_1field__type_a6dfe245d4d52d1445e8088e8ba2d2149}
+Get the number of spins in the field
+
+\begin{DoxyReturn}{Returns}
+The number of spins in the field 
+\end{DoxyReturn}
+\index{particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}!print@{print}}
+\index{print@{print}!particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}}
+\subsubsection[{\texorpdfstring{print(std\+::string filename, std\+::string arrname)}{print(std::string filename, std::string arrname)}}]{\setlength{\rightskip}{0pt plus 5cm}void particle\+::field\+::field\+\_\+type\+::print (
+\begin{DoxyParamCaption}
+\item[{std\+::string}]{filename, }
+\item[{std\+::string}]{arrname}
+\end{DoxyParamCaption}
+)}\hypertarget{classparticle_1_1field_1_1field__type_affdbf54dbaf99790a4002c0a34a41617}{}\label{classparticle_1_1field_1_1field__type_affdbf54dbaf99790a4002c0a34a41617}
+Print the lattice to a file
+
+/param filename The name of the H\+D\+F5 file /param arrname The name of the particular array to be printed to \index{particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}!print\+\_\+setup@{print\+\_\+setup}}
+\index{print\+\_\+setup@{print\+\_\+setup}!particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}}
+\subsubsection[{\texorpdfstring{print\+\_\+setup(const std\+::string filename, const std\+::string groupname, const int Tmax, const int Hmax)}{print_setup(const std::string filename, const std::string groupname, const int Tmax, const int Hmax)}}]{\setlength{\rightskip}{0pt plus 5cm}void particle\+::field\+::field\+\_\+type\+::print\+\_\+setup (
+\begin{DoxyParamCaption}
+\item[{const std\+::string}]{filename, }
+\item[{const std\+::string}]{groupname, }
+\item[{const int}]{Tmax, }
+\item[{const int}]{Hmax}
+\end{DoxyParamCaption}
+)}\hypertarget{classparticle_1_1field_1_1field__type_a35366643a91d160dd49ed129fb638906}{}\label{classparticle_1_1field_1_1field__type_a35366643a91d160dd49ed129fb638906}
+Set up the H\+D\+F5 file for array printing
+
+/param filename The name of the H\+D\+F5 file /param groupname The name of the group within the file to store the lattices /param Tmax The number of temperatures /param Hmax The number of fields \index{particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}!recv\+\_\+data@{recv\+\_\+data}}
+\index{recv\+\_\+data@{recv\+\_\+data}!particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}}
+\subsubsection[{\texorpdfstring{recv\+\_\+data(int src\+\_\+rank)}{recv_data(int src_rank)}}]{\setlength{\rightskip}{0pt plus 5cm}void particle\+::field\+::field\+\_\+type\+::recv\+\_\+data (
+\begin{DoxyParamCaption}
+\item[{int}]{src\+\_\+rank}
+\end{DoxyParamCaption}
+)}\hypertarget{classparticle_1_1field_1_1field__type_aca156c7b050285ed49e941961059dedb}{}\label{classparticle_1_1field_1_1field__type_aca156c7b050285ed49e941961059dedb}
+Recieve the field from another process
+
+
+\begin{DoxyParams}{Parameters}
+{\em src\+\_\+rank} & The rank of the process recieving from \\
+\hline
+\end{DoxyParams}
+\index{particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}!send\+\_\+data@{send\+\_\+data}}
+\index{send\+\_\+data@{send\+\_\+data}!particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}}
+\subsubsection[{\texorpdfstring{send\+\_\+data(int dest\+\_\+rank)}{send_data(int dest_rank)}}]{\setlength{\rightskip}{0pt plus 5cm}void particle\+::field\+::field\+\_\+type\+::send\+\_\+data (
+\begin{DoxyParamCaption}
+\item[{int}]{dest\+\_\+rank}
+\end{DoxyParamCaption}
+)}\hypertarget{classparticle_1_1field_1_1field__type_a556f4573caf7bbf30a5319e8b7d72135}{}\label{classparticle_1_1field_1_1field__type_a556f4573caf7bbf30a5319e8b7d72135}
+Send the field to another process
+
+
+\begin{DoxyParams}{Parameters}
+{\em dest\+\_\+rank} & The target process\textquotesingle{} rank \\
+\hline
+\end{DoxyParams}
+\index{particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}!set\+\_\+default\+\_\+spins@{set\+\_\+default\+\_\+spins}}
+\index{set\+\_\+default\+\_\+spins@{set\+\_\+default\+\_\+spins}!particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}}
+\subsubsection[{\texorpdfstring{set\+\_\+default\+\_\+spins()}{set_default_spins()}}]{\setlength{\rightskip}{0pt plus 5cm}void particle\+::field\+::field\+\_\+type\+::set\+\_\+default\+\_\+spins (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classparticle_1_1field_1_1field__type_a23d6de180f50944f53eb30febf7d0faf}{}\label{classparticle_1_1field_1_1field__type_a23d6de180f50944f53eb30febf7d0faf}
+
+
+Set default spins. 
+
+\index{particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}!set\+\_\+down@{set\+\_\+down}}
+\index{set\+\_\+down@{set\+\_\+down}!particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}}
+\subsubsection[{\texorpdfstring{set\+\_\+down(int index)}{set_down(int index)}}]{\setlength{\rightskip}{0pt plus 5cm}void particle\+::field\+::field\+\_\+type\+::set\+\_\+down (
+\begin{DoxyParamCaption}
+\item[{int}]{index}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classparticle_1_1field_1_1field__type_a96dffd1af9e4055a1fab081ddfc3351b}{}\label{classparticle_1_1field_1_1field__type_a96dffd1af9e4055a1fab081ddfc3351b}
+Set a spin to the down state
+
+
+\begin{DoxyParams}{Parameters}
+{\em index} & The location of the spin to be changed \\
+\hline
+\end{DoxyParams}
+\index{particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}!set\+\_\+neigh@{set\+\_\+neigh}}
+\index{set\+\_\+neigh@{set\+\_\+neigh}!particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}}
+\subsubsection[{\texorpdfstring{set\+\_\+neigh()}{set_neigh()}}]{\setlength{\rightskip}{0pt plus 5cm}void particle\+::field\+::field\+\_\+type\+::set\+\_\+neigh (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classparticle_1_1field_1_1field__type_a9cd7af012cad435d86a8b80be4fe7b1f}{}\label{classparticle_1_1field_1_1field__type_a9cd7af012cad435d86a8b80be4fe7b1f}
+
+
+Determine the neighbours of the spins. 
+
+\index{particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}!set\+\_\+rand@{set\+\_\+rand}}
+\index{set\+\_\+rand@{set\+\_\+rand}!particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}}
+\subsubsection[{\texorpdfstring{set\+\_\+rand(int index)}{set_rand(int index)}}]{\setlength{\rightskip}{0pt plus 5cm}void particle\+::field\+::field\+\_\+type\+::set\+\_\+rand (
+\begin{DoxyParamCaption}
+\item[{int}]{index}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classparticle_1_1field_1_1field__type_af58cf7684adf342fab4fc0451f876b31}{}\label{classparticle_1_1field_1_1field__type_af58cf7684adf342fab4fc0451f876b31}
+Set a spin to the already generated random state
+
+
+\begin{DoxyParams}{Parameters}
+{\em index} & The location of the spin to be changed \\
+\hline
+\end{DoxyParams}
+\index{particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}!set\+\_\+spin@{set\+\_\+spin}}
+\index{set\+\_\+spin@{set\+\_\+spin}!particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}}
+\subsubsection[{\texorpdfstring{set\+\_\+spin(int index, xt\+::xtensorf$<$ double, xt\+::xshape$<$ 4 $>$ $>$ \&in)}{set_spin(int index, xt::xtensorf< double, xt::xshape< 4 > > &in)}}]{\setlength{\rightskip}{0pt plus 5cm}void particle\+::field\+::field\+\_\+type\+::set\+\_\+spin (
+\begin{DoxyParamCaption}
+\item[{int}]{index, }
+\item[{xt\+::xtensorf$<$ double, xt\+::xshape$<$ 4 $>$ $>$ \&}]{in}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classparticle_1_1field_1_1field__type_aed2e6a65c7a0d4af0d5000bdb5c4df87}{}\label{classparticle_1_1field_1_1field__type_aed2e6a65c7a0d4af0d5000bdb5c4df87}
+Set a spin to the down state
+
+
+\begin{DoxyParams}{Parameters}
+{\em index} & The location of the spin to be changed \\
+\hline
+\end{DoxyParams}
+\index{particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}!set\+\_\+up@{set\+\_\+up}}
+\index{set\+\_\+up@{set\+\_\+up}!particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}}
+\subsubsection[{\texorpdfstring{set\+\_\+up(int index)}{set_up(int index)}}]{\setlength{\rightskip}{0pt plus 5cm}void particle\+::field\+::field\+\_\+type\+::set\+\_\+up (
+\begin{DoxyParamCaption}
+\item[{int}]{index}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classparticle_1_1field_1_1field__type_aa7afb8939edfbad8d4fdc8c2b13d2c09}{}\label{classparticle_1_1field_1_1field__type_aa7afb8939edfbad8d4fdc8c2b13d2c09}
+Set a spin to the down state
+
+
+\begin{DoxyParams}{Parameters}
+{\em index} & The location of the spin to be changed \\
+\hline
+\end{DoxyParams}
+\index{particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}!use\+\_\+D@{use\+\_\+D}}
+\index{use\+\_\+D@{use\+\_\+D}!particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}}
+\subsubsection[{\texorpdfstring{use\+\_\+\+D()}{use_D()}}]{\setlength{\rightskip}{0pt plus 5cm}bool particle\+::field\+::field\+\_\+type\+::use\+\_\+D (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classparticle_1_1field_1_1field__type_a22b27d6b2ce32ea93ed5113a513f0f16}{}\label{classparticle_1_1field_1_1field__type_a22b27d6b2ce32ea93ed5113a513f0f16}
+
+
+Are the dmis on? 
+
+\index{particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}!use\+\_\+J@{use\+\_\+J}}
+\index{use\+\_\+J@{use\+\_\+J}!particle\+::field\+::field\+\_\+type@{particle\+::field\+::field\+\_\+type}}
+\subsubsection[{\texorpdfstring{use\+\_\+\+J()}{use_J()}}]{\setlength{\rightskip}{0pt plus 5cm}bool particle\+::field\+::field\+\_\+type\+::use\+\_\+J (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classparticle_1_1field_1_1field__type_a5563deee195c3191007c0a139e2f389e}{}\label{classparticle_1_1field_1_1field__type_a5563deee195c3191007c0a139e2f389e}
+
+
+Are the exchanges on? 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+includes/\hyperlink{field__type_8hpp}{field\+\_\+type.\+hpp}\end{DoxyCompactItemize}

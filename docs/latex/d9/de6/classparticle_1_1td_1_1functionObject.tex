@@ -1,0 +1,143 @@
+\hypertarget{classparticle_1_1td_1_1functionObject}{}\section{particle\+:\+:td\+:\+:function\+Object Class Reference}
+\label{classparticle_1_1td_1_1functionObject}\index{particle\+::td\+::function\+Object@{particle\+::td\+::function\+Object}}
+
+
+{\ttfamily \#include $<$thermodynamics.\+hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classparticle_1_1td_1_1functionObject_a983e51c31ec252ab0567eb70bc0a8631}{setup} (bool useJ, bool useD)
+\item 
+double \hyperlink{classparticle_1_1td_1_1functionObject_a7fe36af330daf78dbe7ce3897e6dad3f}{calc\+\_\+E} (\hyperlink{classparticle_1_1field_1_1field__type}{field\+::field\+\_\+type} \&lattice, xt\+::xtensorf$<$ double, xt\+::xshape$<$ 4 $>$$>$ \&H)
+\item 
+double \hyperlink{classparticle_1_1td_1_1functionObject_a057b7d5d3315a6a36efa470d4136ceb7}{calc\+\_\+dE} (\hyperlink{classparticle_1_1field_1_1field__type}{field\+::field\+\_\+type} \&lattice, int position, xt\+::xtensorf$<$ double, xt\+::xshape$<$ 4 $>$$>$ \&H)
+\item 
+xt\+::xtensorf$<$ double, xt\+::xshape$<$ 4 $>$ $>$ \hyperlink{classparticle_1_1td_1_1functionObject_a60a3f8d3dc9160864d6c05bc4583b8b7}{calc\+\_\+M} (\hyperlink{classparticle_1_1field_1_1field__type}{field\+::field\+\_\+type} \&lattice)
+\item 
+xt\+::xtensorf$<$ double, xt\+::xshape$<$ 4 $>$ $>$ \hyperlink{classparticle_1_1td_1_1functionObject_a1b92821d8ef6d7aee3d0baeaeef6db1f}{calc\+\_\+subM} (\hyperlink{classparticle_1_1field_1_1field__type}{field\+::field\+\_\+type} \&lattice, int subnumber)
+\item 
+std\+::vector$<$ double $>$ \hyperlink{classparticle_1_1td_1_1functionObject_aef4fdc9fa9647aa342978820c2c9a4fc}{calc\+\_\+\+TC} (\hyperlink{classparticle_1_1field_1_1field__type}{field\+::field\+\_\+type} \&lattice)
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\index{particle\+::td\+::function\+Object@{particle\+::td\+::function\+Object}!calc\+\_\+dE@{calc\+\_\+dE}}
+\index{calc\+\_\+dE@{calc\+\_\+dE}!particle\+::td\+::function\+Object@{particle\+::td\+::function\+Object}}
+\subsubsection[{\texorpdfstring{calc\+\_\+d\+E(field\+::field\+\_\+type \&lattice, int position, xt\+::xtensorf$<$ double, xt\+::xshape$<$ 4 $>$$>$ \&\+H)}{calc_dE(field::field_type &lattice, int position, xt::xtensorf< double, xt::xshape< 4 >> &H)}}]{\setlength{\rightskip}{0pt plus 5cm}double particle\+::td\+::function\+Object\+::calc\+\_\+dE (
+\begin{DoxyParamCaption}
+\item[{{\bf field\+::field\+\_\+type} \&}]{lattice, }
+\item[{int}]{position, }
+\item[{xt\+::xtensorf$<$ double, xt\+::xshape$<$ 4 $>$$>$ \&}]{H}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classparticle_1_1td_1_1functionObject_a057b7d5d3315a6a36efa470d4136ceb7}{}\label{classparticle_1_1td_1_1functionObject_a057b7d5d3315a6a36efa470d4136ceb7}
+Calculate the energy change after a spin flip of a single spin
+
+
+\begin{DoxyParams}{Parameters}
+{\em lattice} & The lattice \\
+\hline
+{\em position} & The chosen spin \\
+\hline
+{\em H} & The external magnetic field \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The change in energy 
+\end{DoxyReturn}
+\index{particle\+::td\+::function\+Object@{particle\+::td\+::function\+Object}!calc\+\_\+E@{calc\+\_\+E}}
+\index{calc\+\_\+E@{calc\+\_\+E}!particle\+::td\+::function\+Object@{particle\+::td\+::function\+Object}}
+\subsubsection[{\texorpdfstring{calc\+\_\+\+E(field\+::field\+\_\+type \&lattice, xt\+::xtensorf$<$ double, xt\+::xshape$<$ 4 $>$$>$ \&\+H)}{calc_E(field::field_type &lattice, xt::xtensorf< double, xt::xshape< 4 >> &H)}}]{\setlength{\rightskip}{0pt plus 5cm}double particle\+::td\+::function\+Object\+::calc\+\_\+E (
+\begin{DoxyParamCaption}
+\item[{{\bf field\+::field\+\_\+type} \&}]{lattice, }
+\item[{xt\+::xtensorf$<$ double, xt\+::xshape$<$ 4 $>$$>$ \&}]{H}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classparticle_1_1td_1_1functionObject_a7fe36af330daf78dbe7ce3897e6dad3f}{}\label{classparticle_1_1td_1_1functionObject_a7fe36af330daf78dbe7ce3897e6dad3f}
+Calculate the energy of a given lattice
+
+
+\begin{DoxyParams}{Parameters}
+{\em lattice} & The lattice \\
+\hline
+{\em H} & The external magnetic field \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The energy 
+\end{DoxyReturn}
+\index{particle\+::td\+::function\+Object@{particle\+::td\+::function\+Object}!calc\+\_\+M@{calc\+\_\+M}}
+\index{calc\+\_\+M@{calc\+\_\+M}!particle\+::td\+::function\+Object@{particle\+::td\+::function\+Object}}
+\subsubsection[{\texorpdfstring{calc\+\_\+\+M(field\+::field\+\_\+type \&lattice)}{calc_M(field::field_type &lattice)}}]{\setlength{\rightskip}{0pt plus 5cm}xt\+::xtensorf$<$double, xt\+::xshape$<$4$>$ $>$ particle\+::td\+::function\+Object\+::calc\+\_\+M (
+\begin{DoxyParamCaption}
+\item[{{\bf field\+::field\+\_\+type} \&}]{lattice}
+\end{DoxyParamCaption}
+)}\hypertarget{classparticle_1_1td_1_1functionObject_a60a3f8d3dc9160864d6c05bc4583b8b7}{}\label{classparticle_1_1td_1_1functionObject_a60a3f8d3dc9160864d6c05bc4583b8b7}
+Calculate the magnetisation of a lattice
+
+
+\begin{DoxyParams}{Parameters}
+{\em lattice} & The lattice \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The magnetisation vecotr of the lattice 
+\end{DoxyReturn}
+\index{particle\+::td\+::function\+Object@{particle\+::td\+::function\+Object}!calc\+\_\+subM@{calc\+\_\+subM}}
+\index{calc\+\_\+subM@{calc\+\_\+subM}!particle\+::td\+::function\+Object@{particle\+::td\+::function\+Object}}
+\subsubsection[{\texorpdfstring{calc\+\_\+sub\+M(field\+::field\+\_\+type \&lattice, int subnumber)}{calc_subM(field::field_type &lattice, int subnumber)}}]{\setlength{\rightskip}{0pt plus 5cm}xt\+::xtensorf$<$double, xt\+::xshape$<$4$>$ $>$ particle\+::td\+::function\+Object\+::calc\+\_\+subM (
+\begin{DoxyParamCaption}
+\item[{{\bf field\+::field\+\_\+type} \&}]{lattice, }
+\item[{int}]{subnumber}
+\end{DoxyParamCaption}
+)}\hypertarget{classparticle_1_1td_1_1functionObject_a1b92821d8ef6d7aee3d0baeaeef6db1f}{}\label{classparticle_1_1td_1_1functionObject_a1b92821d8ef6d7aee3d0baeaeef6db1f}
+Calculate the sublattice magnetisation
+
+
+\begin{DoxyParams}{Parameters}
+{\em lattice} & The lattice \\
+\hline
+{\em subnumber} & Choice of sublattice \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The magnetisation vecotr of the sublattice 
+\end{DoxyReturn}
+\index{particle\+::td\+::function\+Object@{particle\+::td\+::function\+Object}!calc\+\_\+\+TC@{calc\+\_\+\+TC}}
+\index{calc\+\_\+\+TC@{calc\+\_\+\+TC}!particle\+::td\+::function\+Object@{particle\+::td\+::function\+Object}}
+\subsubsection[{\texorpdfstring{calc\+\_\+\+T\+C(field\+::field\+\_\+type \&lattice)}{calc_TC(field::field_type &lattice)}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$double$>$ particle\+::td\+::function\+Object\+::calc\+\_\+\+TC (
+\begin{DoxyParamCaption}
+\item[{{\bf field\+::field\+\_\+type} \&}]{lattice}
+\end{DoxyParamCaption}
+)}\hypertarget{classparticle_1_1td_1_1functionObject_aef4fdc9fa9647aa342978820c2c9a4fc}{}\label{classparticle_1_1td_1_1functionObject_aef4fdc9fa9647aa342978820c2c9a4fc}
+Calculate the topological charge of a given lattice
+
+
+\begin{DoxyParams}{Parameters}
+{\em lattice} & The lattice \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A vector containing the topological charge of each of the slicesof the lattice 
+\end{DoxyReturn}
+\index{particle\+::td\+::function\+Object@{particle\+::td\+::function\+Object}!setup@{setup}}
+\index{setup@{setup}!particle\+::td\+::function\+Object@{particle\+::td\+::function\+Object}}
+\subsubsection[{\texorpdfstring{setup(bool use\+J, bool use\+D)}{setup(bool useJ, bool useD)}}]{\setlength{\rightskip}{0pt plus 5cm}void particle\+::td\+::function\+Object\+::setup (
+\begin{DoxyParamCaption}
+\item[{bool}]{useJ, }
+\item[{bool}]{useD}
+\end{DoxyParamCaption}
+)}\hypertarget{classparticle_1_1td_1_1functionObject_a983e51c31ec252ab0567eb70bc0a8631}{}\label{classparticle_1_1td_1_1functionObject_a983e51c31ec252ab0567eb70bc0a8631}
+Setup the thermodynamic functions
+
+
+\begin{DoxyParams}{Parameters}
+{\em useJ} & Should the exchange be included? \\
+\hline
+{\em useD} & Should the D\+MI be included? \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+includes/\hyperlink{thermodynamics_8hpp}{thermodynamics.\+hpp}\end{DoxyCompactItemize}

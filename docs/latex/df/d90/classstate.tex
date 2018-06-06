@@ -9,15 +9,17 @@
 \item 
 \hyperlink{classstate_aee920d9f534640451f22b3525f9cb9de}{state} ()
 \item 
-\hyperlink{classstate_a1ffab1c19ca8140b1e41d9fa40bf3834}{state} (double size, bool is\+Perio, char shape\+\_\+code, char ham\+\_\+code, double J, double H, double k, double Temp, double K, double $\ast$args)
+\hyperlink{classstate_aa3dee783102d59b3c07617558c25afaf}{state} (\hyperlink{structstateOptions}{state\+Options} opt)
 \item 
 \hyperlink{classstate_a285d976cdbd4a9de9ec8d1d887991ecc}{state} (const \hyperlink{classstate}{state} \&other)
 \item 
 \hyperlink{classstate_a60216b51b01ca0ebe9786ec2da66568f}{$\sim$state} ()
 \item 
+\hyperlink{classparticle_1_1field_1_1field__type}{particle\+::field\+::field\+\_\+type} \hyperlink{classstate_a0a6f3f9510acca9b766cc4b4f17671c0}{get\+\_\+field} ()
+\item 
 void \hyperlink{classstate_a0d0ea6448509ececead44d83b4decd1c}{copy\+\_\+points} (const \hyperlink{classstate}{state} \&other)
 \item 
-void \hyperlink{classstate_a62fc1dbaf8ac5002ec6ca08ec93fb012}{init\+\_\+points} (double size, bool is\+Perio, double H, double J, double K, double $\ast$args)
+void \hyperlink{classstate_aac3b2330539154d3784730e4c8a61123}{init\+\_\+points} (\hyperlink{structstateOptions}{state\+Options} opt)
 \item 
 void \hyperlink{classstate_af70b6f999313cc427a526388058cb45c}{equil} (int iter)
 \item 
@@ -31,13 +33,15 @@ std\+::vector$<$ double $>$ \hyperlink{classstate_aba4b4f47fc3b9cba97b5f63518214
 \item 
 int \hyperlink{classstate_ad9182b875a7a3fb5981c811f7f062040}{num\+\_\+spins} ()
 \item 
+int \hyperlink{classstate_acf2ec1dfdb1068a279de590375cbcb96}{get\+\_\+size} ()
+\item 
 int \hyperlink{classstate_a8351befda232e04536d6a3e738754282}{sub\+\_\+num} (int subnumber)
 \item 
 void \hyperlink{classstate_acfeea4e197f5ce0160c6c664740ba6ff}{init\+\_\+lattice} ()
 \item 
 void \hyperlink{classstate_aca18a3757a2e6bd79cda366e4e31bb99}{change\+\_\+temp} (double T)
 \item 
-void \hyperlink{classstate_aa03016edf3d086e5fe4ac901c0661136}{change\+\_\+field} (double H)
+void \hyperlink{classstate_a3f54c8647fddb251db2ba11420f4e75f}{change\+\_\+field} (double Hin)
 \item 
 \hyperlink{classstate}{state} \& \hyperlink{classstate_a8f382a578a92617e7294cbbd80fba3c6}{operator=} (const \hyperlink{classstate}{state} \&other)
 \item 
@@ -45,7 +49,7 @@ void \hyperlink{classstate_afa18f63b166492174bf88cd52c1cb748}{print\+\_\+latt} (
 \item 
 void \hyperlink{classstate_af478dc8ce44c65cc535530738693eff5}{ptf} (std\+::string fname, std\+::string arrname)
 \item 
-void \hyperlink{classstate_af63905e26f5732a1c2ab9c5ea282e13d}{add\+\_\+to\+\_\+av} (\hyperlink{classfield__type}{field\+\_\+type} $\ast$other\+\_\+field)
+void \hyperlink{classstate_a2d9073df186ccbf4159022d1c8c3b061}{add\+\_\+to\+\_\+av} (\hyperlink{classparticle_1_1field_1_1field__type}{particle\+::field\+::field\+\_\+type} \&other\+\_\+field)
 \item 
 void \hyperlink{classstate_a74588f49ec2b0868442d78ed9dcf1224}{change\+\_\+v1} (int protocol, double v1)
 \item 
@@ -67,20 +71,11 @@ void \hyperlink{classstate_a5ce0ea314795d1cc37849604f202fb98}{recv\+\_\+latt\+\_
 )\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classstate_aee920d9f534640451f22b3525f9cb9de}{}\label{classstate_aee920d9f534640451f22b3525f9cb9de}
 \index{state@{state}!state@{state}}
 \index{state@{state}!state@{state}}
-\subsubsection[{\texorpdfstring{state(double size, bool is\+Perio, char shape\+\_\+code, char ham\+\_\+code, double J, double H, double k, double Temp, double K, double $\ast$args)}{state(double size, bool isPerio, char shape_code, char ham_code, double J, double H, double k, double Temp, double K, double *args)}}]{\setlength{\rightskip}{0pt plus 5cm}state\+::state (
+\subsubsection[{\texorpdfstring{state(state\+Options opt)}{state(stateOptions opt)}}]{\setlength{\rightskip}{0pt plus 5cm}state\+::state (
 \begin{DoxyParamCaption}
-\item[{double}]{size, }
-\item[{bool}]{is\+Perio, }
-\item[{char}]{shape\+\_\+code, }
-\item[{char}]{ham\+\_\+code, }
-\item[{double}]{J, }
-\item[{double}]{H, }
-\item[{double}]{k, }
-\item[{double}]{Temp, }
-\item[{double}]{K, }
-\item[{double $\ast$}]{args}
+\item[{{\bf state\+Options}}]{opt}
 \end{DoxyParamCaption}
-)}\hypertarget{classstate_a1ffab1c19ca8140b1e41d9fa40bf3834}{}\label{classstate_a1ffab1c19ca8140b1e41d9fa40bf3834}
+)}\hypertarget{classstate_aa3dee783102d59b3c07617558c25afaf}{}\label{classstate_aa3dee783102d59b3c07617558c25afaf}
 \index{state@{state}!state@{state}}
 \index{state@{state}!state@{state}}
 \subsubsection[{\texorpdfstring{state(const state \&other)}{state(const state &other)}}]{\setlength{\rightskip}{0pt plus 5cm}state\+::state (
@@ -100,18 +95,18 @@ void \hyperlink{classstate_a5ce0ea314795d1cc37849604f202fb98}{recv\+\_\+latt\+\_
 \subsection{Member Function Documentation}
 \index{state@{state}!add\+\_\+to\+\_\+av@{add\+\_\+to\+\_\+av}}
 \index{add\+\_\+to\+\_\+av@{add\+\_\+to\+\_\+av}!state@{state}}
-\subsubsection[{\texorpdfstring{add\+\_\+to\+\_\+av(field\+\_\+type $\ast$other\+\_\+field)}{add_to_av(field_type *other_field)}}]{\setlength{\rightskip}{0pt plus 5cm}void state\+::add\+\_\+to\+\_\+av (
+\subsubsection[{\texorpdfstring{add\+\_\+to\+\_\+av(particle\+::field\+::field\+\_\+type \&other\+\_\+field)}{add_to_av(particle::field::field_type &other_field)}}]{\setlength{\rightskip}{0pt plus 5cm}void state\+::add\+\_\+to\+\_\+av (
 \begin{DoxyParamCaption}
-\item[{{\bf field\+\_\+type} $\ast$}]{other\+\_\+field}
+\item[{{\bf particle\+::field\+::field\+\_\+type} \&}]{other\+\_\+field}
 \end{DoxyParamCaption}
-)}\hypertarget{classstate_af63905e26f5732a1c2ab9c5ea282e13d}{}\label{classstate_af63905e26f5732a1c2ab9c5ea282e13d}
+)}\hypertarget{classstate_a2d9073df186ccbf4159022d1c8c3b061}{}\label{classstate_a2d9073df186ccbf4159022d1c8c3b061}
 \index{state@{state}!change\+\_\+field@{change\+\_\+field}}
 \index{change\+\_\+field@{change\+\_\+field}!state@{state}}
-\subsubsection[{\texorpdfstring{change\+\_\+field(double H)}{change_field(double H)}}]{\setlength{\rightskip}{0pt plus 5cm}void state\+::change\+\_\+field (
+\subsubsection[{\texorpdfstring{change\+\_\+field(double Hin)}{change_field(double Hin)}}]{\setlength{\rightskip}{0pt plus 5cm}void state\+::change\+\_\+field (
 \begin{DoxyParamCaption}
-\item[{double}]{H}
+\item[{double}]{Hin}
 \end{DoxyParamCaption}
-)}\hypertarget{classstate_aa03016edf3d086e5fe4ac901c0661136}{}\label{classstate_aa03016edf3d086e5fe4ac901c0661136}
+)}\hypertarget{classstate_a3f54c8647fddb251db2ba11420f4e75f}{}\label{classstate_a3f54c8647fddb251db2ba11420f4e75f}
 \index{state@{state}!change\+\_\+temp@{change\+\_\+temp}}
 \index{change\+\_\+temp@{change\+\_\+temp}!state@{state}}
 \subsubsection[{\texorpdfstring{change\+\_\+temp(double T)}{change_temp(double T)}}]{\setlength{\rightskip}{0pt plus 5cm}void state\+::change\+\_\+temp (
@@ -156,6 +151,20 @@ void \hyperlink{classstate_a5ce0ea314795d1cc37849604f202fb98}{recv\+\_\+latt\+\_
 \item[{int}]{iter}
 \end{DoxyParamCaption}
 )}\hypertarget{classstate_af70b6f999313cc427a526388058cb45c}{}\label{classstate_af70b6f999313cc427a526388058cb45c}
+\index{state@{state}!get\+\_\+field@{get\+\_\+field}}
+\index{get\+\_\+field@{get\+\_\+field}!state@{state}}
+\subsubsection[{\texorpdfstring{get\+\_\+field()}{get_field()}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf particle\+::field\+::field\+\_\+type} state\+::get\+\_\+field (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classstate_a0a6f3f9510acca9b766cc4b4f17671c0}{}\label{classstate_a0a6f3f9510acca9b766cc4b4f17671c0}
+\index{state@{state}!get\+\_\+size@{get\+\_\+size}}
+\index{get\+\_\+size@{get\+\_\+size}!state@{state}}
+\subsubsection[{\texorpdfstring{get\+\_\+size()}{get_size()}}]{\setlength{\rightskip}{0pt plus 5cm}int state\+::get\+\_\+size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classstate_acf2ec1dfdb1068a279de590375cbcb96}{}\label{classstate_acf2ec1dfdb1068a279de590375cbcb96}
 \index{state@{state}!init\+\_\+lattice@{init\+\_\+lattice}}
 \index{init\+\_\+lattice@{init\+\_\+lattice}!state@{state}}
 \subsubsection[{\texorpdfstring{init\+\_\+lattice()}{init_lattice()}}]{\setlength{\rightskip}{0pt plus 5cm}void state\+::init\+\_\+lattice (
@@ -165,16 +174,11 @@ void \hyperlink{classstate_a5ce0ea314795d1cc37849604f202fb98}{recv\+\_\+latt\+\_
 )}\hypertarget{classstate_acfeea4e197f5ce0160c6c664740ba6ff}{}\label{classstate_acfeea4e197f5ce0160c6c664740ba6ff}
 \index{state@{state}!init\+\_\+points@{init\+\_\+points}}
 \index{init\+\_\+points@{init\+\_\+points}!state@{state}}
-\subsubsection[{\texorpdfstring{init\+\_\+points(double size, bool is\+Perio, double H, double J, double K, double $\ast$args)}{init_points(double size, bool isPerio, double H, double J, double K, double *args)}}]{\setlength{\rightskip}{0pt plus 5cm}void state\+::init\+\_\+points (
+\subsubsection[{\texorpdfstring{init\+\_\+points(state\+Options opt)}{init_points(stateOptions opt)}}]{\setlength{\rightskip}{0pt plus 5cm}void state\+::init\+\_\+points (
 \begin{DoxyParamCaption}
-\item[{double}]{size, }
-\item[{bool}]{is\+Perio, }
-\item[{double}]{H, }
-\item[{double}]{J, }
-\item[{double}]{K, }
-\item[{double $\ast$}]{args}
+\item[{{\bf state\+Options}}]{opt}
 \end{DoxyParamCaption}
-)}\hypertarget{classstate_a62fc1dbaf8ac5002ec6ca08ec93fb012}{}\label{classstate_a62fc1dbaf8ac5002ec6ca08ec93fb012}
+)}\hypertarget{classstate_aac3b2330539154d3784730e4c8a61123}{}\label{classstate_aac3b2330539154d3784730e4c8a61123}
 \index{state@{state}!magnetisation@{magnetisation}}
 \index{magnetisation@{magnetisation}!state@{state}}
 \subsubsection[{\texorpdfstring{magnetisation()}{magnetisation()}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$double$>$ state\+::magnetisation (

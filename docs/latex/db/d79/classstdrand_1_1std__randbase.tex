@@ -18,6 +18,16 @@ Inheritance diagram for stdrand\+:\+:std\+\_\+randbase\+:\nopagebreak
 \includegraphics[width=350pt]{d1/d27/classstdrand_1_1std__randbase__inherit__graph}
 \end{center}
 \end{figure}
+
+
+Collaboration diagram for stdrand\+:\+:std\+\_\+randbase\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=193pt]{d0/d37/classstdrand_1_1std__randbase__coll__graph}
+\end{center}
+\end{figure}
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -26,11 +36,13 @@ Inheritance diagram for stdrand\+:\+:std\+\_\+randbase\+:\nopagebreak
 \hyperlink{classstdrand_1_1std__randbase_a5280080005689ab2ff6dae6de10a3faa}{$\sim$std\+\_\+randbase} ()
 \begin{DoxyCompactList}\small\item\em Default destructor. \end{DoxyCompactList}\item 
 void \hyperlink{classstdrand_1_1std__randbase_ae4d2a7ab5253b8d21ce4ede8f9988f24}{change\+\_\+seed} (int seed)
-\begin{DoxyCompactList}\small\item\em Change the current random seed. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Change the current random seed. \end{DoxyCompactList}\item 
+void \hyperlink{classstdrand_1_1std__randbase_a1f59d641467d33c51df65651212dac1f}{jump} ()
+\begin{DoxyCompactList}\small\item\em Jump forward 2$^\wedge$64 places. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Protected Attributes}
 \begin{DoxyCompactItemize}
 \item 
-std\+::mt19937\+\_\+64 \hyperlink{classstdrand_1_1std__randbase_a5a5ef1aba1d27d8ec497b7033eca5335}{generator}
+\hyperlink{structrng_1_1rng128}{rng\+::rng128} \hyperlink{classstdrand_1_1std__randbase_a04dc8f49595791e10967b74a4b137b53}{generator}
 \end{DoxyCompactItemize}
 
 
@@ -79,12 +91,23 @@ Change the current random seed.
 {\em seed} & The new seed. \\
 \hline
 \end{DoxyParams}
+\index{stdrand\+::std\+\_\+randbase@{stdrand\+::std\+\_\+randbase}!jump@{jump}}
+\index{jump@{jump}!stdrand\+::std\+\_\+randbase@{stdrand\+::std\+\_\+randbase}}
+\subsubsection[{\texorpdfstring{jump()}{jump()}}]{\setlength{\rightskip}{0pt plus 5cm}void stdrand\+::std\+\_\+randbase\+::jump (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classstdrand_1_1std__randbase_a1f59d641467d33c51df65651212dac1f}{}\label{classstdrand_1_1std__randbase_a1f59d641467d33c51df65651212dac1f}
+
+
+Jump forward 2$^\wedge$64 places. 
+
 
 
 \subsection{Member Data Documentation}
 \index{stdrand\+::std\+\_\+randbase@{stdrand\+::std\+\_\+randbase}!generator@{generator}}
 \index{generator@{generator}!stdrand\+::std\+\_\+randbase@{stdrand\+::std\+\_\+randbase}}
-\subsubsection[{\texorpdfstring{generator}{generator}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::mt19937\+\_\+64 stdrand\+::std\+\_\+randbase\+::generator\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classstdrand_1_1std__randbase_a5a5ef1aba1d27d8ec497b7033eca5335}{}\label{classstdrand_1_1std__randbase_a5a5ef1aba1d27d8ec497b7033eca5335}
+\subsubsection[{\texorpdfstring{generator}{generator}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf rng\+::rng128} stdrand\+::std\+\_\+randbase\+::generator\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classstdrand_1_1std__randbase_a04dc8f49595791e10967b74a4b137b53}{}\label{classstdrand_1_1std__randbase_a04dc8f49595791e10967b74a4b137b53}
 
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}

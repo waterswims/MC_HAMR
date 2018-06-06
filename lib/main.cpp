@@ -104,30 +104,29 @@ int main(int argc, char **argv)
 		if (check_rank_latt(k, comm_size, rank, v1_size, sub_rank, sub_size,
 							latt_rank, num_par))
 		{
-			int temp_int;
-			double temp_double;
-			for(int i = 0; i < 1e8; i++)
-			{
-				temp_int = st_rand_int.gen();
-				temp_double = st_rand_double.gen();
-				temp_double = rand_ln.gen();
-			}
+			st_rand_int.jump();
+			st_rand_double.jump();
+			rand_ln.jump();
 			continue;
 		}
 		if (simOpt.distrib) {stOpt.size = rand_ln.gen();}
 		else {stOpt.size = simOpt.amean;}
+		stOpt.T = Tmax;
 		state base_state(stOpt);
 		state curr_state(base_state);
 		nums = base_state.num_spins();
 		s_nums = base_state.sub_num(0);
 
-		if (k == 0 && (!file_exists) && simOpt.printLatt)
+		if (k == 0)
 		{
 			summed_field = base_state.get_field();
-			summed_field.print_setup(simOpt.outFile, "Av_Latt", num_Ts,
-				num_Hs);
-			summed_field.print_setup(simOpt.outFile, "Sing_Latt", num_Ts,
-				num_Hs);
+			if ((!file_exists) && simOpt.printLatt)
+			{
+				summed_field.print_setup(simOpt.outFile, "Av_Latt", num_Ts,
+					num_Hs);
+				summed_field.print_setup(simOpt.outFile, "Sing_Latt", num_Ts,
+					num_Hs);
+			}
 		}
 
 		base_state.equil(20*simOpt.Eq_steps*nums);

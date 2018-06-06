@@ -88,6 +88,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">param_read.hpp File Reference</div>  </div>
@@ -99,29 +100,45 @@ Include dependency graph for param_read.hpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../d8/de7/param__read_8hpp__incl.png" border="0" usemap="#includes_2param__read_8hpp" alt=""/></div>
 </div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="../../df/d2a/param__read_8hpp__dep__incl.png" border="0" usemap="#includes_2param__read_8hppdep" alt=""/></div>
+<map name="includes_2param__read_8hppdep" id="includes_2param__read_8hppdep">
+<area shape="rect" id="node2" href="../../dd/d05/output_8hpp.html" title="includes/output.hpp" alt="" coords="5,80,140,107"/>
+<area shape="rect" id="node3" href="../../da/d3b/state_8hpp.html" title="includes/state.hpp" alt="" coords="165,80,293,107"/>
+</map>
+</div>
 </div>
 <p><a href="../../d0/d39/param__read_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d5b/structstateOptions.html">stateOptions</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d8d/structsimOptions.html">simOptions</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:acfcd9e62d947339a9fd8b3339d014925"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
 <tr class="memitem:acfcd9e62d947339a9fd8b3339d014925"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d0/d39/param__read_8hpp.html#acfcd9e62d947339a9fd8b3339d014925">read_var</a> (std::string v_name, std::string f_name)</td></tr>
 <tr class="separator:acfcd9e62d947339a9fd8b3339d014925"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3c76a03037ab020686fdd13c0d94efcc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d39/param__read_8hpp.html#a3c76a03037ab020686fdd13c0d94efcc">read_all_vars</a> (std::string f_name, double &amp;size, double &amp;J, double &amp;k, bool &amp;periodic, char &amp;shape, char &amp;hamil, int &amp;Samp_steps, int &amp;N_samp, int &amp;Eq_steps, int &amp;N_latts, double &amp;beta, bool &amp;distrib, double &amp;amean, double &amp;asd, std::string &amp;temp_name, std::string &amp;field_name, int &amp;protocol, double &amp;K, bool &amp;print_latt)</td></tr>
-<tr class="separator:a3c76a03037ab020686fdd13c0d94efcc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a247c1320a8ff367a58a7bc6897de3ab6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d39/param__read_8hpp.html#a247c1320a8ff367a58a7bc6897de3ab6">load_Hs_Ts</a> (std::string Tname, float *&amp;Ts, int &amp;Tnum, std::string Hname, float *&amp;Hs, int &amp;Hnum)</td></tr>
-<tr class="separator:a247c1320a8ff367a58a7bc6897de3ab6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad441a0b8e73354e3df3369fa1abb86ee"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d39/param__read_8hpp.html#ad441a0b8e73354e3df3369fa1abb86ee">read_all_vars</a> (std::string f_name, <a class="el" href="../../dd/d5b/structstateOptions.html">stateOptions</a> &amp;stOpt, <a class="el" href="../../d4/d8d/structsimOptions.html">simOptions</a> &amp;simOpt)</td></tr>
+<tr class="separator:ad441a0b8e73354e3df3369fa1abb86ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1176d46834514b9c0ad6e422d8e70e6e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d39/param__read_8hpp.html#a1176d46834514b9c0ad6e422d8e70e6e">load_Hs_Ts</a> (<a class="el" href="../../d4/d8d/structsimOptions.html">simOptions</a> &amp;simOpt, float *&amp;Ts, int &amp;Tnum, float *&amp;Hs, int &amp;Hnum)</td></tr>
+<tr class="separator:a1176d46834514b9c0ad6e422d8e70e6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="a247c1320a8ff367a58a7bc6897de3ab6"></a>
+<a class="anchor" id="a1176d46834514b9c0ad6e422d8e70e6e"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void load_Hs_Ts </td>
           <td>(</td>
-          <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>Tname</em>, </td>
+          <td class="paramtype"><a class="el" href="../../d4/d8d/structsimOptions.html">simOptions</a> &amp;&#160;</td>
+          <td class="paramname"><em>simOpt</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -134,12 +151,6 @@ Functions</h2></td></tr>
           <td></td>
           <td class="paramtype">int &amp;&#160;</td>
           <td class="paramname"><em>Tnum</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>Hname</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -163,7 +174,7 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a3c76a03037ab020686fdd13c0d94efcc"></a>
+<a class="anchor" id="ad441a0b8e73354e3df3369fa1abb86ee"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -176,116 +187,14 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">double &amp;&#160;</td>
-          <td class="paramname"><em>size</em>, </td>
+          <td class="paramtype"><a class="el" href="../../dd/d5b/structstateOptions.html">stateOptions</a> &amp;&#160;</td>
+          <td class="paramname"><em>stOpt</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">double &amp;&#160;</td>
-          <td class="paramname"><em>J</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double &amp;&#160;</td>
-          <td class="paramname"><em>k</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool &amp;&#160;</td>
-          <td class="paramname"><em>periodic</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char &amp;&#160;</td>
-          <td class="paramname"><em>shape</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char &amp;&#160;</td>
-          <td class="paramname"><em>hamil</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int &amp;&#160;</td>
-          <td class="paramname"><em>Samp_steps</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int &amp;&#160;</td>
-          <td class="paramname"><em>N_samp</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int &amp;&#160;</td>
-          <td class="paramname"><em>Eq_steps</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int &amp;&#160;</td>
-          <td class="paramname"><em>N_latts</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double &amp;&#160;</td>
-          <td class="paramname"><em>beta</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool &amp;&#160;</td>
-          <td class="paramname"><em>distrib</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double &amp;&#160;</td>
-          <td class="paramname"><em>amean</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double &amp;&#160;</td>
-          <td class="paramname"><em>asd</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::string &amp;&#160;</td>
-          <td class="paramname"><em>temp_name</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::string &amp;&#160;</td>
-          <td class="paramname"><em>field_name</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int &amp;&#160;</td>
-          <td class="paramname"><em>protocol</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double &amp;&#160;</td>
-          <td class="paramname"><em>K</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool &amp;&#160;</td>
-          <td class="paramname"><em>print_latt</em>&#160;</td>
+          <td class="paramtype"><a class="el" href="../../d4/d8d/structsimOptions.html">simOptions</a> &amp;&#160;</td>
+          <td class="paramname"><em>simOpt</em>&#160;</td>
         </tr>
         <tr>
           <td></td>

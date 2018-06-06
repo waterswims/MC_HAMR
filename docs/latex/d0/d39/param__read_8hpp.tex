@@ -8,56 +8,52 @@ Include dependency graph for param\+\_\+read.\+hpp\+:\nopagebreak
 \includegraphics[width=205pt]{d8/de7/param__read_8hpp__incl}
 \end{center}
 \end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=296pt]{df/d2a/param__read_8hpp__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structstateOptions}{state\+Options}
+\item 
+struct \hyperlink{structsimOptions}{sim\+Options}
+\end{DoxyCompactItemize}
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
 {\footnotesize template$<$class T $>$ }\\T \hyperlink{param__read_8hpp_acfcd9e62d947339a9fd8b3339d014925}{read\+\_\+var} (std\+::string v\+\_\+name, std\+::string f\+\_\+name)
 \item 
-void \hyperlink{param__read_8hpp_a3c76a03037ab020686fdd13c0d94efcc}{read\+\_\+all\+\_\+vars} (std\+::string f\+\_\+name, double \&size, double \&J, double \&k, bool \&periodic, char \&shape, char \&hamil, int \&Samp\+\_\+steps, int \&N\+\_\+samp, int \&Eq\+\_\+steps, int \&N\+\_\+latts, double \&beta, bool \&distrib, double \&amean, double \&asd, std\+::string \&temp\+\_\+name, std\+::string \&field\+\_\+name, int \&protocol, double \&K, bool \&print\+\_\+latt)
+void \hyperlink{param__read_8hpp_ad441a0b8e73354e3df3369fa1abb86ee}{read\+\_\+all\+\_\+vars} (std\+::string f\+\_\+name, \hyperlink{structstateOptions}{state\+Options} \&st\+Opt, \hyperlink{structsimOptions}{sim\+Options} \&sim\+Opt)
 \item 
-void \hyperlink{param__read_8hpp_a247c1320a8ff367a58a7bc6897de3ab6}{load\+\_\+\+Hs\+\_\+\+Ts} (std\+::string Tname, float $\ast$\&Ts, int \&Tnum, std\+::string Hname, float $\ast$\&Hs, int \&Hnum)
+void \hyperlink{param__read_8hpp_a1176d46834514b9c0ad6e422d8e70e6e}{load\+\_\+\+Hs\+\_\+\+Ts} (\hyperlink{structsimOptions}{sim\+Options} \&sim\+Opt, float $\ast$\&Ts, int \&Tnum, float $\ast$\&Hs, int \&Hnum)
 \end{DoxyCompactItemize}
 
 
 \subsection{Function Documentation}
 \index{param\+\_\+read.\+hpp@{param\+\_\+read.\+hpp}!load\+\_\+\+Hs\+\_\+\+Ts@{load\+\_\+\+Hs\+\_\+\+Ts}}
 \index{load\+\_\+\+Hs\+\_\+\+Ts@{load\+\_\+\+Hs\+\_\+\+Ts}!param\+\_\+read.\+hpp@{param\+\_\+read.\+hpp}}
-\subsubsection[{\texorpdfstring{load\+\_\+\+Hs\+\_\+\+Ts(std\+::string Tname, float $\ast$\&\+Ts, int \&\+Tnum, std\+::string Hname, float $\ast$\&\+Hs, int \&\+Hnum)}{load_Hs_Ts(std::string Tname, float *&Ts, int &Tnum, std::string Hname, float *&Hs, int &Hnum)}}]{\setlength{\rightskip}{0pt plus 5cm}void load\+\_\+\+Hs\+\_\+\+Ts (
+\subsubsection[{\texorpdfstring{load\+\_\+\+Hs\+\_\+\+Ts(sim\+Options \&sim\+Opt, float $\ast$\&\+Ts, int \&\+Tnum, float $\ast$\&\+Hs, int \&\+Hnum)}{load_Hs_Ts(simOptions &simOpt, float *&Ts, int &Tnum, float *&Hs, int &Hnum)}}]{\setlength{\rightskip}{0pt plus 5cm}void load\+\_\+\+Hs\+\_\+\+Ts (
 \begin{DoxyParamCaption}
-\item[{std\+::string}]{Tname, }
+\item[{{\bf sim\+Options} \&}]{sim\+Opt, }
 \item[{float $\ast$\&}]{Ts, }
 \item[{int \&}]{Tnum, }
-\item[{std\+::string}]{Hname, }
 \item[{float $\ast$\&}]{Hs, }
 \item[{int \&}]{Hnum}
 \end{DoxyParamCaption}
-)}\hypertarget{param__read_8hpp_a247c1320a8ff367a58a7bc6897de3ab6}{}\label{param__read_8hpp_a247c1320a8ff367a58a7bc6897de3ab6}
+)}\hypertarget{param__read_8hpp_a1176d46834514b9c0ad6e422d8e70e6e}{}\label{param__read_8hpp_a1176d46834514b9c0ad6e422d8e70e6e}
 \index{param\+\_\+read.\+hpp@{param\+\_\+read.\+hpp}!read\+\_\+all\+\_\+vars@{read\+\_\+all\+\_\+vars}}
 \index{read\+\_\+all\+\_\+vars@{read\+\_\+all\+\_\+vars}!param\+\_\+read.\+hpp@{param\+\_\+read.\+hpp}}
-\subsubsection[{\texorpdfstring{read\+\_\+all\+\_\+vars(std\+::string f\+\_\+name, double \&size, double \&\+J, double \&k, bool \&periodic, char \&shape, char \&hamil, int \&\+Samp\+\_\+steps, int \&\+N\+\_\+samp, int \&\+Eq\+\_\+steps, int \&\+N\+\_\+latts, double \&beta, bool \&distrib, double \&amean, double \&asd, std\+::string \&temp\+\_\+name, std\+::string \&field\+\_\+name, int \&protocol, double \&\+K, bool \&print\+\_\+latt)}{read_all_vars(std::string f_name, double &size, double &J, double &k, bool &periodic, char &shape, char &hamil, int &Samp_steps, int &N_samp, int &Eq_steps, int &N_latts, double &beta, bool &distrib, double &amean, double &asd, std::string &temp_name, std::string &field_name, int &protocol, double &K, bool &print_latt)}}]{\setlength{\rightskip}{0pt plus 5cm}void read\+\_\+all\+\_\+vars (
+\subsubsection[{\texorpdfstring{read\+\_\+all\+\_\+vars(std\+::string f\+\_\+name, state\+Options \&st\+Opt, sim\+Options \&sim\+Opt)}{read_all_vars(std::string f_name, stateOptions &stOpt, simOptions &simOpt)}}]{\setlength{\rightskip}{0pt plus 5cm}void read\+\_\+all\+\_\+vars (
 \begin{DoxyParamCaption}
 \item[{std\+::string}]{f\+\_\+name, }
-\item[{double \&}]{size, }
-\item[{double \&}]{J, }
-\item[{double \&}]{k, }
-\item[{bool \&}]{periodic, }
-\item[{char \&}]{shape, }
-\item[{char \&}]{hamil, }
-\item[{int \&}]{Samp\+\_\+steps, }
-\item[{int \&}]{N\+\_\+samp, }
-\item[{int \&}]{Eq\+\_\+steps, }
-\item[{int \&}]{N\+\_\+latts, }
-\item[{double \&}]{beta, }
-\item[{bool \&}]{distrib, }
-\item[{double \&}]{amean, }
-\item[{double \&}]{asd, }
-\item[{std\+::string \&}]{temp\+\_\+name, }
-\item[{std\+::string \&}]{field\+\_\+name, }
-\item[{int \&}]{protocol, }
-\item[{double \&}]{K, }
-\item[{bool \&}]{print\+\_\+latt}
+\item[{{\bf state\+Options} \&}]{st\+Opt, }
+\item[{{\bf sim\+Options} \&}]{sim\+Opt}
 \end{DoxyParamCaption}
-)}\hypertarget{param__read_8hpp_a3c76a03037ab020686fdd13c0d94efcc}{}\label{param__read_8hpp_a3c76a03037ab020686fdd13c0d94efcc}
+)}\hypertarget{param__read_8hpp_ad441a0b8e73354e3df3369fa1abb86ee}{}\label{param__read_8hpp_ad441a0b8e73354e3df3369fa1abb86ee}
 \index{param\+\_\+read.\+hpp@{param\+\_\+read.\+hpp}!read\+\_\+var@{read\+\_\+var}}
 \index{read\+\_\+var@{read\+\_\+var}!param\+\_\+read.\+hpp@{param\+\_\+read.\+hpp}}
 \subsubsection[{\texorpdfstring{read\+\_\+var(std\+::string v\+\_\+name, std\+::string f\+\_\+name)}{read_var(std::string v_name, std::string f_name)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T $>$ T read\+\_\+var (

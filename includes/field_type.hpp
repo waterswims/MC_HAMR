@@ -17,6 +17,7 @@ namespace particle{ namespace field {
         std::vector<xt::xtensorf<double, xt::xshape<4> > > spins;
         std::vector<xt::xtensorf<int, xt::xshape<4> > > locs;
         std::vector<std::vector<int> > neighbours;
+        std::vector<std::vector<int> > adj;
         std::vector<std::vector<int> > neigh_choice;
 
         std::vector<xt::xtensorf<int, xt::xshape<4> > > loc_diffs;
@@ -88,6 +89,15 @@ namespace particle{ namespace field {
         std::vector<int>& get_neigh(int index) {return neighbours[index];}
 
         ////////////////////////////////////////////////////////////////////////
+        /// Get the neighbours of a spin site
+        ///
+        /// \param index The index of the spin site
+        /// \return A vector containing the indices of the neighbours of the
+        ///         chosen spin
+        ////////////////////////////////////////////////////////////////////////
+        std::vector<int>& get_adj(int index) {return adj[index];}
+
+        ////////////////////////////////////////////////////////////////////////
         /// Get the exchanges with the neighbours of a spin site
         ///
         /// \param i The index of the spin site
@@ -141,6 +151,13 @@ namespace particle{ namespace field {
         /// \return The dimension of the field
         ////////////////////////////////////////////////////////////////////////
         int get_dim() {return d;}
+
+        ////////////////////////////////////////////////////////////////////////
+        /// Get the edgesize of the field
+        ///
+        /// \return The edgesize of the field
+        ////////////////////////////////////////////////////////////////////////
+        int get_edge() {return edgesize;}
 
         ////////////////////////////////////////////////////////////////////////
         /// Set a spin to the already generated random state

@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['j',['J',['../d4/ddd/classham__heis.html#aa1cd68f7e9c6e98dd2dc9106cbb68603',1,'ham_heis']]],
-  ['j_5fsum',['J_sum',['../d4/ddd/classham__heis.html#ad19fe40a32695f0f7fefb229648680b4',1,'ham_heis']]]
+  ['intfile',['intFile',['../dd/d5b/structstateOptions.html#a930e30b2965d204c2486413c8474b157',1,'stateOptions']]],
+  ['isising',['isIsing',['../dd/d5b/structstateOptions.html#abd5ac214503b9fa16a1768a1787e9bb6',1,'stateOptions']]],
+  ['isperio',['isPerio',['../dd/d5b/structstateOptions.html#af1f387c2337957fa425984214506e96f',1,'stateOptions']]]
 ];

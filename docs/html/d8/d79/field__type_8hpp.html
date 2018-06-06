@@ -89,32 +89,29 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">field_type.hpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="../../de/dec/hamiltonian_8hpp_source.html">hamiltonian.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="../../dc/df8/array__alloc_8hpp_source.html">array_alloc.hpp</a>&quot;</code><br />
-<code>#include &lt;vector&gt;</code><br />
+<div class="textblock"><code>#include &lt;vector&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
+<code>#include &lt;xtensor/xfixed.hpp&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for field_type.hpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../d0/dfc/field__type_8hpp__incl.png" border="0" usemap="#includes_2field__type_8hpp" alt=""/></div>
-<map name="includes_2field__type_8hpp" id="includes_2field__type_8hpp">
-<area shape="rect" id="node2" href="../../de/dec/hamiltonian_8hpp.html" title="hamiltonian.hpp" alt="" coords="79,80,192,107"/>
-<area shape="rect" id="node3" href="../../dc/df8/array__alloc_8hpp.html" title="array_alloc.hpp" alt="" coords="5,155,116,181"/>
-</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../db/df2/field__type_8hpp__dep__incl.png" border="0" usemap="#includes_2field__type_8hppdep" alt=""/></div>
 <map name="includes_2field__type_8hppdep" id="includes_2field__type_8hppdep">
-<area shape="rect" id="node2" href="../../de/dec/hamiltonian_8hpp.html" title="includes/hamiltonian.hpp" alt="" coords="5,80,171,107"/>
-<area shape="rect" id="node3" href="../../da/d3b/state_8hpp.html" title="includes/state.hpp" alt="" coords="84,155,212,181"/>
-<area shape="rect" id="node4" href="../../d8/da4/print__latt_8hpp.html" title="includes/print_latt.hpp" alt="" coords="245,80,395,107"/>
+<area shape="rect" id="node2" href="../../d8/da4/print__latt_8hpp.html" title="includes/print_latt.hpp" alt="" coords="5,80,155,107"/>
+<area shape="rect" id="node3" href="../../da/d3b/state_8hpp.html" title="includes/state.hpp" alt="" coords="195,155,323,181"/>
+<area shape="rect" id="node4" href="../../d8/d89/thermodynamics_8hpp.html" title="includes/thermodynamics.hpp" alt="" coords="229,80,424,107"/>
 </map>
 </div>
 </div>
@@ -122,55 +119,34 @@ This graph shows which files directly or indirectly include this file:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/deb/classfield__type.html">field_type</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d62/classparticle_1_1field_1_1field__type.html">particle::field::field_type</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Base class for fields.  <a href="../../dc/d62/classparticle_1_1field_1_1field__type.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/de4/classfield__cluster__h.html">field_cluster_h</a></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:d5/dac/namespaceparticle"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/dac/namespaceparticle.html">particle</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d2c/classfield__2d.html">field_2d</a></td></tr>
+<tr class="memitem:d0/d36/namespaceparticle_1_1field"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d36/namespaceparticle_1_1field.html">particle::field</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dab/classfield__2d__h.html">field_2d_h</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d3e/classfield__2d__i.html">field_2d_i</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d7a/classfield__3d.html">field_3d</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d18/classfield__3d__h.html">field_3d_h</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d3c/classfield__3d__i.html">field_3d_i</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a8b2342ddf707cccc41a56ac8c07523ff"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d79/field__type_8hpp.html#a8b2342ddf707cccc41a56ac8c07523ff">XTENSOR_USE_XSIMD</a></td></tr>
+<tr class="separator:a8b2342ddf707cccc41a56ac8c07523ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a3046d14208aa841cfab95127dcd36748"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d79/field__type_8hpp.html#a3046d14208aa841cfab95127dcd36748">rand_spin_h</a> (double &amp;x, double &amp;y, double &amp;z)</td></tr>
-<tr class="separator:a3046d14208aa841cfab95127dcd36748"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd40a14f41d973705f046ac970eeecbe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d36/namespaceparticle_1_1field.html#afd40a14f41d973705f046ac970eeecbe">particle::field::perioDiff</a> (xt::xtensorf&lt; int, xt::xshape&lt; 4 &gt;&gt; &amp;A, xt::xtensorf&lt; int, xt::xshape&lt; 4 &gt;&gt; &amp;B, xt::xtensorf&lt; int, xt::xshape&lt; 4 &gt;&gt; &amp;C)</td></tr>
+<tr class="separator:afd40a14f41d973705f046ac970eeecbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="a3046d14208aa841cfab95127dcd36748"></a>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a class="anchor" id="a8b2342ddf707cccc41a56ac8c07523ff"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void rand_spin_h </td>
-          <td>(</td>
-          <td class="paramtype">double &amp;&#160;</td>
-          <td class="paramname"><em>x</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double &amp;&#160;</td>
-          <td class="paramname"><em>y</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double &amp;&#160;</td>
-          <td class="paramname"><em>z</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
+          <td class="memname">#define XTENSOR_USE_XSIMD</td>
         </tr>
       </table>
 </div><div class="memdoc">

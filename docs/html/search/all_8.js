@@ -1,5 +1,10 @@
 var searchData=
 [
-  ['j',['J',['../d4/ddd/classham__heis.html#aa1cd68f7e9c6e98dd2dc9106cbb68603',1,'ham_heis']]],
-  ['j_5fsum',['J_sum',['../d4/ddd/classham__heis.html#ad19fe40a32695f0f7fefb229648680b4',1,'ham_heis']]]
+  ['incr_5fv1',['incr_v1',['../d8/dd1/protocol_8hpp.html#a00d9c9379a1162c02e1d56c160dbc984',1,'protocol.hpp']]],
+  ['incr_5fv2',['incr_v2',['../d8/dd1/protocol_8hpp.html#a22e55bf0ca86d488ca20ab6bff6ab6fe',1,'protocol.hpp']]],
+  ['init_5flattice',['init_lattice',['../df/d90/classstate.html#acfeea4e197f5ce0160c6c664740ba6ff',1,'state']]],
+  ['init_5fpoints',['init_points',['../df/d90/classstate.html#aac3b2330539154d3784730e4c8a61123',1,'state']]],
+  ['intfile',['intFile',['../dd/d5b/structstateOptions.html#a930e30b2965d204c2486413c8474b157',1,'stateOptions']]],
+  ['isising',['isIsing',['../dd/d5b/structstateOptions.html#abd5ac214503b9fa16a1768a1787e9bb6',1,'stateOptions']]],
+  ['isperio',['isPerio',['../dd/d5b/structstateOptions.html#af1f387c2337957fa425984214506e96f',1,'stateOptions']]]
 ];
