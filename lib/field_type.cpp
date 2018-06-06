@@ -192,6 +192,7 @@ void particle::field::field_type::gen_rand()
         // testspin[2] = cthet;
 
         // Marsaglia Method
+
         double x1, x2, S;
         do
         {

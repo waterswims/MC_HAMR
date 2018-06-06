@@ -7,6 +7,7 @@
 #include <iostream>
 #include <fstream>
 #include <cmath>
+#include <xtensor/xio.hpp>
 
 extern IRANDTYPE st_rand_int;
 extern DRANDTYPE st_rand_double;
@@ -16,7 +17,7 @@ state::state(stateOptions opt)
     td_funcs.setup((opt.J!=0), (opt.K!=0));
 
     s_code = opt.shape_code;
-    edgeSize = opt.edgeSize;
+    edgesize = opt.edgeSize;
 
     h_ind = 2;
     if(opt.isIsing)
@@ -41,6 +42,7 @@ state::state(const state& other)
 state& state::operator=(const state& other)
 {
     this->copy_points(other);
+    return *this;
 }
 
 void state::init_points(stateOptions opt)
@@ -87,7 +89,9 @@ void state::copy_points(const state& other)
     k_b = other.k_b;
     num = other.num;
     s_code = other.s_code;
-    edgeSize = other.edgeSize;
+    edgesize = other.edgesize;
+    H = other.H;
+    h_ind = other.h_ind;
     switch (s_code)
     {
         case 's':
@@ -124,9 +128,9 @@ void state::init_lattice()
     int dim = field.get_dim();
     std::vector<int> pos(dim, 0);
     xt::xtensorf<int, xt::xshape<4>> posva = {0, 0, 0, 0};
-    for(int i = 0; i < pow(edgeSize, dim); i++)
+    for(int i = 0; i < pow(edgesize, dim); i++)
     {
-        bool fillspin = shape->check(pos, edgeSize);
+        bool fillspin = shape->check(pos, edgesize);
         int possum = sum(pos);
         if (fillspin)
         {
@@ -138,7 +142,7 @@ void state::init_lattice()
         posva[dim-1]++;
         for(int j=dim-1; j > 0; j--)
         {
-            if(pos[dim-j] == edgeSize)
+            if(pos[dim-j] == edgesize)
             {
                 pos[dim-j] = 0;
                 pos[dim-j-1]++;
@@ -152,13 +156,14 @@ void state::init_lattice()
 
 void state::equil(int iter)
 {
-    int dim = field.get_dim();
     int size = field.get_size();
     int choice;
 
     // create some variables
     double dE = 0;
     double log_eta = 0;
+
+    // std::cout << beta << " " << H << " " << h_ind << " " << size << std::endl;
 
     for (int i=0; i<iter; i++)
     {

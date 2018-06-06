@@ -13,7 +13,6 @@ class state
 {
 private:
     double beta, k_b;
-    double edgeSize;
     xt::xtensorf<double, xt::xshape<4>> H;
     int num, snum, h_ind, edgesize;
     char s_code;

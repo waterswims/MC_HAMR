@@ -14,6 +14,7 @@ namespace stdrand
     {
     protected:
         rng::rng128 generator;
+        // std::mt19937_64 generator;
     public:
     	////////////////////////////////////////////////////////////////////////
     	/// Default constructor.
@@ -28,11 +29,24 @@ namespace stdrand
     	///
     	/// \param seed The new seed.
     	////////////////////////////////////////////////////////////////////////
-    	void change_seed(int seed){generator = rng::rng128(seed);}
+    	void change_seed(int seed)
+        {
+            generator = rng::rng128(seed);
+            // generator.seed(seed);
+        }
+        ////////////////////////////////////////////////////////////////////////
+    	/// Return a single random number.
+    	////////////////////////////////////////////////////////////////////////
+    	virtual double gen(){return 0;}
         ////////////////////////////////////////////////////////////////////////
     	/// \brief Jump forward 2^64 places
     	////////////////////////////////////////////////////////////////////////
-    	void jump(){generator.jump();}
+    	void jump()
+        {
+            generator.jump();
+            // for(int i=0; i < 1e6; i++)
+            // {this->gen();}
+        }
     };
 
     ///////////////////////////////////////////////////////////////////////////

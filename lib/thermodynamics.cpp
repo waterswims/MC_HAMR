@@ -61,7 +61,6 @@ void particle::td::functionObject::setup(bool useJ, bool useD)
 
             auto res = (H + Vsum) * Vdiff;
 
-            // double dE = xt::eval(xt::sum((H + Vsum) * Vdiff))[0];
             double dE = res[0] + res[1] + res[2];
 
             return dE;
@@ -89,7 +88,6 @@ void particle::td::functionObject::setup(bool useJ, bool useD)
 
             auto res = -H * Vtemp - 0.5 * Vsum;
 
-            // double E = xt::eval(xt::sum(-H * Vtemp - 0.5 * Vsum))[0];
             double E = res[0] + res[1] + res[2];
 
             return E;
