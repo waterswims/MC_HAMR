@@ -3,15 +3,16 @@
 
 #include <xtensor/xeval.hpp>
 #include <xtensor/xview.hpp>
+#include <xtensor/xio.hpp>
 
 xt::xtensorf<double, xt::xshape<4>> Vsum, Vdiff, Vtemp, Vtemp2, Vloc_diff;
 
 void particle::td::functionObject::setup(bool useJ, bool useD)
 {
-    std::function<void(field::field_type&, int, int)> insideE_func =
-        [](field::field_type& lattice, int i, int j){};
     std::function<void(field::field_type&, int, int)> insidedE_func =
-        [](field::field_type& lattice, int position, int j){};
+        [](field::field_type& lattice, int i, int j) {};
+    std::function<void(field::field_type&, int, int)> insideE_func =
+        [](field::field_type& lattice, int position, int j) {};
 
     if(useJ)
     {
@@ -20,8 +21,7 @@ void particle::td::functionObject::setup(bool useJ, bool useD)
                 Vtemp += lattice.get_J(i, j) *
                     lattice.access(lattice.get_neigh(i)[j]);
             };
-        insidedE_func = [](field::field_type& lattice,
-            int position, int j)
+        insidedE_func = [](field::field_type& lattice, int position, int j)
             {
                 Vsum += lattice.get_J(position, j) *
                         lattice.access(lattice.get_neigh(position)[j]);
@@ -48,7 +48,7 @@ void particle::td::functionObject::setup(bool useJ, bool useD)
             };
     }
 
-    dE_func = [insidedE_func](field::field_type& lattice, int position,
+    dE_func = [insidedE_func, this](field::field_type& lattice, int position,
         xt::xtensorf<double, xt::xshape<4>>& H)
         {
             Vdiff = lattice.access(position) - lattice.get_rand();
@@ -60,6 +60,8 @@ void particle::td::functionObject::setup(bool useJ, bool useD)
             }
 
             auto res = (H + Vsum) * Vdiff;
+
+            // std::cout << lattice.access(position) << " " << lattice.get_rand() << " " << Vdiff << " " << H << " " << res << std::endl;
 
             double dE = res[0] + res[1] + res[2];
 

@@ -151,6 +151,7 @@ void state::init_lattice()
             }
         }
     }
+    field.all_rand();
     field.set_neigh();
 }
 
@@ -160,10 +161,8 @@ void state::equil(int iter)
     int choice;
 
     // create some variables
-    double dE = 0;
+    double dE = 0, spare;
     double log_eta = 0;
-
-    // std::cout << beta << " " << H << " " << h_ind << " " << size << std::endl;
 
     for (int i=0; i<iter; i++)
     {
@@ -173,6 +172,7 @@ void state::equil(int iter)
 
         //check dE
         dE = td_funcs.calc_dE(field, choice, H);
+
         //check if flip
         if(dE <= 0)
         {

@@ -130,9 +130,10 @@ int main(int argc, char **argv)
 		}
 
 		base_state.equil(20*simOpt.Eq_steps*nums);
+
 		// main loop
 		for (int i = v1_begin;
-			i != v1_end && k < simOpt.N_latts;
+			i != v1_end;
 			incr_v1(simOpt.protocol, i))
 		{
 			// Only carry on if to be run by this process
@@ -153,6 +154,7 @@ int main(int argc, char **argv)
 			base_state.change_v1(simOpt.protocol, var1_list[i]);
 			// Equillibriation
 			base_state.equil(simOpt.Eq_steps*nums);
+
 
 			// Send data to next rank, unless final rank
 			if(sub_rank != sub_size-1 && i != v1_final)
@@ -254,7 +256,6 @@ int main(int argc, char **argv)
 				int next_rank = (sub_rank+1)%sub_size+latt_rank*v1_size;
 				base_state.send_latt_data(next_rank);
 			}
-
 		}
 		// Extra HDF5 File open/closes for this k
 		int ext_opens = count_sub_extra_opens(v1_size, v2_size, simOpt.N_latts,

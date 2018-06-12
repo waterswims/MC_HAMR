@@ -19,7 +19,7 @@ LNRANDTYPE rand_ln(0, 0.25, 1e5, 3);
 particle::field::field_type gen_fm(int d, bool ising, double J, double D, bool perio)
 {
     particle::field::field_type
-        field(ising, perio, d, 10, J, D, "Js/3d_nn_bloch.dat");
+        field(ising, perio, d, 10, J, D, "3d_nn_bloch.dat");
     xt::xtensorf<int, xt::xshape<4>> pos;
     pos = {0, 0, 0, 0};
     for(int i = 0; i < pow(10, d); i++)
@@ -44,7 +44,7 @@ particle::field::field_type gen_fm(int d, bool ising, double J, double D, bool p
 particle::field::field_type gen_afm(int d, bool ising, double J, double D, bool perio)
 {
     particle::field::field_type
-        field(ising, false, d, 10, J, D, "Js/3d_nn_bloch.dat");
+        field(ising, false, d, 10, J, D, "3d_nn_bloch.dat");
     xt::xtensorf<int, xt::xshape<4>> pos;
     pos = {0, 0, 0, 0};
     for(int i = 0; i < pow(10, d); i++)
@@ -74,7 +74,7 @@ particle::field::field_type gen_skyrm(int d, double J, double D)
 {
     int edgesize = 30;
     particle::field::field_type
-        field(false, false, d, edgesize, J, D, "Js/3d_nn_bloch.dat");
+        field(false, false, d, edgesize, J, D, "3d_nn_bloch.dat");
     xt::xtensorf<int, xt::xshape<4>> pos;
     pos = {0, 0, 0, 0};
     xt::xtensorf<double, xt::xshape<4>> spin;

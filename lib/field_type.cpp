@@ -34,8 +34,14 @@ particle::field::field_type::field_type(bool ising_in,
 
     this->set_default_spins();
 
+    std::stringstream Jstringstream;
+    std::string Jfullname;
+
+    Jstringstream << "Js/" << J_filename;
+    Jstringstream >> Jfullname;
+
     std::ifstream Jstream;
-    Jstream.open(J_filename.c_str());
+    Jstream.open(Jfullname.c_str());
     int icurr;
     double dcurr;
     while(Jstream >> icurr)
@@ -394,33 +400,8 @@ void particle::field::field_type::send_data(int dest_rank)
     }
     MPI_Ssend(loc_out, spins.size()*d, MPI_INT, dest_rank, 0, MPI_COMM_WORLD);
 
-    // Send the location diffs
-    int* ld_out = alloc_1darr<int>(loc_diffs.size()*d);
-    ind = 0;
-    for(int i = 0; i < loc_diffs.size(); i++)
-    {
-        for(int j = 0; j < d; j++)
-        {
-            ld_out[ind] = loc_diffs[i][j];
-            ind++;
-        }
-    }
-    MPI_Ssend(ld_out, loc_diffs.size()*d, MPI_INT, dest_rank, 0,
-        MPI_COMM_WORLD);
-
-    // Send the Js
-    double* J_out = alloc_1darr<double>(loc_diffs.size());
-    for(int i = 0; i < loc_diffs.size(); i++)
-    {
-            J_out[i] = J_diffs[i];
-    }
-    MPI_Ssend(J_out, loc_diffs.size()*d, MPI_INT, dest_rank, 0,
-        MPI_COMM_WORLD);
-
     dealloc_1darr<double>(spins_out);
     dealloc_1darr<int>(loc_out);
-    dealloc_1darr<int>(ld_out);
-    dealloc_1darr<double>(J_out);
 }
 
 void particle::field::field_type::recv_data(int src_rank)
@@ -435,8 +416,6 @@ void particle::field::field_type::recv_data(int src_rank)
     ising = metadata[2];
     edgesize = metadata[3];
     periodic = metadata[4];
-    loc_diffs.resize(metadata[5]);
-    J_diffs.resize(metadata[5]);
 
     this->set_default_spins();
 
@@ -473,42 +452,9 @@ void particle::field::field_type::recv_data(int src_rank)
         }
     }
 
-    // Send the location diffs
-    int* ld_out = alloc_1darr<int>(loc_diffs.size()*d);
-    MPI_Recv(ld_out, loc_diffs.size()*d, MPI_INT, src_rank, 0,
-        MPI_COMM_WORLD, &stat);
-    ind = 0;
-    for(int i = 0; i < loc_diffs.size(); i++)
-    {
-        locs[i] = blankloc;
-        for(int j = 0; j < d; j++)
-        {
-            loc_diffs[i][j] = ld_out[ind];
-            ind++;
-        }
-    }
-
-    // Send the Js
-    double* J_out = alloc_1darr<double>(loc_diffs.size());
-    MPI_Recv(J_out, loc_diffs.size()*d, MPI_INT, src_rank, 0,
-        MPI_COMM_WORLD, &stat);
-    for(int i = 0; i < loc_diffs.size(); i++)
-    {
-            J_diffs[i] = J_out[i];
-    }
-
     dealloc_1darr<double>(spins_out);
     dealloc_1darr<int>(loc_out);
-    dealloc_1darr<int>(ld_out);
-    dealloc_1darr<double>(J_out);
 
     // Recalculate the neighbours
     this->set_neigh();
-}
-
-void particle::field::perioDiff(xt::xtensorf<int, xt::xshape<4>>& A,
-    xt::xtensorf<int, xt::xshape<4>>& B,
-    xt::xtensorf<int, xt::xshape<4>>& C)
-{
-
 }

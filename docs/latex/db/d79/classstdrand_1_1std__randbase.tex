@@ -20,8 +20,7 @@ Inheritance diagram for stdrand\+:\+:std\+\_\+randbase\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for stdrand\+:\+:std\+\_\+randbase\+:
-\nopagebreak
+Collaboration diagram for stdrand\+:\+:std\+\_\+randbase\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -37,6 +36,8 @@ Collaboration diagram for stdrand\+:\+:std\+\_\+randbase\+:
 \begin{DoxyCompactList}\small\item\em Default destructor. \end{DoxyCompactList}\item 
 void \hyperlink{classstdrand_1_1std__randbase_ae4d2a7ab5253b8d21ce4ede8f9988f24}{change\+\_\+seed} (int seed)
 \begin{DoxyCompactList}\small\item\em Change the current random seed. \end{DoxyCompactList}\item 
+virtual double \hyperlink{classstdrand_1_1std__randbase_a76e2d3761b0d1409f41dc73c8a87b0d5}{gen} ()
+\begin{DoxyCompactList}\small\item\em Return a single random number. \end{DoxyCompactList}\item 
 void \hyperlink{classstdrand_1_1std__randbase_a1f59d641467d33c51df65651212dac1f}{jump} ()
 \begin{DoxyCompactList}\small\item\em Jump forward 2$^\wedge$64 places. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Protected Attributes}
@@ -91,6 +92,21 @@ Change the current random seed.
 {\em seed} & The new seed. \\
 \hline
 \end{DoxyParams}
+\index{stdrand\+::std\+\_\+randbase@{stdrand\+::std\+\_\+randbase}!gen@{gen}}
+\index{gen@{gen}!stdrand\+::std\+\_\+randbase@{stdrand\+::std\+\_\+randbase}}
+\subsubsection[{\texorpdfstring{gen()}{gen()}}]{\setlength{\rightskip}{0pt plus 5cm}virtual double stdrand\+::std\+\_\+randbase\+::gen (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\hypertarget{classstdrand_1_1std__randbase_a76e2d3761b0d1409f41dc73c8a87b0d5}{}\label{classstdrand_1_1std__randbase_a76e2d3761b0d1409f41dc73c8a87b0d5}
+
+
+Return a single random number. 
+
+
+
+Reimplemented in \hyperlink{classstdrand_1_1std__lognormrand_a4521bea46b321ea53a2026eac8dc046a}{stdrand\+::std\+\_\+lognormrand}, \hyperlink{classstdrand_1_1std__normrand_adf3d7e53ddd7a0aa6b43b08038f09c91}{stdrand\+::std\+\_\+normrand}, \hyperlink{classstdrand_1_1std__i__unirand_abe9833ea9fab736cf3b03b529498b767}{stdrand\+::std\+\_\+i\+\_\+unirand}, and \hyperlink{classstdrand_1_1std__d__unirand_a3dde71452da1a44bd6be86877e74be74}{stdrand\+::std\+\_\+d\+\_\+unirand}.
+
 \index{stdrand\+::std\+\_\+randbase@{stdrand\+::std\+\_\+randbase}!jump@{jump}}
 \index{jump@{jump}!stdrand\+::std\+\_\+randbase@{stdrand\+::std\+\_\+randbase}}
 \subsubsection[{\texorpdfstring{jump()}{jump()}}]{\setlength{\rightskip}{0pt plus 5cm}void stdrand\+::std\+\_\+randbase\+::jump (

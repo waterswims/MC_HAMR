@@ -256,17 +256,6 @@ namespace particle{ namespace field {
         ////////////////////////////////////////////////////////////////////////
         bool use_D() {return D_on;}
     };
-
-    ////////////////////////////////////////////////////////////////////////
-    /// Find the short vector between two locations in periodic space
-    ///
-    /// \param A Position A
-    /// \param B Position B
-    /// \param C The output vector
-    ////////////////////////////////////////////////////////////////////////
-    void perioDiff(xt::xtensorf<int, xt::xshape<4>>& A,
-        xt::xtensorf<int, xt::xshape<4>>& B,
-        xt::xtensorf<int, xt::xshape<4>>& C);
 }}
 
 #endif
