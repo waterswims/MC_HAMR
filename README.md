@@ -78,3 +78,7 @@ To run in parallel, run with "mpirun -n N ./run INPUT_FILE", where N is the numb
 * SIZEDEV: If ISDISTRIB is set to true then the standard deviation of the sizes of all lattices must be given.
 
 * WEIBULLFACT: If either the circular or spherical Weibull distributed grain is chosen then WEIBULLFACT denotes the weibull factor used in the grain generation.
+
+## Viewing the Output
+
+The output file will be placed in the "Output" folder as ".h5" binary file. This can be viewed using [HDFView](https://support.hdfgroup.org/products/java/hdfview/) or the data extracted and manipulated using packages such as Python's [h5py](https://www.h5py.org).
