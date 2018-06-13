@@ -129,6 +129,33 @@ xt::xtensorf<double, xt::xshape<4>> particle::td::functionObject::calc_subM(
     return Vtemp;
 }
 
+xt::xtensorf<double, xt::xshape<4>> particle::td::functionObject::calc_sub4M(
+    field::field_type& lattice)
+{
+    int Nspins = lattice.get_size();
+    Vtemp = {0, 0, 0, 0};
+
+    int k = 0;
+
+    for(int i = 0; i < Nspins; i++)
+    {
+        if(lattice.get_dim() == 3) {k = lattice.get_loc(i)[2];}
+        int possum = lattice.get_loc(i)[0] + lattice.get_loc(i)[1];
+        int posdiff = -lattice.get_loc(i)[0] + lattice.get_loc(i)[1] +
+            (lattice.get_edge() - lattice.get_edge()%4);
+        if (possum%4 == 0 && posdiff%4 == 0 && k%4 == 0)
+        {
+            Vtemp += lattice.access(i);
+        }
+        else if (possum%4 == 2 && posdiff%4 == 2 && k%4 == 2)
+        {
+            Vtemp += lattice.access(i);
+        }
+    }
+
+    return Vtemp;
+}
+
 std::vector<double> particle::td::functionObject::calc_TC(
     particle::field::field_type& lattice)
 {
@@ -184,5 +211,5 @@ double particle::td::solid_angle(const xt::xtensorf<double, xt::xshape<4>>& s1,
 
     double ang = atan2(crosssum / rho, dotsum / rho);
 
-    return ang;
+    return -ang;
 }

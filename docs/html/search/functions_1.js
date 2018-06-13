@@ -4,6 +4,7 @@ var searchData=
   ['calc_5fde',['calc_dE',['../d9/de6/classparticle_1_1td_1_1functionObject.html#a057b7d5d3315a6a36efa470d4136ceb7',1,'particle::td::functionObject']]],
   ['calc_5fe',['calc_E',['../d9/de6/classparticle_1_1td_1_1functionObject.html#a7fe36af330daf78dbe7ce3897e6dad3f',1,'particle::td::functionObject']]],
   ['calc_5fm',['calc_M',['../d9/de6/classparticle_1_1td_1_1functionObject.html#a60a3f8d3dc9160864d6c05bc4583b8b7',1,'particle::td::functionObject']]],
+  ['calc_5fsub4m',['calc_sub4M',['../d9/de6/classparticle_1_1td_1_1functionObject.html#a7fb6084592f51e11449ffd3b5f4a498c',1,'particle::td::functionObject']]],
   ['calc_5fsubm',['calc_subM',['../d9/de6/classparticle_1_1td_1_1functionObject.html#a1b92821d8ef6d7aee3d0baeaeef6db1f',1,'particle::td::functionObject']]],
   ['calc_5ftc',['calc_TC',['../d9/de6/classparticle_1_1td_1_1functionObject.html#aef4fdc9fa9647aa342978820c2c9a4fc',1,'particle::td::functionObject']]],
   ['change_5ffield',['change_field',['../df/d90/classstate.html#a3f54c8647fddb251db2ba11420f4e75f',1,'state']]],

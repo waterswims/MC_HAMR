@@ -326,6 +326,21 @@ TEST(Heis_model, 3d_submag)
     EXPECT_DOUBLE_EQ(500, exchangeOnly.calc_subM(heisAFMField, 0)[2]);
 }
 
+TEST(Heis_model, 3d_sub4mag)
+{
+    EXPECT_DOUBLE_EQ(0, exchangeOnly.calc_sub4M(heisFMField)[0]);
+
+    EXPECT_DOUBLE_EQ(0, exchangeOnly.calc_sub4M(heisAFMField)[0]);
+
+    EXPECT_DOUBLE_EQ(0, exchangeOnly.calc_sub4M(heisFMField)[1]);
+
+    EXPECT_DOUBLE_EQ(0, exchangeOnly.calc_sub4M(heisAFMField)[1]);
+
+    EXPECT_DOUBLE_EQ(63, exchangeOnly.calc_sub4M(heisFMField)[2]);
+
+    EXPECT_DOUBLE_EQ(63, exchangeOnly.calc_sub4M(heisAFMField)[2]);
+}
+
 TEST(Heis_model, 3d_dE_consist)
 {
     particle::field::field_type fieldCopy = heisFMField;
@@ -373,7 +388,7 @@ TEST(Heis_model, 3d_top_charge)
 
     for(int i = 0; i < tcs.size(); i++)
     {
-        EXPECT_NEAR(tcs[i], 1, 0.01);
+        EXPECT_NEAR(tcs[i], -1, 0.01);
     }
 }
 

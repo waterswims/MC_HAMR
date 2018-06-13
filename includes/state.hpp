@@ -14,7 +14,7 @@ class state
 private:
     double beta, k_b;
     xt::xtensorf<double, xt::xshape<4>> H;
-    int num, snum, h_ind, edgesize;
+    int num, snum, s4num, h_ind, edgesize;
     char s_code;
     particle::field::field_type field;
     particle::td::functionObject td_funcs;
@@ -31,11 +31,13 @@ public:
     void equil(int iter);
     std::vector<double> magnetisation();
     std::vector<double> submag(int subnumber);
+    std::vector<double> sub4mag();
     double energy();
     std::vector<double> tcharge();
     int num_spins();
     int get_size() {return edgesize;}
     int sub_num(int subnumber);
+    int sub4_num();
     void init_lattice();
     void change_temp(double T);
     void change_field(double Hin);

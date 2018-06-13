@@ -17,7 +17,7 @@ void \hyperlink{output_8hpp_a1d0046dcf4f96b0e81ee2c32fbf50170}{check\+\_\+h5\+\_
 \item 
 void \hyperlink{output_8hpp_a917aef04c3f8e6f3efab883505b69d63}{create\+\_\+h5\+\_\+file} (\hyperlink{structstateOptions}{state\+Options} \&st\+Opt, \hyperlink{structsimOptions}{sim\+Options} \&sim\+Opt, const int num\+\_\+\+Ts, const int num\+\_\+\+Hs, const float $\ast$Ts, const float $\ast$Hs, const int v1\+\_\+size)
 \item 
-void \hyperlink{output_8hpp_a5152c310605eb4363607d530c5d149bc}{print\+\_\+\+T\+D\+\_\+h5} (const float $\ast$magx, const float $\ast$magy, const float $\ast$magz, const float $\ast$mag, const float $\ast$ener, const float $\ast$smagx, const float $\ast$smagy, const float $\ast$smagz, const float $\ast$smag, float $\ast$$\ast$tcs, \hyperlink{structstateOptions}{state\+Options} st\+Opt, \hyperlink{structsimOptions}{sim\+Options} sim\+Opt, const int var1, const int var2, const int v2max, const int latt\+\_\+num)
+void \hyperlink{output_8hpp_a52c58ccc593a3fd44732fa67abe899ad}{print\+\_\+\+T\+D\+\_\+h5} (const float $\ast$magx, const float $\ast$magy, const float $\ast$magz, const float $\ast$mag, const float $\ast$ener, const float $\ast$smagx, const float $\ast$smagy, const float $\ast$smagz, const float $\ast$smag, const float $\ast$s4magx, const float $\ast$s4magy, const float $\ast$s4magz, const float $\ast$s4mag, float $\ast$$\ast$tcs, \hyperlink{structstateOptions}{state\+Options} st\+Opt, \hyperlink{structsimOptions}{sim\+Options} sim\+Opt, const int var1, const int var2, const int v2max, const int latt\+\_\+num)
 \end{DoxyCompactItemize}
 
 
@@ -52,7 +52,7 @@ void \hyperlink{output_8hpp_a5152c310605eb4363607d530c5d149bc}{print\+\_\+\+T\+D
 )}\hypertarget{output_8hpp_a917aef04c3f8e6f3efab883505b69d63}{}\label{output_8hpp_a917aef04c3f8e6f3efab883505b69d63}
 \index{output.\+hpp@{output.\+hpp}!print\+\_\+\+T\+D\+\_\+h5@{print\+\_\+\+T\+D\+\_\+h5}}
 \index{print\+\_\+\+T\+D\+\_\+h5@{print\+\_\+\+T\+D\+\_\+h5}!output.\+hpp@{output.\+hpp}}
-\subsubsection[{\texorpdfstring{print\+\_\+\+T\+D\+\_\+h5(const float $\ast$magx, const float $\ast$magy, const float $\ast$magz, const float $\ast$mag, const float $\ast$ener, const float $\ast$smagx, const float $\ast$smagy, const float $\ast$smagz, const float $\ast$smag, float $\ast$$\ast$tcs, state\+Options st\+Opt, sim\+Options sim\+Opt, const int var1, const int var2, const int v2max, const int latt\+\_\+num)}{print_TD_h5(const float *magx, const float *magy, const float *magz, const float *mag, const float *ener, const float *smagx, const float *smagy, const float *smagz, const float *smag, float **tcs, stateOptions stOpt, simOptions simOpt, const int var1, const int var2, const int v2max, const int latt_num)}}]{\setlength{\rightskip}{0pt plus 5cm}void print\+\_\+\+T\+D\+\_\+h5 (
+\subsubsection[{\texorpdfstring{print\+\_\+\+T\+D\+\_\+h5(const float $\ast$magx, const float $\ast$magy, const float $\ast$magz, const float $\ast$mag, const float $\ast$ener, const float $\ast$smagx, const float $\ast$smagy, const float $\ast$smagz, const float $\ast$smag, const float $\ast$s4magx, const float $\ast$s4magy, const float $\ast$s4magz, const float $\ast$s4mag, float $\ast$$\ast$tcs, state\+Options st\+Opt, sim\+Options sim\+Opt, const int var1, const int var2, const int v2max, const int latt\+\_\+num)}{print_TD_h5(const float *magx, const float *magy, const float *magz, const float *mag, const float *ener, const float *smagx, const float *smagy, const float *smagz, const float *smag, const float *s4magx, const float *s4magy, const float *s4magz, const float *s4mag, float **tcs, stateOptions stOpt, simOptions simOpt, const int var1, const int var2, const int v2max, const int latt_num)}}]{\setlength{\rightskip}{0pt plus 5cm}void print\+\_\+\+T\+D\+\_\+h5 (
 \begin{DoxyParamCaption}
 \item[{const float $\ast$}]{magx, }
 \item[{const float $\ast$}]{magy, }
@@ -63,6 +63,10 @@ void \hyperlink{output_8hpp_a5152c310605eb4363607d530c5d149bc}{print\+\_\+\+T\+D
 \item[{const float $\ast$}]{smagy, }
 \item[{const float $\ast$}]{smagz, }
 \item[{const float $\ast$}]{smag, }
+\item[{const float $\ast$}]{s4magx, }
+\item[{const float $\ast$}]{s4magy, }
+\item[{const float $\ast$}]{s4magz, }
+\item[{const float $\ast$}]{s4mag, }
 \item[{float $\ast$$\ast$}]{tcs, }
 \item[{{\bf state\+Options}}]{st\+Opt, }
 \item[{{\bf sim\+Options}}]{sim\+Opt, }
@@ -71,4 +75,4 @@ void \hyperlink{output_8hpp_a5152c310605eb4363607d530c5d149bc}{print\+\_\+\+T\+D
 \item[{const int}]{v2max, }
 \item[{const int}]{latt\+\_\+num}
 \end{DoxyParamCaption}
-)}\hypertarget{output_8hpp_a5152c310605eb4363607d530c5d149bc}{}\label{output_8hpp_a5152c310605eb4363607d530c5d149bc}
+)}\hypertarget{output_8hpp_a52c58ccc593a3fd44732fa67abe899ad}{}\label{output_8hpp_a52c58ccc593a3fd44732fa67abe899ad}

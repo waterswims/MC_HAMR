@@ -125,6 +125,7 @@ void state::init_lattice()
 {
     num = 0;
     snum = 0;
+    s4num = 0;
     int dim = field.get_dim();
     std::vector<int> pos(dim, 0);
     xt::xtensorf<int, xt::xshape<4>> posva = {0, 0, 0, 0};
@@ -136,7 +137,19 @@ void state::init_lattice()
         {
             field.add_spin(posva);
             num++;
+
             if (possum%2 == 0){snum++;}
+
+            int possum2 = posva[0] + posva[1];
+            int posdiff = -posva[0] + posva[1] + (edgesize - edgesize%4);
+            if (possum2%4 == 0 && posdiff%4 == 0 && posva[2]%4 == 0)
+            {
+                s4num++;
+            }
+            else if (possum2%4 == 2 && posdiff%4 == 2 && posva[2]%4 == 2)
+            {
+                s4num++;
+            }
         }
         pos[dim-1]++;
         posva[dim-1]++;
@@ -211,6 +224,17 @@ std::vector<double> state::submag(int subnumber)
     return M_out;
 }
 
+std::vector<double> state::sub4mag()
+{
+    xt::xtensorf<double, xt::xshape<4>> M = td_funcs.calc_sub4M(field);
+    std::vector<double> M_out;
+    for(int i=0; i < 4; i++)
+    {
+        M_out.push_back(M[i]);
+    }
+    return M_out;
+}
+
 double state::energy()
 {
     return td_funcs.calc_E(field, H);
@@ -229,6 +253,11 @@ int state::num_spins()
 int state::sub_num(int subnumber)
 {
     return snum;
+}
+
+int state::sub4_num()
+{
+    return s4num;
 }
 
 void state::change_temp(double T)

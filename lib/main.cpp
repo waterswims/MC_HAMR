@@ -12,8 +12,8 @@
 #include <hdf5.h>
 #include <cmath>
 
-IRANDTYPE st_rand_int(1e7, 1);
-DRANDTYPE st_rand_double(1e8, 1);
+IRANDTYPE st_rand_int(1);
+DRANDTYPE st_rand_double(1);
 
 int main(int argc, char **argv)
 {
@@ -51,8 +51,7 @@ int main(int argc, char **argv)
 	st_rand_double.change_seed(comm_size+rank);
 
 	// New Generator for Lognormal
-    LNRANDTYPE rand_ln(simOpt.lmean, simOpt.lsd, simOpt.N_latts,
-		2*comm_size+rank);
+    LNRANDTYPE rand_ln(simOpt.lmean, simOpt.lsd, 2*comm_size+rank);
 
     if(rank==0)
     {
@@ -92,6 +91,10 @@ int main(int argc, char **argv)
 	float* smagx1 = alloc_1darr<float>(simOpt.N_samp);
 	float* smagy1 = alloc_1darr<float>(simOpt.N_samp);
 	float* smagz1 = alloc_1darr<float>(simOpt.N_samp);
+	float* s4mag1 = alloc_1darr<float>(simOpt.N_samp);
+	float* s4magx1 = alloc_1darr<float>(simOpt.N_samp);
+	float* s4magy1 = alloc_1darr<float>(simOpt.N_samp);
+	float* s4magz1 = alloc_1darr<float>(simOpt.N_samp);
 	float** tcharges1 = alloc_2darr<float>(stOpt.edgeSize, simOpt.N_samp);
 
 	std::vector<double> mtemp;
@@ -213,6 +216,19 @@ int main(int argc, char **argv)
 					}
 					smag1[ns] = norm(mtemp);
 
+					mtemp = curr_state.sub4mag();
+					if (!(stOpt.isIsing))
+					{
+						s4magx1[ns] = mtemp[0];
+						s4magy1[ns] = mtemp[1];
+						s4magz1[ns] = mtemp[2];
+					}
+					else
+					{
+						s4magz1[ns] = mtemp[0];
+					}
+					s4mag1[ns] = norm(mtemp);
+
 					if (!(stOpt.isIsing))
 					{
 						tchargestemp = curr_state.tcharge();
@@ -231,8 +247,8 @@ int main(int argc, char **argv)
 
 				// print values, lattice and checkpoint
 				print_TD_h5(magx1, magy1, magz1, mag1, ener1, smagx1, smagy1,
-					     smagz1, smag1, tcharges1, stOpt, simOpt, i, j,
-						 v2_size, k);
+					     smagz1, smag1, s4magx1, s4magy1, s4magz1, s4mag1,
+						 tcharges1, stOpt, simOpt, i, j, v2_size, k);
 				if (simOpt.printLatt)
 				{
 					if (k == 0)
@@ -287,6 +303,10 @@ int main(int argc, char **argv)
 	dealloc_1darr<float>(smagx1);
 	dealloc_1darr<float>(smagy1);
 	dealloc_1darr<float>(smagz1);
+	dealloc_1darr<float>(s4mag1);
+	dealloc_1darr<float>(s4magx1);
+	dealloc_1darr<float>(s4magy1);
+	dealloc_1darr<float>(s4magz1);
 	dealloc_2darr<bool>(v1_size, cpoint);
 	dealloc_2darr<float>(stOpt.edgeSize, tcharges1);
 

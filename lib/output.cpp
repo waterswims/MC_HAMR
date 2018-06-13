@@ -119,6 +119,9 @@ void create_h5_file(stateOptions& stOpt,
     dset_id = H5Dcreate(file_id, "/Fulldat/sub_mags", H5T_NATIVE_FLOAT,
         dspace_id, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
     H5Dclose(dset_id);
+    dset_id = H5Dcreate(file_id, "/Fulldat/sub4_mags", H5T_NATIVE_FLOAT,
+        dspace_id, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
+    H5Dclose(dset_id);
     if (!(stOpt.isIsing))
     {
         dset_id = H5Dcreate(file_id, "/Fulldat/mag_xs", H5T_NATIVE_FLOAT,
@@ -137,6 +140,15 @@ void create_h5_file(stateOptions& stOpt,
             dspace_id, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
         H5Dclose(dset_id);
         dset_id = H5Dcreate(file_id, "/Fulldat/sub_mag_zs", H5T_NATIVE_FLOAT,
+            dspace_id, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
+        H5Dclose(dset_id);
+        dset_id = H5Dcreate(file_id, "/Fulldat/sub4_mag_xs", H5T_NATIVE_FLOAT,
+            dspace_id, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
+        H5Dclose(dset_id);
+        dset_id = H5Dcreate(file_id, "/Fulldat/sub4_mag_ys", H5T_NATIVE_FLOAT,
+            dspace_id, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
+        H5Dclose(dset_id);
+        dset_id = H5Dcreate(file_id, "/Fulldat/sub4_mag_zs", H5T_NATIVE_FLOAT,
             dspace_id, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
         H5Dclose(dset_id);
     }
@@ -198,6 +210,10 @@ void print_TD_h5(const float* magx,
              const float* smagy,
              const float* smagz,
              const float* smag,
+             const float* s4magx,
+             const float* s4magy,
+             const float* s4magz,
+             const float* s4mag,
              float** tcs,
              stateOptions stOpt,
              simOptions simOpt,
@@ -255,6 +271,13 @@ void print_TD_h5(const float* magx,
     H5Sclose(slab_id);
     H5Dclose(dset_id);
 
+    dset_id = H5Dopen1(f_id, "/Fulldat/sub4_mags");
+    slab_id = H5Dget_space(dset_id);
+    H5Sselect_hyperslab(slab_id, H5S_SELECT_SET, offset, NULL, count, NULL);
+    H5Dwrite(dset_id, H5T_NATIVE_FLOAT, dspace_id, slab_id, plist_id, s4mag);
+    H5Sclose(slab_id);
+    H5Dclose(dset_id);
+
     if(!(stOpt.isIsing))
     {
         dset_id = H5Dopen1(f_id, "/Fulldat/mag_xs");
@@ -302,6 +325,30 @@ void print_TD_h5(const float* magx,
         H5Sselect_hyperslab(slab_id, H5S_SELECT_SET, offset, NULL, count, NULL);
         H5Dwrite(dset_id, H5T_NATIVE_FLOAT, dspace_id, slab_id, plist_id,
                  smagz);
+        H5Sclose(slab_id);
+        H5Dclose(dset_id);
+
+        dset_id = H5Dopen1(f_id, "/Fulldat/sub4_mag_xs");
+        slab_id = H5Dget_space(dset_id);
+        H5Sselect_hyperslab(slab_id, H5S_SELECT_SET, offset, NULL, count, NULL);
+        H5Dwrite(dset_id, H5T_NATIVE_FLOAT, dspace_id, slab_id, plist_id,
+                 s4magx);
+        H5Sclose(slab_id);
+        H5Dclose(dset_id);
+
+        dset_id = H5Dopen1(f_id, "/Fulldat/sub4_mag_ys");
+        slab_id = H5Dget_space(dset_id);
+        H5Sselect_hyperslab(slab_id, H5S_SELECT_SET, offset, NULL, count, NULL);
+        H5Dwrite(dset_id, H5T_NATIVE_FLOAT, dspace_id, slab_id, plist_id,
+                 s4magy);
+        H5Sclose(slab_id);
+        H5Dclose(dset_id);
+
+        dset_id = H5Dopen1(f_id, "/Fulldat/sub4_mag_zs");
+        slab_id = H5Dget_space(dset_id);
+        H5Sselect_hyperslab(slab_id, H5S_SELECT_SET, offset, NULL, count, NULL);
+        H5Dwrite(dset_id, H5T_NATIVE_FLOAT, dspace_id, slab_id, plist_id,
+                 s4magz);
         H5Sclose(slab_id);
         H5Dclose(dset_id);
     }

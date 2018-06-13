@@ -59,11 +59,20 @@ namespace particle{ namespace td {
         ///
         /// \param lattice The lattice
         /// \param subnumber Choice of sublattice
-        /// \return The magnetisation vecotr of the sublattice
+        /// \return The magnetisation vector of the sublattice
         ////////////////////////////////////////////////////////////////////////
         xt::xtensorf<double, xt::xshape<4>> calc_subM(
             field::field_type& lattice,
             int subnumber);
+
+        ////////////////////////////////////////////////////////////////////////
+        /// Calculate the 4-fold rotation sublattice magnetisation
+        ///
+        /// \param lattice The lattice
+        /// \return The magnetisation vector of the sublattice
+        ////////////////////////////////////////////////////////////////////////
+        xt::xtensorf<double, xt::xshape<4>> calc_sub4M(
+            field::field_type& lattice);
 
         ////////////////////////////////////////////////////////////////////////
         /// Calculate the topological charge of a given lattice

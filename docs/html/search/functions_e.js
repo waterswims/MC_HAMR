@@ -24,6 +24,8 @@ var searchData=
   ['std_5flognormrand',['std_lognormrand',['../dd/d26/classstdrand_1_1std__lognormrand.html#a4d27599458dc5b075d723a445431d2f7',1,'stdrand::std_lognormrand::std_lognormrand(double m, double sdin, int seed)'],['../dd/d26/classstdrand_1_1std__lognormrand.html#a21729248c87a39d6522a405a85b6a808',1,'stdrand::std_lognormrand::std_lognormrand(double m, double sdin, int size, int seed)']]],
   ['std_5fnormrand',['std_normrand',['../d5/d23/classstdrand_1_1std__normrand.html#a2cb06e8547d4475a424d213cda700ad7',1,'stdrand::std_normrand']]],
   ['std_5frandbase',['std_randbase',['../db/d79/classstdrand_1_1std__randbase.html#a8298d43186d6410f30ec0a77f0b90159',1,'stdrand::std_randbase']]],
+  ['sub4_5fnum',['sub4_num',['../df/d90/classstate.html#a16e78a4e37048f5ba0eb049faa6a87f8',1,'state']]],
+  ['sub4mag',['sub4mag',['../df/d90/classstate.html#a72e85f832afb8ce9b9df34c2c61e546f',1,'state']]],
   ['sub_5fnum',['sub_num',['../df/d90/classstate.html#a8351befda232e04536d6a3e738754282',1,'state']]],
   ['submag',['submag',['../df/d90/classstate.html#aff62d62706dc27dde2c3638769c0a00a',1,'state']]],
   ['sum',['sum',['../db/d1a/functions_8hpp.html#afc9dbcc07461e220f40e6e07d21c572b',1,'sum(std::vector&lt; double &gt; &amp;oY):&#160;functions.hpp'],['../db/d1a/functions_8hpp.html#a463977d9d5ba775174a78fbf9d825a25',1,'sum(std::vector&lt; int &gt; &amp;oY):&#160;functions.hpp']]]

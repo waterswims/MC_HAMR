@@ -4,6 +4,7 @@ var searchData=
   ['calc_5fde',['calc_dE',['../d9/de6/classparticle_1_1td_1_1functionObject.html#a057b7d5d3315a6a36efa470d4136ceb7',1,'particle::td::functionObject']]],
   ['calc_5fe',['calc_E',['../d9/de6/classparticle_1_1td_1_1functionObject.html#a7fe36af330daf78dbe7ce3897e6dad3f',1,'particle::td::functionObject']]],
   ['calc_5fm',['calc_M',['../d9/de6/classparticle_1_1td_1_1functionObject.html#a60a3f8d3dc9160864d6c05bc4583b8b7',1,'particle::td::functionObject']]],
+  ['calc_5fsub4m',['calc_sub4M',['../d9/de6/classparticle_1_1td_1_1functionObject.html#a7fb6084592f51e11449ffd3b5f4a498c',1,'particle::td::functionObject']]],
   ['calc_5fsubm',['calc_subM',['../d9/de6/classparticle_1_1td_1_1functionObject.html#a1b92821d8ef6d7aee3d0baeaeef6db1f',1,'particle::td::functionObject']]],
   ['calc_5ftc',['calc_TC',['../d9/de6/classparticle_1_1td_1_1functionObject.html#aef4fdc9fa9647aa342978820c2c9a4fc',1,'particle::td::functionObject']]],
   ['change_5ffield',['change_field',['../df/d90/classstate.html#a3f54c8647fddb251db2ba11420f4e75f',1,'state']]],
@@ -19,6 +20,6 @@ var searchData=
   ['count_5fnum_5fopens',['count_num_opens',['../d8/dd1/protocol_8hpp.html#a13d0a43c8d5530a88e79219b71e87200',1,'protocol.hpp']]],
   ['count_5fsub_5fextra_5fopens',['count_sub_extra_opens',['../d8/dd1/protocol_8hpp.html#a35903dd201875d70e827a6253997f0d4',1,'protocol.hpp']]],
   ['create_5fh5_5ffile',['create_h5_file',['../dd/d05/output_8hpp.html#a917aef04c3f8e6f3efab883505b69d63',1,'output.hpp']]],
-  ['cube',['cube',['../dd/db1/classparticle_1_1shape_1_1cube.html#a25e9690466125d4d09acdc79b354659c',1,'particle::shape::cube']]],
-  ['cube',['cube',['../dd/db1/classparticle_1_1shape_1_1cube.html',1,'particle::shape']]]
+  ['cube',['cube',['../dd/db1/classparticle_1_1shape_1_1cube.html',1,'particle::shape']]],
+  ['cube',['cube',['../dd/db1/classparticle_1_1shape_1_1cube.html#a25e9690466125d4d09acdc79b354659c',1,'particle::shape::cube']]]
 ];

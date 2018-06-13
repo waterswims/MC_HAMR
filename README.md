@@ -47,6 +47,8 @@ To run in parallel, run with "mpirun -n N ./run INPUT_FILE", where N is the numb
 
 * FIELDNAME: In the folder "Fields" there are a number of example text files containing the magnetic fields at which the simulation will run. This option is used to specify which file is to be used.
 
+* INTERACTIONS: In the folder "Js" there are a number of example text files containing the interactions between spin sites. This option is used to specify which file is to be used.
+
 * PROTOCOL: The protocol which defines the path through the phase diagram that the simulation will take. The options are:
 
     * 1: The lattices move through the magnetic fields initially then the temperatures.
