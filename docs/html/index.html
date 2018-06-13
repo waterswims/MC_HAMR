@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>MC_HAMR: Main Page</title>
+<title>NanoMagMC: NanoMagMC: Monte Carlo Simulation Software for Atomistic Models of Nano-Scale Magnetic Materials</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -23,10 +23,10 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">MC_HAMR
-   &#160;<span id="projectnumber">v0.01</span>
+   <div id="projectname">NanoMagMC
+   &#160;<span id="projectnumber">v0.2</span>
    </div>
-   <div id="projectbrief">Monte Carlo Simulation Software for Atomistic Models of Magnetic Materials for Heat Assisted Magnetic Recording</div>
+   <div id="projectbrief">Monte Carlo Simulation Software for Atomistic Models of Magnetic Materials</div>
   </td>
  </tr>
  </tbody>
@@ -78,10 +78,62 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div class="header">
   <div class="headertitle">
-<div class="title">MC_HAMR Documentation</div>  </div>
+<div class="title">NanoMagMC: Monte Carlo Simulation Software for Atomistic Models of Nano-Scale Magnetic Materials </div>  </div>
 </div><!--header-->
 <div class="contents">
-</div><!-- contents -->
+<div class="textblock"><p><a href="https://circleci.com/gh/waterswims/NanoMagMC/tree/master"></a> <a href="http://jmwaters.me/NanoMagMC/"></a></p>
+<h2>Requirements</h2>
+<ul>
+<li>Requires a parallel build of HDF5 for data storage.</li>
+<li>A C++14 capable compiler due to dependence on Xtensor library.</li>
+<li>Currently only linux and mac builds are supported.</li>
+</ul>
+<h2>Compiling the Code</h2>
+<p>There is a makefile in the root folder. Typing "make" will correctly compile the code. CC can be set within this makefile or with environment variables.</p>
+<h2>Running the Code and the Input File</h2>
+<p>After compilation an executable file will be placed in the root folder named "run". This can be executed by typing "./run INPUT_FILE" where "INPUT_FILE" is the name of the input file which takes a number of arguments. An example input file is provided called "INPUT.dat".</p>
+<p>To run in parallel, run with "mpirun -n N ./run INPUT_FILE", where N is the number of processors to run with.</p>
+<h3>Compulsory Settings</h3>
+<ul>
+<li>BOLTZMANN: The value of the Boltzmann constant which is being used.</li>
+<li>LATTSHAPE: The shape of the atomic lattice which is being used. This can take a number of inputs.<ul>
+<li>s: Square 2D lattice</li>
+<li>w: Weibull (swiss cheese) circle (Requires WEIBULLFACT)</li>
+<li>c: Cubic lattice</li>
+<li>x: Weibull (swiss cheese) sphere (Requires WEIBULLFACT)</li>
+</ul>
+</li>
+<li>ISPERIO: Boolean value to determine if the boundary conditions of the lattice are periodic or not. 0 for non=periodic, 1 for periodic. (Note, for some shapes this makes little or no difference. i.e. A Weibull shape.)</li>
+<li>EQSWEEPS: The number of Monte Carlo sweeps that should be performed on each lattice before samples are taken. A sweep is defined as 1 Monte Carlo step for every filled lattice site.</li>
+<li>SAMPSWEEPS: The number of Monte Carlo sweeps that should be performed between samples. A sweep is defined as 1 Monte Carlo step for every filled lattice site.</li>
+<li>NSAMPS: The number of Monte Carlo samples to be taken per lattice.</li>
+<li>ISDISTRIB: A boolean value which defines whether or not the sizes of the realisations of each lattice are fixed or distributed. The only distribution of sizes which has so far been implemented is a log-normal distribution.</li>
+<li>TEMPNAME: In the folder "Temps" there are a number of example text files containing the temperatures at which the simulation will run. This option is used to specify which file is to be used.</li>
+<li>FIELDNAME: In the folder "Fields" there are a number of example text files containing the magnetic fields at which the simulation will run. This option is used to specify which file is to be used.</li>
+<li>INTERACTIONS: In the folder "Js" there are a number of example text files containing the interactions between spin sites. This option is used to specify which file is to be used.</li>
+<li>PROTOCOL: The protocol which defines the path through the phase diagram that the simulation will take. The options are:<ul>
+<li>1: The lattices move through the magnetic fields initially then the temperatures.</li>
+<li>2: The lattices move through the temperatures followed by the magnetic fields.</li>
+<li>3: The lattices move through the magnetic fields in reverse order then the temperatures in forward order. (Not yet implemented.)</li>
+<li>4: The lattices move through the temperatures in reverse order followed by the magnetic fields in forward order.</li>
+</ul>
+</li>
+<li>NLATTS: The number of different lattices to sample from. NSAMPS samples will be taken for each of these lattices.</li>
+<li>PRINT_LATT: Boolean option signifying whether the average lattice should be stored. This may significantly increase file storage requirements. (This option has only been implemented for 3D continuous spin systems so far. Using it in other situations will result in large, blank datasets within the output.)</li>
+<li>ISISING: Flag to say whether up/down simple Ising spins should be used.</li>
+<li>EXCHANGE: The inter-atomic exchange coupling constant J between coupled atoms in the Ising and Heisenberg models.</li>
+<li>DMISTREN: The strength of the DMI interaction for a skyrmion hamiltonian.</li>
+</ul>
+<h3>Optional/Situational Settings</h3>
+<ul>
+<li>SIZE: If ISDISTRIB is set to false then the fixed size of the lattice being run must be given.</li>
+<li>MEANSIZE: If ISDISTRIB is set to true then the arithmetic mean of the sizes of all lattices must be given.</li>
+<li>SIZEDEV: If ISDISTRIB is set to true then the standard deviation of the sizes of all lattices must be given.</li>
+<li>WEIBULLFACT: If either the circular or spherical Weibull distributed grain is chosen then WEIBULLFACT denotes the weibull factor used in the grain generation.</li>
+</ul>
+<h2>Viewing the Output</h2>
+<p>The output file will be placed in the "Output" folder as ".h5" binary file. This can be viewed using <a href="https://support.hdfgroup.org/products/java/hdfview/">HDFView</a> or the data extracted and manipulated using packages such as Python's <a href="https://www.h5py.org">h5py</a>. </p>
+</div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

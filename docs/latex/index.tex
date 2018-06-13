@@ -1,0 +1,68 @@
+\href{https://circleci.com/gh/waterswims/NanoMagMC/tree/master}{\tt } \href{http://jmwaters.me/NanoMagMC/}{\tt }
+
+\subsection*{Requirements}
+
+
+\begin{DoxyItemize}
+\item Requires a parallel build of H\+D\+F5 for data storage.
+\item A C++14 capable compiler due to dependence on Xtensor library.
+\item Currently only linux and mac builds are supported.
+\end{DoxyItemize}
+
+\subsection*{Compiling the Code}
+
+There is a makefile in the root folder. Typing \char`\"{}make\char`\"{} will correctly compile the code. CC can be set within this makefile or with environment variables.
+
+\subsection*{Running the Code and the Input File}
+
+After compilation an executable file will be placed in the root folder named \char`\"{}run\char`\"{}. This can be executed by typing \char`\"{}./run I\+N\+P\+U\+T\+\_\+\+F\+I\+L\+E\char`\"{} where \char`\"{}\+I\+N\+P\+U\+T\+\_\+\+F\+I\+L\+E\char`\"{} is the name of the input file which takes a number of arguments. An example input file is provided called \char`\"{}\+I\+N\+P\+U\+T.\+dat\char`\"{}.
+
+To run in parallel, run with \char`\"{}mpirun -\/n N ./run I\+N\+P\+U\+T\+\_\+\+F\+I\+L\+E\char`\"{}, where N is the number of processors to run with.
+
+\subsubsection*{Compulsory Settings}
+
+
+\begin{DoxyItemize}
+\item B\+O\+L\+T\+Z\+M\+A\+NN\+: The value of the Boltzmann constant which is being used.
+\item L\+A\+T\+T\+S\+H\+A\+PE\+: The shape of the atomic lattice which is being used. This can take a number of inputs.
+\begin{DoxyItemize}
+\item s\+: Square 2D lattice
+\item w\+: Weibull (swiss cheese) circle (Requires W\+E\+I\+B\+U\+L\+L\+F\+A\+CT)
+\item c\+: Cubic lattice
+\item x\+: Weibull (swiss cheese) sphere (Requires W\+E\+I\+B\+U\+L\+L\+F\+A\+CT)
+\end{DoxyItemize}
+\item I\+S\+P\+E\+R\+IO\+: Boolean value to determine if the boundary conditions of the lattice are periodic or not. 0 for non=periodic, 1 for periodic. (Note, for some shapes this makes little or no difference. i.\+e. A Weibull shape.)
+\item E\+Q\+S\+W\+E\+E\+PS\+: The number of Monte Carlo sweeps that should be performed on each lattice before samples are taken. A sweep is defined as 1 Monte Carlo step for every filled lattice site.
+\item S\+A\+M\+P\+S\+W\+E\+E\+PS\+: The number of Monte Carlo sweeps that should be performed between samples. A sweep is defined as 1 Monte Carlo step for every filled lattice site.
+\item N\+S\+A\+M\+PS\+: The number of Monte Carlo samples to be taken per lattice.
+\item I\+S\+D\+I\+S\+T\+R\+IB\+: A boolean value which defines whether or not the sizes of the realisations of each lattice are fixed or distributed. The only distribution of sizes which has so far been implemented is a log-\/normal distribution.
+\item T\+E\+M\+P\+N\+A\+ME\+: In the folder \char`\"{}\+Temps\char`\"{} there are a number of example text files containing the temperatures at which the simulation will run. This option is used to specify which file is to be used.
+\item F\+I\+E\+L\+D\+N\+A\+ME\+: In the folder \char`\"{}\+Fields\char`\"{} there are a number of example text files containing the magnetic fields at which the simulation will run. This option is used to specify which file is to be used.
+\item I\+N\+T\+E\+R\+A\+C\+T\+I\+O\+NS\+: In the folder \char`\"{}\+Js\char`\"{} there are a number of example text files containing the interactions between spin sites. This option is used to specify which file is to be used.
+\item P\+R\+O\+T\+O\+C\+OL\+: The protocol which defines the path through the phase diagram that the simulation will take. The options are\+:
+\begin{DoxyItemize}
+\item 1\+: The lattices move through the magnetic fields initially then the temperatures.
+\item 2\+: The lattices move through the temperatures followed by the magnetic fields.
+\item 3\+: The lattices move through the magnetic fields in reverse order then the temperatures in forward order. (Not yet implemented.)
+\item 4\+: The lattices move through the temperatures in reverse order followed by the magnetic fields in forward order.
+\end{DoxyItemize}
+\item N\+L\+A\+T\+TS\+: The number of different lattices to sample from. N\+S\+A\+M\+PS samples will be taken for each of these lattices.
+\item P\+R\+I\+N\+T\+\_\+\+L\+A\+TT\+: Boolean option signifying whether the average lattice should be stored. This may significantly increase file storage requirements. (This option has only been implemented for 3D continuous spin systems so far. Using it in other situations will result in large, blank datasets within the output.)
+\item I\+S\+I\+S\+I\+NG\+: Flag to say whether up/down simple Ising spins should be used.
+\item E\+X\+C\+H\+A\+N\+GE\+: The inter-\/atomic exchange coupling constant J between coupled atoms in the Ising and Heisenberg models.
+\item D\+M\+I\+S\+T\+R\+EN\+: The strength of the D\+MI interaction for a skyrmion hamiltonian.
+\end{DoxyItemize}
+
+\subsubsection*{Optional/\+Situational Settings}
+
+
+\begin{DoxyItemize}
+\item S\+I\+ZE\+: If I\+S\+D\+I\+S\+T\+R\+IB is set to false then the fixed size of the lattice being run must be given.
+\item M\+E\+A\+N\+S\+I\+ZE\+: If I\+S\+D\+I\+S\+T\+R\+IB is set to true then the arithmetic mean of the sizes of all lattices must be given.
+\item S\+I\+Z\+E\+D\+EV\+: If I\+S\+D\+I\+S\+T\+R\+IB is set to true then the standard deviation of the sizes of all lattices must be given.
+\item W\+E\+I\+B\+U\+L\+L\+F\+A\+CT\+: If either the circular or spherical Weibull distributed grain is chosen then W\+E\+I\+B\+U\+L\+L\+F\+A\+CT denotes the weibull factor used in the grain generation.
+\end{DoxyItemize}
+
+\subsection*{Viewing the Output}
+
+The output file will be placed in the \char`\"{}\+Output\char`\"{} folder as \char`\"{}.\+h5\char`\"{} binary file. This can be viewed using \href{https://support.hdfgroup.org/products/java/hdfview/}{\tt H\+D\+F\+View} or the data extracted and manipulated using packages such as Python\textquotesingle{}s \href{https://www.h5py.org}{\tt h5py}. 
