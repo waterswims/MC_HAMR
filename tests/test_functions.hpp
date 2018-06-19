@@ -12,9 +12,9 @@
 #include <cmath>
 #include <xtensor/xeval.hpp>
 
-IRANDTYPE st_rand_int(1e5, 1);
-DRANDTYPE st_rand_double(1e5, 2);
-LNRANDTYPE rand_ln(0, 0.25, 1e5, 3);
+IRANDTYPE st_rand_int(1);
+DRANDTYPE st_rand_double(2);
+LNRANDTYPE rand_ln(0, 0.25, 3);
 
 particle::field::field_type gen_fm(int d, bool ising, double J, double D, bool perio)
 {

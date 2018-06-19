@@ -36,7 +36,7 @@ CPPFLAGS = -std=c++14 -Ofast -fopenmp -I${HDFPINC} -I${XTEN} -I${XTL} -I${XSIMD}
 #################################################################
 ## Link options
 #################################################################
-LDFLAGS = -L${HDFPLIB} -lhdf5 -lz -flto
+LDFLAGS = -L${HDFPLIB} -lhdf5 -lz -lgsl -lgslcblas -flto
 
 #################################################################
 ## Gtest options
