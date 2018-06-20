@@ -2,7 +2,7 @@ version: 2
 jobs:
    build:
      docker:
-       - image: waterswims/ubuntu-openmp-hdf5:0.0.1
+       - image: waterswims/ubuntu-openmp-hdf5:0.0.2
      steps:
        - checkout
        - run: git submodule init
