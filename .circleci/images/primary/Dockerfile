@@ -1,7 +1,7 @@
 FROM ubuntu:latest
 
 RUN apt-get update
-RUN apt-get install -y git ssh tar gzip ca-certificates gcc g++ gfortran make cmake zlib1g-dev
+RUN apt-get install -y git ssh tar gzip ca-certificates gcc g++ gfortran make cmake zlib1g-dev libgsl-dev
 
 RUN wget https://www.open-mpi.org/software/ompi/v3.0/downloads/openmpi-3.0.0.tar.gz
 RUN tar -xvf openmpi-3.0.0.tar.gz
