@@ -23,3 +23,8 @@ stdrand::std_lognormrand::std_lognormrand(double m, double sdin, int seed) : std
     SD = sdin;
     this->change_seed(seed);
 }
+
+stdrand::std_sphere::std_sphere(int seed) : std_randbase()
+{
+    this->change_seed(seed);
+}

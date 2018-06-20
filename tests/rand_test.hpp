@@ -103,4 +103,17 @@ TEST(Random_Numbers, Ln_Test)
     EXPECT_LT(chi2_test, 1.3);
 }
 
+TEST(Random_Numbers, Sph_Test)
+{
+    stdrand::std_sphere st_rand_sphere(20);
+    double a, b, c;
+
+    for(int i=0; i < 1e6; i++)
+    {
+        st_rand_sphere.gen3(&(a), &(b), &(c));
+
+        EXPECT_FLOAT_EQ(1, a*a + b*b + c*c);
+    }
+}
+
 #endif

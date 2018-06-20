@@ -47,10 +47,16 @@ particle::field::field_type gen_afm(int d, bool ising, double J, double D, bool 
         field(ising, false, d, 10, J, D, "3d_nn_bloch.dat");
     xt::xtensorf<int, xt::xshape<4>> pos;
     pos = {0, 0, 0, 0};
+    int possum;
     for(int i = 0; i < pow(10, d); i++)
     {
         field.add_spin(pos);
-        if(xt::eval(xt::sum(pos))[0]%2 == 1)
+        possum = 0;
+        for(int j = 0; j < d; j++)
+        {
+            possum += pos[j];
+        }
+        if(possum%2 == 1)
         {
             field.set_down(i);
         }

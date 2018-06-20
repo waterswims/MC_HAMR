@@ -17,6 +17,8 @@
 extern IRANDTYPE st_rand_int;
 extern DRANDTYPE st_rand_double;
 
+stdrand::std_sphere st_rand_sphere(int(st_rand_double.gen()*1e8));
+
 particle::field::field_type::field_type(bool ising_in,
     bool periodic_in,
     int d_in,
@@ -188,28 +190,7 @@ void particle::field::field_type::gen_rand()
     }
     else
     {
-        // Analytical Method
-
-        // double phi = st_rand_double.gen()*2*M_PI;
-        // double cthet = 2*st_rand_double.gen()-1;
-        // double sthet = pow(1 - pow(cthet, 2), 0.5);
-        // testspin[0] = cos(phi)*sthet;
-        // testspin[1] = sin(phi)*sthet;
-        // testspin[2] = cthet;
-
-        // Marsaglia Method
-
-        double x1, x2, S;
-        do
-        {
-            x1 = 2*st_rand_double.gen()-1;
-            x2 = 2*st_rand_double.gen()-1;
-            S = x1*x1 + x2*x2;
-        } while (S >= 1);
-        double sr = pow(1 - S, 0.5);
-        testspin[0] = 2 * x1 * sr;
-        testspin[1] = 2 * x2 * sr;
-        testspin[2] = 1 - 2*S;
+        st_rand_sphere.gen3(&(testspin[0]), &(testspin[1]), &(testspin[2]));
     }
 }
 
